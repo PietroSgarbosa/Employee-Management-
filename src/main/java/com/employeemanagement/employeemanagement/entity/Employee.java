@@ -1,21 +1,33 @@
-package com.employeemanagement.employeemanagement.dto;
+package com.employeemanagement.employeemanagement.entity;
 
-import org.modelmapper.ModelMapper;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import com.employeemanagement.employeemanagement.entity.Collaborator;
-
-public class CollaboratorDTO {
+@Entity
+@Table(name = "TB_COLLABORATOR")
+public class Employee {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "firstName", nullable = false)
 	private String firstName;
 	
+	@Column(name = "middleName")
 	private String middleName;
 	
+	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
+	@Column(name = "category")
 	private String category;
 	
+	@Column(name = "cpf", nullable = false)
 	private String cpf;
 
 	public Long getId() {
@@ -65,13 +77,5 @@ public class CollaboratorDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-    static ModelMapper getModelMapper() {
-        return new ModelMapper();
-    }
-    
-    public static CollaboratorDTO convertToDTO(Collaborator entity) {
-        return getModelMapper().map(entity, CollaboratorDTO.class);
-    }
 
 }
