@@ -10,6 +10,7 @@ public class CollaboratorMapper {
 
 	public Collaborator covertToEntity(CollaboratorDTO dto) {
 		Collaborator entity = new Collaborator();
+		entity.setId(dto.getId());
 		entity.setFirstName(dto.getFirstName());
 		entity.setMiddleName(dto.getMiddleName());
 		entity.setLastName(dto.getLastName());
