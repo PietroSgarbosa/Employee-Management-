@@ -68,6 +68,18 @@ public class CollaboratorService {
 		}
 		return responseMessage;
 	}
+	
+	//Delete por ID
+	public String delete(Long id) {
+		Collaborator collaborator = getById(id);
+		
+		if(collaborator == null) {
+			return "This collaborator ID " + id + " doesn't exist";
+		} else {
+			getCollaboratorRepository().deleteById(id);
+			return "Collaborator of ID " + id + " removed!";
+		}
+	}
  	
 	private CollaboratorRepository getCollaboratorRepository() {
 		return collaboratorRepository;
