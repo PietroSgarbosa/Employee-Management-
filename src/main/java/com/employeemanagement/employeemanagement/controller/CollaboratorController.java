@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +34,6 @@ public class CollaboratorController {
 		}
 	}
 	
-	
 	//Inserir apenas um colaborador
 	@PostMapping(value = "/save")
 	public @ResponseBody ResponseEntity<?> insert(@RequestBody CollaboratorDTO collaboratorDTO) {
@@ -44,6 +44,26 @@ public class CollaboratorController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed trying to insert new data, error message: " + e.getMessage());
 		}
 	}
+	
+	@PutMapping(value = "/update")
+	public @ResponseBody ResponseEntity<String> update(@RequestBody CollaboratorDTO collaboratorDTO) {
+		try {
+			String message = getCollaboratorService().update(collaboratorDTO);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
+		} catch (Exception e) { 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error trying to update collaborator. Error message: " + e.getMessage());
+		}
+	}
+	
+//	@DeleteMapping("/delete")
+//	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
+//		try {
+//			pokemonService.delete(id);
+//			return ResponseEntity.status(HttpStatus.OK).body("Pokemon deleted succesfully");
+//		} catch (Exception e) {
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error, message: " + e.getMessage());
+//		}	
+//	}
 	
 	private CollaboratorService getCollaboratorService() {
 		return collaboratorService;

@@ -21,6 +21,10 @@ public class CollaboratorService {
 	@Autowired
 	private CollaboratorMapper collaboratorMapper;
 	
+	public Collaborator getById(Long id) {
+		return getCollaboratorRepository().findById(id).orElse(null);
+	}
+	
 	//Método para buscar uma lista de todos os colaboradores
 	public List<CollaboratorDTO> getAll(){
 		List<Collaborator> collaboratorList = getCollaboratorRepository().findAll();
@@ -45,6 +49,24 @@ public class CollaboratorService {
 		} else {
 			throw new CollaboratorDTOMissingException();
 		}
+	}
+	
+	//Atualizando por ID
+	public String update(CollaboratorDTO collaboratorDTO) {
+		Collaborator defaultCollaborator = getById(collaboratorDTO.getId());
+		String responseMessage = "Collaborator of ID " + collaboratorDTO.getId() + " not found";
+
+		if(defaultCollaborator != null) {
+			defaultCollaborator.setFirstName(collaboratorDTO.getFirstName());
+			defaultCollaborator.setMiddleName(collaboratorDTO.getMiddleName());
+			defaultCollaborator.setLastName(collaboratorDTO.getLastName());
+			defaultCollaborator.setCpf(collaboratorDTO.getCpf());
+			defaultCollaborator.setCategory(collaboratorDTO.getCategory());
+			save(CollaboratorDTO.convertToDTO(defaultCollaborator));
+			responseMessage = "Collaborator of ID " + collaboratorDTO.getId() + " updated successfully!";
+			return responseMessage;
+		}
+		return responseMessage;
 	}
  	
 	private CollaboratorRepository getCollaboratorRepository() {
