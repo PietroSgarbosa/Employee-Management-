@@ -58,14 +58,14 @@ public class CollaboratorController {
 	}
 	
 	@DeleteMapping("/delete")
-//	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
-//		try {
-//			getCollaboratorService().delete(id);
-//			return ResponseEntity.status(HttpStatus.OK).body("Pokemon deleted succesfully");
-//		} catch (Exception e) {
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error, message: " + e.getMessage());
-//		}	
-//	}
+	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
+		try {
+			getCollaboratorService().delete(id);
+			return ResponseEntity.status(HttpStatus.OK).body("Collaborator deleted succesfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error, message: " + e.getMessage());
+		}	
+	}
 	
 	private CollaboratorService getCollaboratorService() {
 		return collaboratorService;
