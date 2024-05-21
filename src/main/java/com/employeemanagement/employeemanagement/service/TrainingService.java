@@ -34,15 +34,15 @@ public class TrainingService {
 		}
 	}
 	
-	public String update(TrainingDTO trainigDTO) {
-		Training defaultTraining = getById(trainigDTO.getID());
-		String responseMessage = "Collaborator of ID " + trainigDTO.getID() + " not found";
+	public String update(TrainingDTO trainingDTO) {
+		Training defaultTraining = getById(trainingDTO.getID());
+		String responseMessage = "Collaborator of ID " + trainingDTO.getID() + " not found";
 
 		if(defaultTraining != null) {
-			defaultTraining.setName(trainigDTO.getName());
-			defaultTraining.setDescription(trainigDTO.getDescription());
+			defaultTraining.setTitle(trainingDTO.getTitle());
+			defaultTraining.setDescription(trainingDTO.getDescription());
 			create(TrainingDTO.convertToDTO(defaultTraining));
-			responseMessage = "Employee of ID " + trainigDTO.getID() + " updated successfully!";
+			responseMessage = "Employee of ID " + trainingDTO.getID() + " updated successfully!";
 			return responseMessage;
 		}
 		return responseMessage;
@@ -50,7 +50,7 @@ public class TrainingService {
 	
 	public void create(TrainingDTO trainingDTO) {
 		if(trainingDTO != null) {
-			if(trainingDTO.getName() == null && trainingDTO.getDescription() == null) {
+			if(trainingDTO.getTitle() == null && trainingDTO.getDescription() == null) {
 				throw new IllegalArgumentException("The name and description cannot be null");
 			} else {
 				Training trainingEntity = getTrainingMapper().covertToEntity(trainingDTO);

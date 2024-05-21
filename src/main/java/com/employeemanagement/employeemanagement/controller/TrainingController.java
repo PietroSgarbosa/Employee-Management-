@@ -53,7 +53,7 @@ public class TrainingController {
 	public @ResponseBody ResponseEntity<?> create(@RequestBody TrainingDTO trainingDTO) {
 		try {
 			getTrainingService().create(trainingDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("training inserted successfully!");
+			return ResponseEntity.status(HttpStatus.OK).body("Training inserted successfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed trying to insert new data, error message: " + e.getMessage());
@@ -75,7 +75,7 @@ public class TrainingController {
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getTrainingService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("training deleted succesfully");
+			return ResponseEntity.status(HttpStatus.OK).body("Training deleted succesfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());

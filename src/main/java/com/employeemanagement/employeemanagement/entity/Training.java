@@ -16,7 +16,7 @@ public class Training {
 	private Long id;
 	
 	@Column(name = "NAME", nullable = false, unique = true)
-	private String name;
+	private String title;
 	    
 	@Column(name = "DESCRIPTION", nullable = false, unique = true)
 	private String description;
@@ -25,16 +25,16 @@ public class Training {
 		return id;
 	}
 
-	public void setID(Long iDTraining) {
-		id = iDTraining;
+	public void setID(Long id) {
+		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
