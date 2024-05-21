@@ -2,14 +2,14 @@ package com.employeemanagement.employeemanagement.utils;
 
 import org.springframework.stereotype.Component;
 
-import com.employeemanagement.employeemanagement.dto.CollaboratorDTO;
-import com.employeemanagement.employeemanagement.entity.Collaborator;
+import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.entity.Employee;
 
 @Component
-public class CollaboratorMapper {
+public class EmployeeMapper {
 
-	public Collaborator covertToEntity(CollaboratorDTO dto) {
-		Collaborator entity = new Collaborator();
+	public Employee covertToEntity(EmployeeDTO dto) {
+		Employee entity = new Employee();
 		entity.setId(dto.getId());
 		entity.setFirstName(dto.getFirstName());
 		entity.setMiddleName(dto.getMiddleName());
