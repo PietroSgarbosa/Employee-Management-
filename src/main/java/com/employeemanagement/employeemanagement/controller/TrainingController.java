@@ -1,7 +1,6 @@
 package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,47 +14,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
-import com.employeemanagement.employeemanagement.entity.Employee;
-import com.employeemanagement.employeemanagement.service.EmployeeService;
+import com.employeemanagement.employeemanagement.dto.TrainingDTO;
+import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.service.TrainingService;
 
 @RestController
-@RequestMapping("/employee")
-public class EmployeeController {
+@RequestMapping("/training")
+public class TrainingController {
 
 	@Autowired
-	private EmployeeService employeeService;
+	private TrainingService trainingService;
 
 	// GetAll
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
-			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
+			List<TrainingDTO> trainingListDTO = getTrainingService().getAll();
+			return ResponseEntity.status(HttpStatus.OK).body(trainingListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal Server Error: " + e.getMessage());
 		}
 	}
 
-	//Buscar por ID 
+	// Buscar por ID
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Employee employee = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(employee);
+			Training training = getTrainingService().getById(id);
+			return ResponseEntity.status(HttpStatus.OK).body(training);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	// Inserir apenas um colaborador
+	// Inserir apenas um treinamento
 	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+	public @ResponseBody ResponseEntity<?> create(@RequestBody TrainingDTO trainingDTO) {
 		try {
-			getEmployeeService().create(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");
+			getTrainingService().create(trainingDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("training inserted successfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed trying to insert new data, error message: " + e.getMessage());
@@ -63,28 +61,28 @@ public class EmployeeController {
 	}
 
 	@PutMapping(value = "/update")
-	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
+	public @ResponseBody ResponseEntity<String> update(@RequestBody TrainingDTO trainingDTO) {
 		try {
-			String message = getEmployeeService().update(employeeDTO);
+			String message = getTrainingService().update(trainingDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error trying to update employee. Error message: " + e.getMessage());
+					.body("Error trying to update training. Error message: " + e.getMessage());
 		}
 	}
 
 	@DeleteMapping("/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
-			getEmployeeService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
+			getTrainingService().delete(id);
+			return ResponseEntity.status(HttpStatus.OK).body("training deleted succesfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
 
-	private EmployeeService getEmployeeService() {
-		return employeeService;
+	private TrainingService getTrainingService() {
+		return trainingService;
 	}
 }
