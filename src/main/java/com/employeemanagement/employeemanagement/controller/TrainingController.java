@@ -63,7 +63,7 @@ public class TrainingController {
 	    }
 	}
 	
-	@PutMapping("/uptade/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Training trainingCurrent) {
 	    try {
 	        Training training = trainingService.update(id, trainingCurrent);
