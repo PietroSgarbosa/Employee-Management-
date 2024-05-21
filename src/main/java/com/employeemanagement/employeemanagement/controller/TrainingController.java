@@ -1,7 +1,5 @@
 package com.employeemanagement.employeemanagement.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,77 +14,68 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
-import com.employeemanagement.employeemanagement.entity.Employee;
-import com.employeemanagement.employeemanagement.service.EmployeeService;
+import com.employeemanagement.employeemanagement.dto.TrainingDTO;
+import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.service.TrainingService;
 
 @RestController
-@RequestMapping("/employees")
-public class EmployeeController {
+@RequestMapping("/trainings")
+public class TrainingController {
 
 	@Autowired
-	private EmployeeService employeeService;
-
-	// GetAll
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
-		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
-			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Internal Server Error: " + e.getMessage());
-		}
-	}
-
-	//Buscar por ID 
+	private TrainingService trainingService;
+	
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Employee employee = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(employee);
+			Training training = getTrainingService().getById(id);
+			if(training != null) {
+				return ResponseEntity.ok(training);
+			}else {
+				return ResponseEntity.badRequest().body("ID doesn't exist in database!");
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
-	// Inserir apenas um colaborador
+	
+	
 	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+	public @ResponseBody ResponseEntity<?> create(@RequestBody TrainingDTO trainingDTO) {
 		try {
-			getEmployeeService().create(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");
+			getTrainingService().create(trainingDTO);
+			return ResponseEntity.ok("Training inserted successfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed trying to insert new data, error message: " + e.getMessage());
 		}
 	}
+	
 
 	@PutMapping(value = "/update")
-	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
+	public @ResponseBody ResponseEntity<String> update(@RequestBody TrainingDTO trainingDTO) {
 		try {
-			String message = getEmployeeService().update(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body(message);
+			String message = getTrainingService().update(trainingDTO);
+			return ResponseEntity.ok(message);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error trying to update employee. Error message: " + e.getMessage());
+					.body("Error trying to update a training. Error message: " + e.getMessage());
 		}
 	}
 
 	@DeleteMapping("/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
-			getEmployeeService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
+			getTrainingService().delete(id);
+			return ResponseEntity.ok("training deleted succesfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
-
-	private EmployeeService getEmployeeService() {
-		return employeeService;
+	
+	
+	private TrainingService getTrainingService() {
+		return trainingService;
 	}
-
 }

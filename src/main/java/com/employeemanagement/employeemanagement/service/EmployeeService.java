@@ -54,7 +54,7 @@ public class EmployeeService {
 	//Atualizando por ID
 	public String update(EmployeeDTO employeeDTO) {
 		Employee defaultEmployee = getById(employeeDTO.getId());
-		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
+		String responseMessage = "Employee of ID " + employeeDTO.getId() + " not found";
 
 		if(defaultEmployee != null) {
 			defaultEmployee.setFirstName(employeeDTO.getFirstName());
