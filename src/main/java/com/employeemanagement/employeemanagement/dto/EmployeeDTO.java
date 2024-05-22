@@ -1,7 +1,8 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import java.util.List;
 import org.modelmapper.ModelMapper;
-
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 public class EmployeeDTO {
@@ -14,11 +15,15 @@ public class EmployeeDTO {
 	
 	private String lastName;
 	
-	private String category;
+	private Category category;
 	
 	private String cpf;
+	
+	private List<Long> trainingList;
 
-	public Long getId() {
+	private List<TrainingEmployeeDTO> listTrainingEmployeeDTO;
+	
+    public Long getId() {
 		return id;
 	}
 
@@ -50,11 +55,11 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -65,8 +70,24 @@ public class EmployeeDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-    static ModelMapper getModelMapper() {
+
+	public List<Long> getTrainingList() {
+		return trainingList;
+	}
+
+	public void setTrainingList(List<Long> trainingList) {
+		this.trainingList = trainingList;
+	}
+
+	public List<TrainingEmployeeDTO> getListTrainingEmployeeDTO() {
+		return listTrainingEmployeeDTO;
+	}
+
+	public void setListTrainingEmployeeDTO(List<TrainingEmployeeDTO> listTrainingEmployeeDTO) {
+		this.listTrainingEmployeeDTO = listTrainingEmployeeDTO;
+	}
+
+	static ModelMapper getModelMapper() {
         return new ModelMapper();
     }
     

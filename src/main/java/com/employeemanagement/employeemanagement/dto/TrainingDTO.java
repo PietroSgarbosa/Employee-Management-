@@ -1,7 +1,6 @@
 package com.employeemanagement.employeemanagement.dto;
 
 import org.modelmapper.ModelMapper;
-
 import com.employeemanagement.employeemanagement.entity.Training;
 
 public class TrainingDTO {

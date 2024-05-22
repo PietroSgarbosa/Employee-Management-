@@ -1,10 +1,8 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
 import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
