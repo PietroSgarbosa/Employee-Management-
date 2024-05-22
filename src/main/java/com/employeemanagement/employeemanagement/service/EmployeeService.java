@@ -7,10 +7,18 @@ import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.Status;
+import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.entity.TrainingEmployee;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.StatusRepository;
+import com.employeemanagement.employeemanagement.repository.TrainingEmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -19,11 +27,27 @@ public class EmployeeService {
 	private EmployeeRepository employeeRepository;
 	
 	@Autowired
+	private TrainingRepository trainingRepository;
+	
+	@Autowired 
+	private TrainingEmployeeRepository trainingEmployeeRepository; 
+	
+	@Autowired
+	private StatusRepository statusRepository;
+	
+	@Autowired
 	private EmployeeMapper employeeMapper;
 	
 	public Employee getById(Long id) {
-		return getEmployeeRepository().findById(id).orElse(null);
+		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		List<TrainingEmployee> listRelationship = employee.getTrainings();
+		return employee;
 	}
+	
+//	public Employee getEmployeeWithTrainings(Long employeeId) {
+//		return employeeRepository.findByIdWithTrainings(employeeId)
+//			.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+//	}
 	
 	//Método para buscar uma lista de todos os colaboradores
 	public List<EmployeeDTO> getAll(){
@@ -44,6 +68,15 @@ public class EmployeeService {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+				
+				for (TrainingEmployee relationship : employeeEntity.getTrainings()) {
+					relationship.setEmployee(employeeEntity);
+					Training traning = getTrainingRepository().getById(relationship.getTraining().getId());
+					relationship.setTraining(traning);
+					Status status = getStatusRepository().getById(relationship.getStatus().getId());
+					relationship.setStatus(status);
+					getTrainingEmployeeRepository().save(relationship);
+				}
 				getEmployeeRepository().save(employeeEntity);
 			}
 		} else {
@@ -83,6 +116,18 @@ public class EmployeeService {
  	
 	private EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
+	}
+	
+	private TrainingRepository getTrainingRepository() {
+		return trainingRepository;
+	}
+	
+	private TrainingEmployeeRepository getTrainingEmployeeRepository() {
+		return trainingEmployeeRepository;
+	}
+	
+	private StatusRepository getStatusRepository() {
+		return statusRepository;
 	}
 	
 	private EmployeeMapper getEmployeeMapper() {

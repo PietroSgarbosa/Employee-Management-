@@ -50,6 +50,17 @@ public class EmployeeController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+//	@GetMapping(value = "/getByIdTest/{id}")
+//	public @ResponseBody ResponseEntity<?> getByIdTest(@PathVariable Long id) {
+//		try {
+//			Employee employee = getEmployeeService().getEmployeeWithTrainings(id);
+//			return ResponseEntity.status(HttpStatus.OK)
+//					.body(employee);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 
 	// Inserir apenas um colaborador
 	@PostMapping(value = "/create")

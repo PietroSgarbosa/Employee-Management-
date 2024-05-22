@@ -1,13 +1,34 @@
-package com.employeemanagement.employeemanagement.entity;
+	package com.employeemanagement.employeemanagement.entity;
+
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@NamedEntityGraph(
+		name = "Employee.withTrainings",
+		attributeNodes = {
+			@NamedAttributeNode(value = "trainings", subgraph = "trainings-subgraph")
+		},
+		subgraphs = {
+			@NamedSubgraph(
+				name = "trainings-subgraph",
+				attributeNodes = {
+					@NamedAttributeNode("training")
+				}
+			)
+		}
+	)
 @Table(name = "EMPLOYEE")
 public class Employee {
 	
@@ -15,20 +36,26 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "firstName")
 	private String firstName;
 	
 	@Column(name = "middleName")
 	private String middleName;
 	
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "lastName")
 	private String lastName;
 	
 	@Column(name = "category")
 	private String category;
 	
-	@Column(name = "cpf", nullable = false)
+	@Column(name = "cpf")
 	private String cpf;
+	
+	@OneToMany(
+			mappedBy = "employee",
+			fetch = FetchType.EAGER
+			)
+	private List<TrainingEmployee> trainings;
 
 	public Long getId() {
 		return id;
@@ -78,4 +105,12 @@ public class Employee {
 		this.cpf = cpf;
 	}
 
+	public List<TrainingEmployee> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<TrainingEmployee> trainings) {
+		this.trainings = trainings;
+	}
+	
 }
