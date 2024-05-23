@@ -6,9 +6,11 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.TrainingEmployee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmployeeDTO {
 	
+	@JsonIgnore
 	private Long id;
 	
 	private String firstName;
@@ -21,7 +23,8 @@ public class EmployeeDTO {
 	
 	private String cpf;
 	
-	private List<TrainingEmployee> trainings;
+	@JsonIgnore
+	private List<TrainingEmployeeDTO> trainings;
 
 	public Long getId() {
 		return id;
@@ -71,11 +74,19 @@ public class EmployeeDTO {
 		this.cpf = cpf;
 	}
 
-	public List<TrainingEmployee> getTrainings() {
+//	public List<TrainingEmployee> getTrainings() {
+//		return trainings;
+//	}
+//
+//	public void setTrainings(List<TrainingEmployee> trainings) {
+//		this.trainings = trainings;
+//	}
+
+	public List<TrainingEmployeeDTO> getTrainings() {
 		return trainings;
 	}
 
-	public void setTrainings(List<TrainingEmployee> trainings) {
+	public void setTrainings(List<TrainingEmployeeDTO> trainings) {
 		this.trainings = trainings;
 	}
 

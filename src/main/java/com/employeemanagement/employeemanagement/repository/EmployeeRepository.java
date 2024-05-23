@@ -12,7 +12,7 @@ import com.employeemanagement.employeemanagement.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
-	@EntityGraph(value = "Employee.withTrainings", type = EntityGraph.EntityGraphType.LOAD)
-	Optional<Employee> findByIdWithTrainings(@Param("id") Long id);
+//	@EntityGraph(value = "Employee.withTrainings", type = EntityGraph.EntityGraphType.LOAD)
+//	Optional<Employee> findByIdWithTrainings(@Param("id") Long id);
 
 }

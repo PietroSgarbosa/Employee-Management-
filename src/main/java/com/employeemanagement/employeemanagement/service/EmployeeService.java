@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeWithTrainingsDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
@@ -41,6 +42,9 @@ public class EmployeeService {
 	public Employee getById(Long id) {
 		Employee employee = getEmployeeRepository().findById(id).orElse(null);
 		List<TrainingEmployee> listRelationship = employee.getTrainings();
+		EmployeeWithTrainingsDTO employeeWithTrainings = new EmployeeWithTrainingsDTO();
+		
+		
 		return employee;
 	}
 	
@@ -68,7 +72,7 @@ public class EmployeeService {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
-				
+				getEmployeeRepository().save(employeeEntity);
 				for (TrainingEmployee relationship : employeeEntity.getTrainings()) {
 					relationship.setEmployee(employeeEntity);
 					Training traning = getTrainingRepository().getById(relationship.getTraining().getId());
@@ -77,7 +81,7 @@ public class EmployeeService {
 					relationship.setStatus(status);
 					getTrainingEmployeeRepository().save(relationship);
 				}
-				getEmployeeRepository().save(employeeEntity);
+				
 			}
 		} else {
 			throw new EmployeeDTOMissingException();
