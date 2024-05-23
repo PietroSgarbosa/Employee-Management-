@@ -1,8 +1,9 @@
 package com.employeemanagement.employeemanagement.dto;
 
 import org.modelmapper.ModelMapper;
-
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
+
 
 public class EmployeeDTO {
 	
@@ -12,11 +13,11 @@ public class EmployeeDTO {
 	
 	private String middleName;
 	
-	private String lastName;
-	
-	private String category;
+	private String lastName;	
 	
 	private String cpf;
+	
+	private Category category;	
 
 	public Long getId() {
 		return id;
@@ -48,15 +49,7 @@ public class EmployeeDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
+	}	
 
 	public String getCpf() {
 		return cpf;
@@ -65,6 +58,14 @@ public class EmployeeDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}		
 	
     static ModelMapper getModelMapper() {
         return new ModelMapper();

@@ -10,6 +10,7 @@ import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 
 @Service
@@ -20,6 +21,9 @@ public class EmployeeService {
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
+	
+	@Autowired
+	private EmployeeTrainingRepository employeetraningRepository;
 	
 	public Employee getById(Long id) {
 		return getEmployeeRepository().findById(id).orElse(null);
@@ -88,5 +92,13 @@ public class EmployeeService {
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
 	}
+
+	public EmployeeTrainingRepository getEmployeetraningRepository() {
+		return employeetraningRepository;
+	}
+
+	
+	
+	
 
 }

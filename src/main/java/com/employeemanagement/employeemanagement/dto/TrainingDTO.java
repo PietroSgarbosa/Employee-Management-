@@ -11,6 +11,9 @@ public class TrainingDTO {
 	private String title;
 
 	private String description;
+	
+	private String duration;
+	
 
 	public Long getID() {
 		return id;
@@ -34,6 +37,14 @@ public class TrainingDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
 	static ModelMapper getModelMapper() {
