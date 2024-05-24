@@ -21,7 +21,7 @@ public class Training {
 	@Column(name = "DESCRIPTION")
 	private String description;	
 	
-	@Column(name = "duration")
+	@Column(name = "DURATION")
 	private String duration;
 
 	public Long getId() {
@@ -54,8 +54,6 @@ public class Training {
 
 	public void setDuration(String duration) {
 		this.duration = duration;
-	}
-	
-	
+	}	
 	
 }

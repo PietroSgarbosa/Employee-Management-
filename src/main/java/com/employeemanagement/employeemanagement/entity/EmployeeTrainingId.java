@@ -26,5 +26,4 @@ public class EmployeeTrainingId implements Serializable{
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}		
-
 }

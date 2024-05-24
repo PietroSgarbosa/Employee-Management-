@@ -1,14 +1,13 @@
 package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+//import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -32,12 +31,16 @@ public class Employee {
 	@Column(name = "cpf", nullable = false)
 	private String cpf;		
 	
-	@ManyToOne
-	@JoinColumn(name = "categriaId")
-	private Category category;	
+//	@ManyToOne
+//	@JoinColumn(name = "categoria_id")
+//	private Category category;	
 	
-	@OneToMany(mappedBy = "Employee")
-	private List<Training> treinamentos;	
+	@OneToMany(mappedBy = "employeeId")
+	private List<EmployeeTraining> trainings;	
+	
+	public Employee(Employee employee, List<EmployeeTraining> trainings) {}	
+
+	public Employee() {}
 
 	public Long getId() {
 		return id;
@@ -71,13 +74,13 @@ public class Employee {
 		this.lastName = lastName;
 	}	
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}	
+//	public Category getCategory() {
+//		return category;
+//	}
+//
+//	public void setCategory(Category category) {
+//		this.category = category;
+//	}	
 
 	public String getCpf() {
 		return cpf;
@@ -87,12 +90,12 @@ public class Employee {
 		this.cpf = cpf;
 	}
 		
-	public List<Training> getTreinamentos() {
-		return treinamentos;
+	public List<EmployeeTraining> getTrainings() {
+		return trainings;
 	}
 
-	public void setTreinamentos(List<Training> treinamentos) {
-		this.treinamentos = treinamentos;
+	public void setTreinamentos(List<EmployeeTraining> trainings) {
+		this.trainings = trainings;
 	}
 	
 }

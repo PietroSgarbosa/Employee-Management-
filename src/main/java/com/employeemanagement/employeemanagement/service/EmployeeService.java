@@ -1,12 +1,14 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
@@ -27,6 +29,17 @@ public class EmployeeService {
 	
 	public Employee getById(Long id) {
 		return getEmployeeRepository().findById(id).orElse(null);
+	}
+	
+	public Employee getByIdTraining(Long id) {		
+		Optional<Employee> optional = getEmployeeRepository().findById(id);
+		if (optional.isPresent()) {
+			Employee employee = optional.get();
+			List<EmployeeTraining> trainings = employee.getTrainings();
+			return new Employee(employee, trainings);			
+		} else {
+			throw new EmployeeDTOMissingException();
+		}
 	}
 	
 	//Método para buscar uma lista de todos os colaboradores
@@ -65,7 +78,7 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
-			defaultEmployee.setCategory(employeeDTO.getCategory());
+			//defaultEmployee.setCategory(employeeDTO.getCategory());
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;

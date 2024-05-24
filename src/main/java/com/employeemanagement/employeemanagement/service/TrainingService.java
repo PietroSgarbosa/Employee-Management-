@@ -41,8 +41,9 @@ public class TrainingService {
 		if(defaultTraining != null) {
 			defaultTraining.setTitle(trainingDTO.getTitle());
 			defaultTraining.setDescription(trainingDTO.getDescription());
+			defaultTraining.setDuration(trainingDTO.getDuration());
 			create(TrainingDTO.convertToDTO(defaultTraining));
-			responseMessage = "Employee of ID " + trainingDTO.getID() + " updated successfully!";
+			responseMessage = "Training of ID " + trainingDTO.getID() + " updated successfully!";
 			return responseMessage;
 		}
 		return responseMessage;

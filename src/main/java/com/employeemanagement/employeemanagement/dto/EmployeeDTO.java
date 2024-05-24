@@ -5,6 +5,7 @@ import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 
+
 public class EmployeeDTO {
 	
 	private Long id;
@@ -17,7 +18,9 @@ public class EmployeeDTO {
 	
 	private String cpf;
 	
-	private Category category;	
+	private Category category;		
+
+	//private List<EmployeeTraining> treinamentos;
 
 	public Long getId() {
 		return id;
@@ -66,6 +69,14 @@ public class EmployeeDTO {
 	public void setCategory(Category category) {
 		this.category = category;
 	}		
+	
+//	public List<EmployeeTraining> getTreinamentos() {
+//		return treinamentos;
+//	}
+//
+//	public void setTreinamentos(List<EmployeeTraining> treinamentos) {
+//		this.treinamentos = treinamentos;
+//	}
 	
     static ModelMapper getModelMapper() {
         return new ModelMapper();

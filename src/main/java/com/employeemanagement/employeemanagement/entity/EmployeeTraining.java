@@ -28,10 +28,10 @@ public class EmployeeTraining {
 	@Column(name = "status")
 	private String status;
 
-	public EmployeeTraining(Employee employee, Training training) {		
-		this.employeeId = employee;
-		this.trainingId = training;
-	}
+//	public EmployeeTraining(Employee employee, Training training) {		
+//		this.employeeId = employee;
+//		this.trainingId = training;
+//	}
 
 	public EmployeeTrainingId getId() {
 		return id;
