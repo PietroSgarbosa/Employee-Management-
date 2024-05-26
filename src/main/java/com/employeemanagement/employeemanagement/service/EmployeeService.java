@@ -7,9 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
+import com.employeemanagement.employeemanagement.entity.EmployeeTrainingId;
+import com.employeemanagement.employeemanagement.entity.Status;
+import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.repository.StatusRepository;
+import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 
 @Service
@@ -17,6 +24,15 @@ public class EmployeeService {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private TrainingRepository trainingRepository;
+	
+	@Autowired
+	private StatusRepository statusRepository;
+	
+	@Autowired
+	private EmployeeTrainingRepository employeeTrainingRepository;
 	
 	@Autowired
 	private EmployeeMapper employeeMapper;
@@ -43,8 +59,16 @@ public class EmployeeService {
 			if(employeeDTO.getFirstName() == null) {
 				throw new EmployeeNameMissingException();
 			} else {
-				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
-				getEmployeeRepository().save(employeeEntity);
+				Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
+				getEmployeeRepository().save(employee);
+				for(Long et : employeeDTO.getTrainings()) {
+					Training training = new Training(et);
+					Status status = new Status((long) 1);
+					Employee employe = new Employee(employee.getId());
+					EmployeeTrainingId employeeTrainingId = new EmployeeTrainingId(employee.getId(), et);
+					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingId,status, employe, training);
+					getEmployeeTrainingRepository().save(employeeTraining);
+				}
 			}
 		} else {
 			throw new EmployeeDTOMissingException();
@@ -88,5 +112,18 @@ public class EmployeeService {
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
 	}
+	
+	private TrainingRepository getTrainingRepository() {
+		return trainingRepository;
+	}
+	
+	private StatusRepository getStatusRepository() {
+		return statusRepository;
+	}
+	
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+		return employeeTrainingRepository;
+	}
+
 
 }

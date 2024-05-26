@@ -1,14 +1,18 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "EMPLOYEE")
 public class Employee {
 	
 	@Id
@@ -29,6 +33,18 @@ public class Employee {
 	
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
+	
+	@OneToMany(mappedBy = "employee")
+	private Set<EmployeeTraining> trainings = new HashSet<>();
+	
+	public Employee() {
+		super();
+	}
+	
+	public Employee(Long id) {
+		super();
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
@@ -76,6 +92,17 @@ public class Employee {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+		
 	}
+
+	public Set<EmployeeTraining> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(Set<EmployeeTraining> trainings) {
+		this.trainings = trainings;
+	}
+	
+	
 
 }

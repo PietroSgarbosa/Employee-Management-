@@ -1,5 +1,8 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import java.util.List;
+import java.util.Set;
+
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
@@ -17,7 +20,10 @@ public class EmployeeDTO {
 	private String category;
 	
 	private String cpf;
-
+	
+	private List<Long> trainings; 
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -66,7 +72,15 @@ public class EmployeeDTO {
 		this.cpf = cpf;
 	}
 	
-    static ModelMapper getModelMapper() {
+	public List<Long> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<Long> trainings) {
+		this.trainings = trainings;
+	}
+
+	static ModelMapper getModelMapper() {
         return new ModelMapper();
     }
     
