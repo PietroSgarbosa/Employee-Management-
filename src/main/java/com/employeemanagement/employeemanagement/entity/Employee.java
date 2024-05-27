@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedSubgraph;
@@ -50,7 +51,7 @@ public class Employee {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
-	@OneToOne
+	@ManyToOne
 	@JsonIgnore      
 	@JoinColumn(name ="ID_CATEGORY")
 	private Category category;

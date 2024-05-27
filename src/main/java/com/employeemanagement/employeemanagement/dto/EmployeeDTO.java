@@ -14,7 +14,7 @@ public class EmployeeDTO {
 	
 	private String lastName;
 	
-	private CategoryDTO category;
+	private Long category;
 	
 	private String cpf;
 	
@@ -54,11 +54,11 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public CategoryDTO getCategory() {
+	public Long getCategory() {
 		return category;
 	}
 
-	public void setCategory(CategoryDTO category) {
+	public void setCategory(Long category) {
 		this.category = category;
 	}
 
