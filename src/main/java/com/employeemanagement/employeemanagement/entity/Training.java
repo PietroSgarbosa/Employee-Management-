@@ -1,10 +1,12 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +25,10 @@ public class Training {
 	
 	@Column(name = "DURATION")
 	private String duration;
+	
+	@OneToMany(mappedBy = "trainingId")
+	private List<EmployeeTraining> employee;
+	
 
 	public Long getId() {
 		return id;
@@ -55,5 +61,13 @@ public class Training {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}	
+	
+	public List<EmployeeTraining> getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(List<EmployeeTraining> employee) {
+		this.employee = employee;
+	}
 	
 }

@@ -35,12 +35,13 @@ public class Employee {
 //	@JoinColumn(name = "categoria_id")
 //	private Category category;	
 	
-	@OneToMany(mappedBy = "employeeId")
+	
+	@OneToMany(mappedBy = "employeeId")		
 	private List<EmployeeTraining> trainings;	
 	
 	public Employee(Employee employee, List<EmployeeTraining> trainings) {}	
 
-	public Employee() {}
+	//public Employee() {}
 
 	public Long getId() {
 		return id;

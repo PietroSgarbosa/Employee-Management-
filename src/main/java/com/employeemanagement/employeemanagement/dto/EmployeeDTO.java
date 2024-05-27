@@ -1,9 +1,9 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
-
 
 
 public class EmployeeDTO {
@@ -20,7 +20,7 @@ public class EmployeeDTO {
 	
 	private Category category;		
 
-	//private List<EmployeeTraining> treinamentos;
+	private List<EmployeeTrainingDTO> trainings;
 
 	public Long getId() {
 		return id;
@@ -70,13 +70,13 @@ public class EmployeeDTO {
 		this.category = category;
 	}		
 	
-//	public List<EmployeeTraining> getTreinamentos() {
-//		return treinamentos;
-//	}
-//
-//	public void setTreinamentos(List<EmployeeTraining> treinamentos) {
-//		this.treinamentos = treinamentos;
-//	}
+	public List<EmployeeTrainingDTO> getTreinamentos() {
+		return trainings;
+	}
+
+	public void setTreinamentos(List<EmployeeTrainingDTO> trainings) {
+		this.trainings = trainings;
+	}
 	
     static ModelMapper getModelMapper() {
         return new ModelMapper();

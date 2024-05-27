@@ -14,6 +14,8 @@ public class TrainingDTO {
 	
 	private String duration;
 	
+	//private List<EmployeeTrainingDTO> employees;
+	
 
 	public Long getID() {
 		return id;

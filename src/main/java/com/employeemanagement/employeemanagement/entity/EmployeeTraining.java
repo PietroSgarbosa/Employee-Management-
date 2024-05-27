@@ -8,19 +8,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "EMPLOYEE_TRAINING")
 public class EmployeeTraining {
+	
 	
 	@EmbeddedId
 	private EmployeeTrainingId id;	
 	
 	@ManyToOne	
 	@MapsId("employeeId")
-	@JoinColumn(name = "employee_id")
-	private Employee employeeId;
+	@JoinColumn(name = "employee_id")	
+	private Employee employeeId;	
+		
 	
-	@ManyToOne	
+	@ManyToOne		
 	@MapsId("trainingId")
 	@JoinColumn(name = "training_id")
 	private Training trainingId;	
@@ -31,15 +34,15 @@ public class EmployeeTraining {
 //	public EmployeeTraining(Employee employee, Training training) {		
 //		this.employeeId = employee;
 //		this.trainingId = training;
-//	}
-
+//	}	
+	
 	public EmployeeTrainingId getId() {
 		return id;
 	}
 
 	public void setId(EmployeeTrainingId id) {
 		this.id = id;
-	}
+	}	
 
 	public Employee getEmployeeId() {
 		return employeeId;

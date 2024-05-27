@@ -80,5 +80,6 @@ public class TrainingService {
 	private TrainingMapper getTrainingMapper() {
 		return trainingMapper;
 	}
-
+	
+	
 }

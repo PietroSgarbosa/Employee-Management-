@@ -49,7 +49,7 @@ public class EmployeeController {
 		}
 	}
 	
-	@GetMapping(value = "/getByIdTreinamento/{id}")
+	@GetMapping(value = "/getByIdTrainings/{id}")
 	public @ResponseBody ResponseEntity<?> getByIdTreinamento(@PathVariable Long id) {
 		try {
 			Employee employee = getEmployeeService().getById(id);

@@ -2,6 +2,8 @@ package com.employeemanagement.employeemanagement.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Embeddable;
 
 @Embeddable
