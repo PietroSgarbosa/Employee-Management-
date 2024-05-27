@@ -63,19 +63,32 @@ public class EmployeeService {
 			
 	}
 	
-	public void update(EmployeeDTO employeeDTO) {
-		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElse(null);
-		defaultEmployee.setFirstName(employeeDTO.getFirstName());
-		defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
-		defaultEmployee.setLastName(employeeDTO.getLastName());
-		defaultEmployee.setCpf(employeeDTO.getCpf());
-		defaultEmployee.setCategory(employeeDTO.getCategory());
-		create(EmployeeDTO.convertToDTO(defaultEmployee));
+	public String update(EmployeeDTO employeeDTO) {
+		Employee defaultEmployee = getById(employeeDTO.getId());
+		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
+
+		if(defaultEmployee != null) {
+			defaultEmployee.setFirstName(employeeDTO.getFirstName());
+			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
+			defaultEmployee.setLastName(employeeDTO.getLastName());
+			defaultEmployee.setCpf(employeeDTO.getCpf());
+			defaultEmployee.setCategory(employeeDTO.getCategory());
+			create(EmployeeDTO.convertToDTO(defaultEmployee));
+			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
+			return responseMessage;
+		}
+		return responseMessage;
 	}
 	
 	public String delete(Long id) {
-	    getEmployeeRepository().deleteById(id);
-		return "Employee of ID " + id + " removed!";
+		Employee employee = getById(id);
+		
+		if(employee == null) {
+			return "This employee ID " + id + " doesn't exist";
+		} else {
+			getEmployeeRepository().deleteById(id);
+			return "Employee of ID " + id + " removed!";
+		}
 	}
  	
 	private EmployeeRepository getEmployeeRepository() {

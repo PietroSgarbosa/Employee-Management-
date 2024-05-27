@@ -68,8 +68,8 @@ public class EmployeeController {
 	@PutMapping(value = "/update")
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
-			getEmployeeService().update(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("Employee updated sucessefully");
+			String message = getEmployeeService().update(employeeDTO);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error trying to update employee. Error message: " + e.getMessage());
