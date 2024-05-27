@@ -12,6 +12,16 @@ public class TrainingEmployeeKey implements Serializable{
 	
 	private Long idTraining;
 
+	public TrainingEmployeeKey() {
+		
+	}
+	
+	public TrainingEmployeeKey(Long idEmployee, Long idTraining) {
+		super();
+		this.idEmployee = idEmployee;
+		this.idTraining = idTraining;
+	}
+
 	public Long getIdEmployee() {
 		return idEmployee;
 	}

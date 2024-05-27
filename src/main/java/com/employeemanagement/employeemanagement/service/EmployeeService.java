@@ -1,10 +1,10 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
-import com.employeemanagement.employeemanagement.dto.TrainingEmployeeDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
@@ -37,39 +37,20 @@ public class EmployeeService {
 		}
 	}
 	
-	public EmployeeDTO getById(Long id) {
-		Employee employee = getEmployeeRepository().findById(id).orElse(null);
-		TrainingEmployeeKey trainingEmployeeId = new TrainingEmployeeKey();
-		trainingEmployeeId.setIdEmployee(employee.getId());
-		List<TrainingEmployee> trainingEmployee = getTrainingEmployeeRepository().
-				getByNativeQuery(employee.getId());
-		List<TrainingEmployeeDTO> trainingEmployeeDTO = trainingEmployee.stream().
-				map(trainingEmploye -> TrainingEmployeeDTO.
-				convertToDTO(trainingEmploye)).toList();
-		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(employee);
-		employeeDTO.setListTrainingEmployeeDTO(trainingEmployeeDTO);
-		return employeeDTO;
-	}
+	public Employee getById(Long id) {
+        return getEmployeeRepository().findById(id).orElse(null);
+    }
+	
 	
 	public void create(EmployeeDTO employeeDTO) {
 		Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
 		getEmployeeRepository().save(employee);
 		for(Long list: employeeDTO.getTrainingList()) {
-			Status status = new Status();
-			Training training = new Training();
-			Employee employe = new Employee();
-			long id = 1;
-			status.setId(id);
-			employe.setId(employee.getId());
-			training.setID(list);
-			TrainingEmployee trainingEmployee = new TrainingEmployee();
-			trainingEmployee.setIdEmployee(employe);
-			trainingEmployee.setIdStatus(status);
-			trainingEmployee.setIdTraining(training);
-			TrainingEmployeeKey trainingEmployeeKey = new TrainingEmployeeKey();
-			trainingEmployeeKey.setIdEmployee(employee.getId());
-			trainingEmployeeKey.setIdTraining(list);
-			trainingEmployee.setId(trainingEmployeeKey);
+			Status status = new Status((long) 1);
+			Training training = new Training(list);
+			Employee employe = new Employee(employee.getId());
+			TrainingEmployeeKey trainingEmployeeKey = new TrainingEmployeeKey(employee.getId(), list);
+			TrainingEmployee trainingEmployee = new TrainingEmployee(trainingEmployeeKey, employe, training, status);
 			getTrainingEmployeeRepository().save(trainingEmployee);
 		}
 			

@@ -9,7 +9,7 @@ public class TrainingMapper {
 
 	public Training covertToEntity(TrainingDTO dto) {
 		Training entity = new Training();
-		entity.setID(dto.getID());
+		entity.setId(dto.getID());
 		entity.setTitle(dto.getTitle());
 		entity.setDescription(dto.getDescription());
 		

@@ -19,6 +19,15 @@ public class Status {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    public Status(Long id) {
+    	this.id = id;
+    }
+    
+    public Status() {
+    	
+    }
+    
+    
 	public Long getId() {
 		return id;
 	}

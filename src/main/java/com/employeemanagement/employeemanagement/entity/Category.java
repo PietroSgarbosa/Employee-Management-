@@ -18,6 +18,10 @@ public class Category {
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	public Category() {
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -1,5 +1,7 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,11 +14,13 @@ import jakarta.persistence.Table;
 public class TrainingEmployee {
 	
 	@EmbeddedId
+	@JsonIgnore
 	private TrainingEmployeeKey id;
 	
 	@ManyToOne
 	@MapsId("idEmployee")
 	@JoinColumn(name = "ID_EMPLOYEE")
+	@JsonIgnore
 	private Employee idEmployee;
 
 	@ManyToOne
@@ -27,6 +31,18 @@ public class TrainingEmployee {
 	@ManyToOne
 	@JoinColumn(name = "ID_STATUS")
 	private Status idStatus;
+
+	public TrainingEmployee() {
+		
+	}
+	
+	public TrainingEmployee(TrainingEmployeeKey id, Employee idEmployee, Training idTraining, Status idStatus) {
+		super();
+		this.id = id;
+		this.idEmployee = idEmployee;
+		this.idTraining = idTraining;
+		this.idStatus = idStatus;
+	}
 
 	public TrainingEmployeeKey getId() {
 		return id;

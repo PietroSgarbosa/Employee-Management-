@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -38,7 +39,7 @@ public class EmployeeController {
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			EmployeeDTO employee = getEmployeeService().getById(id);
+			Employee employee = getEmployeeService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(employee);
 		} catch (Exception e) {
