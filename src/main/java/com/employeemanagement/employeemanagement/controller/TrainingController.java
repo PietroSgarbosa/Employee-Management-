@@ -30,9 +30,9 @@ public class TrainingController {
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Training training = getTrainingService().getById(id);
+			Training entity = getTrainingService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(training);
+					.body(TrainingDTO.convertToDTO(entity));
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -81,11 +81,9 @@ public class TrainingController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
-	
 
 	private TrainingService getTrainingService() {
 		return trainingService;
 	} 
 	
-
 }
