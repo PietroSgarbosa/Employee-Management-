@@ -1,10 +1,14 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,12 +28,14 @@ public class Employee {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
-	@Column(name = "category")
-	private String category;
-	
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
-
+		
+	@OneToOne
+	@JsonIgnore      //Comentar quando for usar o crud pela employee
+	@JoinColumn(name ="category_id")
+	private Category category;
+	
 	public Long getId() {
 		return id;
 	}
@@ -62,14 +68,6 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getCpf() {
 		return cpf;
 	}
@@ -77,5 +75,14 @@ public class Employee {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 
 }

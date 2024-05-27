@@ -14,19 +14,11 @@ public class EmployeeDTO {
 	
 	private String lastName;
 	
-	private String category;
-	
 	private String cpf;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
+	private CategoryDTO category;
+	
+    public String getFirstName() {
 		return firstName;
 	}
 
@@ -50,11 +42,11 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+	public CategoryDTO getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(CategoryDTO category) {
 		this.category = category;
 	}
 
@@ -65,13 +57,22 @@ public class EmployeeDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
-    static ModelMapper getModelMapper() {
-        return new ModelMapper();
-    }
-    
-    public static EmployeeDTO convertToDTO(Employee entity) {
-        return getModelMapper().map(entity, EmployeeDTO.class);
-    }
+	static ModelMapper getModelMapper() {
+		return new ModelMapper();
+	}
+	
+	public static EmployeeDTO convertToDTO(Employee entity) {
+		return getModelMapper().map(entity, EmployeeDTO.class);
+	}
 
 }
