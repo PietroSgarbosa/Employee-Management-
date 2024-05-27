@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
@@ -47,6 +48,12 @@ public class EmployeeController {
 		}
 	}
 
+	@PostMapping(value="/filter")
+	public ResponseEntity<List<Employee>> filter(@RequestBody EmployeeFilterDTO employee){
+		return ResponseEntity.status(HttpStatus.OK).body(getEmployeeService().findWithFilter(employee));
+	}
+	
+	
 	@PostMapping(value = "/create")
 	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {

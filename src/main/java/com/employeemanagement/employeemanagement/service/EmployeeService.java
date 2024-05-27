@@ -3,8 +3,10 @@ package com.employeemanagement.employeemanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
@@ -13,6 +15,7 @@ import com.employeemanagement.employeemanagement.entity.TrainingEmployeeKey;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingEmployeeRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
+import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
 @Service
 public class EmployeeService {
@@ -41,6 +44,10 @@ public class EmployeeService {
         return getEmployeeRepository().findById(id).orElse(null);
     }
 	
+	public List<Employee> findWithFilter(EmployeeFilterDTO employee){
+		Specification<Employee> specification = EmployeeSpecification.withAtributes(employee);
+		return getEmployeeRepository().findAll(specification);
+	}
 	
 	public void create(EmployeeDTO employeeDTO) {
 		Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
