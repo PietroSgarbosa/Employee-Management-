@@ -109,11 +109,11 @@ public class EmployeeService {
 		return employeeMapper;
 	}
 
-	public TrainingEmployeeRepository getTrainingEmployeeRepository() {
+	private TrainingEmployeeRepository getTrainingEmployeeRepository() {
 		return trainingEmployeeRepository;
 	}
 
-	public CategoryService getCategoryService() {
+	private CategoryService getCategoryService() {
 		return categoryService;
 	}
 

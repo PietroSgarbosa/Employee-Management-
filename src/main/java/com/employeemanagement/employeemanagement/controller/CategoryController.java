@@ -81,7 +81,7 @@ public class CategoryController {
 		}
 	}
 
-	public CategoryService getCategoryService() {
+	private CategoryService getCategoryService() {
 		return categoryService;
 	}
 }

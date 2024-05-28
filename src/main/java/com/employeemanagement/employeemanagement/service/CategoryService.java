@@ -76,11 +76,11 @@ public class CategoryService {
 		}
 	}
 
-	public CategoryRepository getCategoryRepository() {
+	private CategoryRepository getCategoryRepository() {
 		return categoryRepository;
 	}
 
-	public CategoryMapper getCategoryMapper() {
+	private CategoryMapper getCategoryMapper() {
 		return categoryMapper;
 	}
 }
