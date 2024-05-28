@@ -1,6 +1,8 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingEmployeeRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {
@@ -89,8 +93,11 @@ public class EmployeeService {
 	}
 
 	public void delete(Long id) {
-		//Exercicio
-		//Excluir relações com base no ID do colaborador antes, testar com FOR 
+		Employee employee = getEmployeeRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe um Employee com o Id: " + id));
+		List<TrainingEmployee> listTrainingEmployee = getTrainingEmployeeRepository().getByidEmployee(employee);
+		for(TrainingEmployee trainingEmployee: listTrainingEmployee) {
+			getTrainingEmployeeRepository().delete(trainingEmployee);		
+		}
 		getEmployeeRepository().deleteById(id);
 	}
 
