@@ -79,7 +79,7 @@ public class EmployeeController {
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getEmployeeService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
+			return ResponseEntity.status(HttpStatus.OK).body("Employee deleted succesfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());

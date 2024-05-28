@@ -88,15 +88,10 @@ public class EmployeeService {
 		return responseMessage;
 	}
 
-	public String delete(Long id) {
-		Employee employee = getById(id);
-
-		if (employee == null) {
-			return "This employee ID " + id + " doesn't exist";
-		} else {
-			getEmployeeRepository().deleteById(id);
-			return "Employee of ID " + id + " removed!";
-		}
+	public void delete(Long id) {
+		//Exercicio
+		//Excluir relações com base no ID do colaborador antes, testar com FOR 
+		getEmployeeRepository().deleteById(id);
 	}
 
 	private EmployeeRepository getEmployeeRepository() {
