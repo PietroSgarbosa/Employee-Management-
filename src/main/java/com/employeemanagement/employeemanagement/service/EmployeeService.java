@@ -55,7 +55,7 @@ public class EmployeeService {
 	
 	public void create(EmployeeDTO employeeDTO) {
 		Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
-		Category category = new Category(employeeDTO.getCategory());
+		Category category = new Category(employeeDTO.getCategoryId());
 		employee.setCategory(category);
 		getEmployeeRepository().save(employee);
 		for(Long list: employeeDTO.getTrainingList()) {
@@ -79,7 +79,7 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName() != null ? employeeDTO.getMiddleName(): defaultEmployee.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName() != null ? employeeDTO.getLastName() : defaultEmployee.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf() != null ? employeeDTO.getCpf() : defaultEmployee.getCpf());
-			Category category = getCategoryService().finById(employeeDTO.getCategory());
+			Category category = getCategoryService().finById(employeeDTO.getCategoryId());
 			defaultEmployee.setCategory(category);
 			getEmployeeRepository().save(defaultEmployee);
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
