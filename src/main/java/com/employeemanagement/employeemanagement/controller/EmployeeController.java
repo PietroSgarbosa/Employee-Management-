@@ -1,6 +1,7 @@
 package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,17 +49,7 @@ public class EmployeeController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-//	@GetMapping(value = "/getByIdTrainings/{id}")
-//	public @ResponseBody ResponseEntity<?> getByIdTreinamento(@PathVariable Long id) {
-//		try {
-//			Employee employee = getEmployeeService().getById(id);
-//			return ResponseEntity.status(HttpStatus.OK)
-//					.body(employee);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
+
 
 	// Inserir apenas um colaborador
 	@PostMapping(value = "/create")

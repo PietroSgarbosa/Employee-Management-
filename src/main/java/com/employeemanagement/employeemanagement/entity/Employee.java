@@ -8,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.JoinColumn;
-//import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -34,12 +32,11 @@ public class Employee {
 	private String cpf;		
 	
 	@ManyToOne
-	@JoinColumn(name = "categoryId")
-	private Category category;		
+	@JoinColumn(name = "categriaId")
+	private Category category;	
 	
-	@OneToMany(mappedBy = "employeeId")		
-	private List<EmployeeTraining> trainings;	
-	
+	@OneToMany(mappedBy = "Employee")
+	private List<Training> trainings;
 
 	public Long getId() {
 		return id;
@@ -71,7 +68,7 @@ public class Employee {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}		
+	}
 
 	public String getCpf() {
 		return cpf;
@@ -80,20 +77,20 @@ public class Employee {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
+
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}	
-		
-	public List<EmployeeTraining> getTrainings() {
+	}
+
+	public List<Training> getTrainings() {
 		return trainings;
 	}
 
-	public void setTrainings(List<EmployeeTraining> trainings) {
+	public void setTreinamentos(List<Training> trainings) {
 		this.trainings = trainings;
-	}	
+	}		
 }

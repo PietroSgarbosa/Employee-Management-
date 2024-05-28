@@ -23,7 +23,7 @@ public class Training {
 	@Column(name = "DESCRIPTION")
 	private String description;	
 	
-	@Column(name = "DURATION")
+	@Column(name = "duration")
 	private String duration;
 	
 	@OneToMany(mappedBy = "trainingId")
@@ -60,7 +60,9 @@ public class Training {
 
 	public void setDuration(String duration) {
 		this.duration = duration;
-	}	
+	}
+	
+	
 	
 	public List<EmployeeTraining> getEmployees() {
 		return employees;

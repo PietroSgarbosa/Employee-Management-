@@ -27,10 +27,18 @@ public class EmployeeTraining {
 	@JoinColumn(name = "training_id")
 	private Training trainingId;	
 	
+
 	@ManyToOne
 	@JoinColumn(name = "status_id")
-	private Status status;	
-	
+	private Status status;		
+
+
+	public EmployeeTraining(Employee employee, Training training) {		
+		this.employeeId = employee;
+		this.trainingId = training;
+	}
+
+
 	public EmployeeTrainingId getId() {
 		return id;
 	}

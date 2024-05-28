@@ -16,11 +16,12 @@ public class EmployeeDTO {
 	
 	private String lastName;	
 	
-	private String cpf;
-	
-	private Category category;		
+	private String cpf;	
 
 	private List<EmployeeTrainingDTO> trainings;
+
+	private Category category;	
+
 
 	public Long getId() {
 		return id;
@@ -70,14 +71,16 @@ public class EmployeeDTO {
 		this.category = category;
 	}		
 	
+
 	public List<EmployeeTrainingDTO> getTrainings() {
 		return trainings;
 	}
 
-	public void setTrqinings(List<EmployeeTrainingDTO> trainings) {
+	public void setTrainings(List<EmployeeTrainingDTO> trainings) {
 		this.trainings = trainings;
 	}
 	
+
     static ModelMapper getModelMapper() {
         return new ModelMapper();
     }
