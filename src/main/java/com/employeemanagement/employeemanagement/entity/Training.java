@@ -27,7 +27,7 @@ public class Training {
 	private String duration;
 	
 	@OneToMany(mappedBy = "trainingId")
-	private List<EmployeeTraining> employee;
+	private List<EmployeeTraining> employees;
 	
 
 	public Long getId() {
@@ -62,12 +62,12 @@ public class Training {
 		this.duration = duration;
 	}	
 	
-	public List<EmployeeTraining> getEmployee() {
-		return employee;
+	public List<EmployeeTraining> getEmployees() {
+		return employees;
 	}
 
-	public void setEmployee(List<EmployeeTraining> employee) {
-		this.employee = employee;
+	public void setEmployee(List<EmployeeTraining> employees) {
+		this.employees = employees;
 	}
 	
 }

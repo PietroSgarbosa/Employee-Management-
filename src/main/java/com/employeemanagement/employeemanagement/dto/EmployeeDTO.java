@@ -70,11 +70,11 @@ public class EmployeeDTO {
 		this.category = category;
 	}		
 	
-	public List<EmployeeTrainingDTO> getTreinamentos() {
+	public List<EmployeeTrainingDTO> getTrainings() {
 		return trainings;
 	}
 
-	public void setTreinamentos(List<EmployeeTrainingDTO> trainings) {
+	public void setTrqinings(List<EmployeeTrainingDTO> trainings) {
 		this.trainings = trainings;
 	}
 	

@@ -13,8 +13,20 @@ public class EmployeeTrainingId implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Long employeeId;
+	
 	private Long trainingId;
+
+
+	public EmployeeTrainingId() {
+		super();
+	}	
+	
+	public EmployeeTrainingId(Long employeeId, Long trainingId) {		
+		this.employeeId = employeeId;
+		this.trainingId = trainingId;
+	}
 	
 	public Long getEmployeeId() {
 		return employeeId;

@@ -49,20 +49,20 @@ public class EmployeeController {
 		}
 	}
 	
-	@GetMapping(value = "/getByIdTrainings/{id}")
-	public @ResponseBody ResponseEntity<?> getByIdTreinamento(@PathVariable Long id) {
-		try {
-			Employee employee = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(employee);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//	@GetMapping(value = "/getByIdTrainings/{id}")
+//	public @ResponseBody ResponseEntity<?> getByIdTreinamento(@PathVariable Long id) {
+//		try {
+//			Employee employee = getEmployeeService().getById(id);
+//			return ResponseEntity.status(HttpStatus.OK)
+//					.body(employee);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 
 	// Inserir apenas um colaborador
 	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+	public @ResponseBody ResponseEntity<String> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {
 			getEmployeeService().create(employeeDTO);
 			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");

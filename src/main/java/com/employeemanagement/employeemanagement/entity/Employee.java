@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 //import jakarta.persistence.JoinColumn;
 //import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -31,17 +33,13 @@ public class Employee {
 	@Column(name = "cpf", nullable = false)
 	private String cpf;		
 	
-//	@ManyToOne
-//	@JoinColumn(name = "categoria_id")
-//	private Category category;	
-	
+	@ManyToOne
+	@JoinColumn(name = "categoryId")
+	private Category category;		
 	
 	@OneToMany(mappedBy = "employeeId")		
 	private List<EmployeeTraining> trainings;	
 	
-	public Employee(Employee employee, List<EmployeeTraining> trainings) {}	
-
-	//public Employee() {}
 
 	public Long getId() {
 		return id;
@@ -73,15 +71,7 @@ public class Employee {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}	
-
-//	public Category getCategory() {
-//		return category;
-//	}
-//
-//	public void setCategory(Category category) {
-//		this.category = category;
-//	}	
+	}		
 
 	public String getCpf() {
 		return cpf;
@@ -90,13 +80,20 @@ public class Employee {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}	
 		
 	public List<EmployeeTraining> getTrainings() {
 		return trainings;
 	}
 
-	public void setTreinamentos(List<EmployeeTraining> trainings) {
+	public void setTrainings(List<EmployeeTraining> trainings) {
 		this.trainings = trainings;
-	}
-	
+	}	
 }

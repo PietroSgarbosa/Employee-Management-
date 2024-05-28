@@ -1,6 +1,5 @@
 package com.employeemanagement.employeemanagement.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -28,13 +27,9 @@ public class EmployeeTraining {
 	@JoinColumn(name = "training_id")
 	private Training trainingId;	
 	
-	@Column(name = "status")
-	private String status;
-
-//	public EmployeeTraining(Employee employee, Training training) {		
-//		this.employeeId = employee;
-//		this.trainingId = training;
-//	}	
+	@ManyToOne
+	@JoinColumn(name = "status_id")
+	private Status status;	
 	
 	public EmployeeTrainingId getId() {
 		return id;
@@ -60,12 +55,12 @@ public class EmployeeTraining {
 		this.trainingId = trainingId;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return getStatus();
 	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}		
 	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 }

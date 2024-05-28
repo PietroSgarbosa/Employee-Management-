@@ -35,15 +35,15 @@ public class TrainingService {
 	}
 	
 	public String update(TrainingDTO trainingDTO) {
-		Training defaultTraining = getById(trainingDTO.getID());
-		String responseMessage = "Collaborator of ID " + trainingDTO.getID() + " not found";
+		Training defaultTraining = getById(trainingDTO.getId());
+		String responseMessage = "Collaborator of ID " + trainingDTO.getId() + " not found";
 
 		if(defaultTraining != null) {
 			defaultTraining.setTitle(trainingDTO.getTitle());
 			defaultTraining.setDescription(trainingDTO.getDescription());
 			defaultTraining.setDuration(trainingDTO.getDuration());
 			create(TrainingDTO.convertToDTO(defaultTraining));
-			responseMessage = "Training of ID " + trainingDTO.getID() + " updated successfully!";
+			responseMessage = "Training of ID " + trainingDTO.getId() + " updated successfully!";
 			return responseMessage;
 		}
 		return responseMessage;
