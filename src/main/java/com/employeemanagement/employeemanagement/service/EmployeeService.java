@@ -15,7 +15,6 @@ import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingExc
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
-import com.employeemanagement.employeemanagement.repository.StatusRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 
@@ -29,11 +28,8 @@ public class EmployeeService {
 	private TrainingRepository trainingRepository;
 	
 	@Autowired
-	private StatusRepository statusRepository;
-	
-	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
-	
+		
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
@@ -62,11 +58,13 @@ public class EmployeeService {
 				Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
 				getEmployeeRepository().save(employee);
 				for(Long et : employeeDTO.getTrainings()) {
+					
 					Training training = new Training(et);
 					Status status = new Status((long) 1);
 					Employee employe = new Employee(employee.getId());
 					EmployeeTrainingId employeeTrainingId = new EmployeeTrainingId(employee.getId(), et);
-					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingId,status, employe, training);
+					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingId,
+							status, employe, training);
 					getEmployeeTrainingRepository().save(employeeTraining);
 				}
 			}
@@ -93,6 +91,9 @@ public class EmployeeService {
 		return responseMessage;
 	}
 	
+	
+	
+	
 	//Delete por ID
 	public String delete(Long id) {
 		Employee employee = getById(id);
@@ -105,25 +106,55 @@ public class EmployeeService {
 		}
 	}
  	
+	
+	
+	public void updateStartTraining(Long idEmployee, Long idTraining ) {
+		
+		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
+		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		EmployeeTrainingId employeeTrainingId = new EmployeeTrainingId(employee.getId(),training.getID());
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingId).orElse(null);
+		if(idEmployee != null && idTraining != null) {
+			Status status = new Status((long)4); //Id de Status Iniciado
+			employeeTraining.setStatus(status);
+			getEmployeeTrainingRepository().save(employeeTraining);
+		}else {
+			throw new EmployeeDTOMissingException();
+			
+		}
+	}
+
+	public void updateFinishTraining(Long idEmployee, Long idTraining ) {
+	  
+		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
+		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		EmployeeTrainingId employeeTrainingId = new EmployeeTrainingId(employee.getId(),training.getID());
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingId).orElse(null);
+		if(idEmployee != null && idTraining != null) {
+			Status status = new Status((long)3); //Id de Status finalizado
+			employeeTraining.setStatus(status);
+			getEmployeeTrainingRepository().save(employeeTraining);
+		}else {
+			throw new EmployeeDTOMissingException();
+			
+		}
+}
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+	return employeeTrainingRepository;
+	}
+
 	private EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
-	}
-	
-	private EmployeeMapper getEmployeeMapper() {
-		return employeeMapper;
 	}
 	
 	private TrainingRepository getTrainingRepository() {
 		return trainingRepository;
 	}
 	
-	private StatusRepository getStatusRepository() {
-		return statusRepository;
+	private EmployeeMapper getEmployeeMapper() {
+		return employeeMapper;
 	}
 	
-	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
-		return employeeTrainingRepository;
-	}
-
+	
 
 }

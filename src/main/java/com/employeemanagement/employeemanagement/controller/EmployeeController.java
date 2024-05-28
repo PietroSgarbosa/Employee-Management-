@@ -26,6 +26,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
 
 	// GetAll
 	@GetMapping(value = "/getAll")
@@ -84,7 +85,29 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
+	
+	@PutMapping("/startTraining")
+	public @ResponseBody ResponseEntity<?> startTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining){
+		try {
+			getEmployeeService().updateStartTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Status update succesfully.");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error trying to update training employee.");
+		}
+	}
+	
 
+	@PutMapping("/finishTraining")
+	public @ResponseBody ResponseEntity<?> finishTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining){
+		try {
+			getEmployeeService().updateFinishTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Status update succesfully.");
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error trying to update training employee.");
+		}
+	}
+	
+	
 	private EmployeeService getEmployeeService() {
 		return employeeService;
 	}
