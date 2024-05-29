@@ -1,15 +1,9 @@
 package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +13,7 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -56,12 +51,13 @@ public class Employee {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
-	@ManyToOne
-	@JoinColumn(name = "ID_CATEGORY")
-	private Category category;
-	
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
+	
+	@ManyToOne
+	@JsonIgnore      
+	@JoinColumn(name ="ID_CATEGORY")
+	private Category category;
 	
 	@OneToMany(mappedBy = "idEmployee")
 	private List<TrainingEmployee> trainings;
@@ -81,7 +77,7 @@ public class Employee {
 	public void setTrainings(List<TrainingEmployee> trainings) {
 		this.trainings = trainings;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -129,4 +125,5 @@ public class Employee {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 }

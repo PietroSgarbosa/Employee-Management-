@@ -15,12 +15,14 @@ public class EmployeeDTO {
 	
 	private String lastName;
 	
+	private Long categoryId;
+	
 	private Category category;
 	
 	private String cpf;
 	
 	private List<Long> trainingList;
-
+	
 	private List<TrainingEmployeeDTO> listTrainingEmployeeDTO;
 	
     public Long getId() {
@@ -31,7 +33,7 @@ public class EmployeeDTO {
 		this.id = id;
 	}
 
-	public String getFirstName() {
+    public String getFirstName() {
 		return firstName;
 	}
 
@@ -53,6 +55,14 @@ public class EmployeeDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public Category getCategory() {

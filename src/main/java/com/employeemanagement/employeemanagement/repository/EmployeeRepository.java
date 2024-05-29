@@ -11,9 +11,5 @@ import com.employeemanagement.employeemanagement.entity.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
-	@EntityGraph(value = "Employee.detail", type = EntityGraph.EntityGraphType.LOAD)
-	Optional<Employee> findById(Long id);
-	
 	List<Employee> findAll(Specification<Employee> specification);
 }

@@ -26,6 +26,28 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+	@GetMapping(value = "/getById/{id}")
+	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
+		try {
+			Employee entity = getEmployeeService().getById(id);
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(EmployeeDTO.convertToDTO(entity));
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping(value = "/create")
+	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+		try {
+			getEmployeeService().create(employeeDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Employee inserted successfully!");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed trying to insert new data, error message: " + e.getMessage());
+		}
+	}
+
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
@@ -37,34 +59,11 @@ public class EmployeeController {
 		}
 	}
 
-	@GetMapping(value = "/getById/{id}")
-	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
-		try {
-			Employee employee = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(employee);
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 	@PostMapping(value="/filter")
 	public ResponseEntity<List<Employee>> filter(@RequestBody EmployeeFilterDTO employee){
 		return ResponseEntity.status(HttpStatus.OK).body(getEmployeeService().findWithFilter(employee));
 	}
 	
-	
-	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
-		try {
-			getEmployeeService().create(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Failed trying to insert new data, error message: " + e.getMessage());
-		}
-	}
-
 	@PutMapping(value = "/update")
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
@@ -80,7 +79,7 @@ public class EmployeeController {
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getEmployeeService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
+			return ResponseEntity.status(HttpStatus.OK).body("Employee deleted succesfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
