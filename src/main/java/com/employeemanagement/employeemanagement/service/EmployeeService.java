@@ -70,7 +70,6 @@ public class EmployeeService {
 			TrainingEmployee trainingEmployee = new TrainingEmployee(trainingEmployeeKey, employe, training, status);
 			getTrainingEmployeeRepository().save(trainingEmployee);
 		}
-			
 	}
 
 	public String update(EmployeeDTO employeeDTO) {
