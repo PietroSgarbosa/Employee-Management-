@@ -54,8 +54,7 @@ public class Employee {
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
 	
-	@ManyToOne
-	@JsonIgnore      
+	@ManyToOne    
 	@JoinColumn(name ="ID_CATEGORY")
 	private Category category;
 	

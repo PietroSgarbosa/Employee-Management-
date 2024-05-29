@@ -31,7 +31,7 @@ public class EmployeeController {
 		try {
 			Employee entity = getEmployeeService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(EmployeeDTO.convertToDTO(entity));
+					.body(entity);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -51,8 +51,8 @@ public class EmployeeController {
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
-			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
+			List<Employee> employeeList = getEmployeeService().getAll();
+			return ResponseEntity.status(HttpStatus.OK).body(employeeList);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal Server Error: " + e.getMessage());
@@ -67,8 +67,8 @@ public class EmployeeController {
 	@PutMapping(value = "/update")
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
-			String message = getEmployeeService().update(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body(message);
+			getEmployeeService().update(employeeDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Training deleted Sucessfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error trying to update employee. Error message: " + e.getMessage());

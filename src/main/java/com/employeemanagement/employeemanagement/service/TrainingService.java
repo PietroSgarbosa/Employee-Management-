@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
 import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.entity.TrainingEmployee;
+import com.employeemanagement.employeemanagement.repository.TrainingEmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.TrainingMapper;
 
@@ -16,6 +18,9 @@ public class TrainingService {
 	
 	@Autowired
 	private TrainingMapper trainingMapper;
+	
+	@Autowired
+	private TrainingEmployeeRepository trainingEmployeeRepository;
 	
 	public Training getById(Long id) {
 		return getTrainingRepository().findById(id).orElse(null);
@@ -59,15 +64,18 @@ public class TrainingService {
 		}
 	}
 	
-	public String delete(Long id) {
+	public void delete(Long id) {
 		Training training = getById(id);
-		
-		if(training == null) {
-			return "This training ID " + id + " doesn't exist";
-		} else {
-			getTrainingRepository().deleteById(id);
-			return "Training of ID " + id + " removed!";
+		List<TrainingEmployee> trainingList = getTrainingEmployeeRepository().getByidTraining(training);
+		for(TrainingEmployee traine: trainingList) {
+			getTrainingEmployeeRepository().delete(traine);
 		}
+		getTrainingRepository().deleteById(id);
+
+	}
+	
+	public TrainingEmployeeRepository getTrainingEmployeeRepository() {
+		return trainingEmployeeRepository;
 	}
 	
 	private TrainingRepository getTrainingRepository() {
