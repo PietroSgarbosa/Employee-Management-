@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmployeeDTO {
 	
@@ -23,7 +24,7 @@ public class EmployeeDTO {
 	private String cpf;
 	
 	private List<Long> trainingList;
-
+	
 	private List<TrainingEmployeeDTO> listTrainingEmployeeDTO;
 	
     public Long getId() {
