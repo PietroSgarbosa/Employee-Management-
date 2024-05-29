@@ -51,13 +51,13 @@ public class Employee {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 	
+	@Column(name = "cpf", nullable = false)
+	private String cpf;
+	
 	@ManyToOne
 	@JsonIgnore      
 	@JoinColumn(name ="ID_CATEGORY")
 	private Category category;
-	
-	@Column(name = "cpf", nullable = false)
-	private String cpf;
 	
 	@OneToMany(mappedBy = "idEmployee")
 	private List<TrainingEmployee> trainings;
