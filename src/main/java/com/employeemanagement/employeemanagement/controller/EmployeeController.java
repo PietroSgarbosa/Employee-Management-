@@ -28,19 +28,19 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 
-	// GetAll
+	
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
-			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
+			List<Employee> employeeList = getEmployeeService().getAll();
+			return ResponseEntity.status(HttpStatus.OK).body(employeeList);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal Server Error: " + e.getMessage());
 		}
 	}
 
-	//Buscar por ID 
+	
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
@@ -52,7 +52,7 @@ public class EmployeeController {
 		}
 	}
 
-	// Inserir apenas um colaborador
+	
 	@PostMapping(value = "/create")
 	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {

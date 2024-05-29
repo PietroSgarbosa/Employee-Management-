@@ -19,13 +19,11 @@ public class EmployeeTrainingId implements Serializable {
 	}
 	
 	
-
 	public EmployeeTrainingId(Long employeeId, Long trainingId) {
 		super();
 		this.employeeId = employeeId;
 		this.trainingId = trainingId;
 	}
-
 
 
 	public Long getEmployeeId() {

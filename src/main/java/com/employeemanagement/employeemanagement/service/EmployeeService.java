@@ -37,17 +37,18 @@ public class EmployeeService {
 		return getEmployeeRepository().findById(id).orElse(null);
 	}
 	
-	//Método para buscar uma lista de todos os colaboradores
-	public List<EmployeeDTO> getAll(){
+	
+	public List<Employee> getAll(){
 		List<Employee> employeeList = getEmployeeRepository().findAll();
-		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee)).toList();
 		
-		if(!employeeListDTO.isEmpty()) {
-			return employeeListDTO;
+		
+		if(!employeeList.isEmpty()) {
+			return employeeList;
 		} else {
 			return null;
 		}
 	}
+	
 	
 	//Método para inserir um colaborador
 	public void create(EmployeeDTO employeeDTO) {
@@ -76,7 +77,7 @@ public class EmployeeService {
 	//Atualizando por ID
 	public String update(EmployeeDTO employeeDTO) {
 		Employee defaultEmployee = getById(employeeDTO.getId());
-		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
+		String responseMessage = "Employee of ID " + employeeDTO.getId() + " not found";
 
 		if(defaultEmployee != null) {
 			defaultEmployee.setFirstName(employeeDTO.getFirstName());
@@ -84,7 +85,7 @@ public class EmployeeService {
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
 			defaultEmployee.setCategory(employeeDTO.getCategory());
-			create(EmployeeDTO.convertToDTO(defaultEmployee));
+			getEmployeeRepository().save(defaultEmployee);
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
 		}

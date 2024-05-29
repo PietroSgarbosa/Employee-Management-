@@ -1,5 +1,7 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import org.modelmapper.ModelMapper;
+
 public class EmployeeTrainingDTO {
 
 	private EmployeeDTO employee;
@@ -32,5 +34,11 @@ public class EmployeeTrainingDTO {
 		this.status = status;
 	}
 	
-	
+	static ModelMapper getModelMapper() {
+        return new ModelMapper();
+    }
+    
+    public static EmployeeTrainingDTO convertToDTO(EmployeeTrainingDTO entity) {
+        return getModelMapper().map(entity, EmployeeTrainingDTO.class);
+    }
 }
