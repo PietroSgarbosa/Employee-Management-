@@ -99,8 +99,7 @@ public class EmployeeService {
 
 	public void delete(Long id) {
 		Employee employee = getById(id);
-		List<EmployeeTraining> listEmployeeTraining = getEmployeeTrainingRepository().getByEmployee(employee);
-		for (EmployeeTraining employeeTraining : listEmployeeTraining) {
+		for (EmployeeTraining employeeTraining :  getEmployeeTrainingRepository().getByEmployee(employee)) {
 			getEmployeeTrainingRepository().delete(employeeTraining);
 		}
 		getEmployeeRepository().deleteById(id);
