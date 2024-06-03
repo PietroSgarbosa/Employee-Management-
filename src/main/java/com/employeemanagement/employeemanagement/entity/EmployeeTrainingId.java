@@ -7,24 +7,21 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class EmployeeTrainingId implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long employeeId;
-	
+
 	private Long trainingId;
-	
+
 	public EmployeeTrainingId() {
 		super();
 	}
-	
-	
+
 	public EmployeeTrainingId(Long employeeId, Long trainingId) {
 		super();
 		this.employeeId = employeeId;
 		this.trainingId = trainingId;
 	}
-
 
 	public Long getEmployeeId() {
 		return employeeId;
@@ -41,6 +38,5 @@ public class EmployeeTrainingId implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-	
-	
+
 }

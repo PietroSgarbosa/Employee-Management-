@@ -14,14 +14,13 @@ public class Status {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	public Status() {
 		super();
 	}
-	
 
 	public Status(Long id) {
 		super();
@@ -43,6 +42,5 @@ public class Status {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 }

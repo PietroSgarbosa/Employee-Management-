@@ -16,29 +16,26 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "TRAINING")
 public class Training {
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "title", nullable = false, unique = true)
 	private String title;
-	    
+
 	@Column(name = "description", nullable = false, unique = true)
 	private String description;
-	
+
 	@OneToMany(mappedBy = "training")
 	@JsonIgnore
 	private Set<EmployeeTraining> employees = new HashSet<>();
-	
-	
-	
+
 	public Training(Long id) {
 		super();
 		this.id = id;
 	}
-	
+
 	public Training() {
 		super();
 	}
@@ -75,5 +72,4 @@ public class Training {
 		this.employees = employees;
 	}
 
-	
 }

@@ -26,9 +26,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
-	
 
-	
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
@@ -40,19 +38,16 @@ public class EmployeeController {
 		}
 	}
 
-	
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
 			Employee employee = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(employee);
+			return ResponseEntity.status(HttpStatus.OK).body(employee);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	
 	@PostMapping(value = "/create")
 	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {
@@ -85,29 +80,30 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
-	
+
 	@PutMapping("/startTraining")
-	public @ResponseBody ResponseEntity<?> startTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining){
+	public @ResponseBody ResponseEntity<?> startTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining) {
 		try {
 			getEmployeeService().updateStartTraining(idEmployee, idTraining);
 			return ResponseEntity.status(HttpStatus.OK).body("Training Status update succesfully.");
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error trying to update training employee.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update training employee.");
 		}
 	}
-	
 
 	@PutMapping("/finishTraining")
-	public @ResponseBody ResponseEntity<?> finishTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining){
+	public @ResponseBody ResponseEntity<?> finishTraining(@RequestParam Long idEmployee,
+			@RequestParam Long idTraining) {
 		try {
 			getEmployeeService().updateFinishTraining(idEmployee, idTraining);
 			return ResponseEntity.status(HttpStatus.OK).body("Training Status update succesfully.");
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error trying to update training employee.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update training employee.");
 		}
 	}
-	
-	
+
 	private EmployeeService getEmployeeService() {
 		return employeeService;
 	}

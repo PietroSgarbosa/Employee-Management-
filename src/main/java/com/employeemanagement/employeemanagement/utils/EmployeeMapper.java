@@ -18,5 +18,5 @@ public class EmployeeMapper {
 		entity.setCategory(dto.getCategory());
 		return entity;
 	}
-	
+
 }
