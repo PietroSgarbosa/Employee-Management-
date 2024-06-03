@@ -1,24 +1,39 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
 
+
 public class EmployeeDTO {
-	
+
 	private Long id;
-	
+
 	private String firstName;
-	
+
 	private String middleName;
-	
+
 	private String lastName;
-	
+
+	private String category;
+
 	private String cpf;
 
-	private CategoryDTO category;
+	private List<Long> trainingsId;
 	
-    public String getFirstName() {
+	private List<EmployeeTrainingDTO> trainings;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
 		return firstName;
 	}
 
@@ -42,11 +57,11 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public CategoryDTO getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(CategoryDTO category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -58,19 +73,26 @@ public class EmployeeDTO {
 		this.cpf = cpf;
 	}
 
-
-	public Long getId() {
-		return id;
+	public List<Long> getTrainingsId() {
+		return trainingsId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTrainingsId(List<Long> trainingsId) {
+		this.trainingsId = trainingsId;
 	}
-	
+
+	public List<EmployeeTrainingDTO> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<EmployeeTrainingDTO> trainings) {
+		this.trainings = trainings;
+	}
+
 	static ModelMapper getModelMapper() {
 		return new ModelMapper();
 	}
-	
+
 	public static EmployeeDTO convertToDTO(Employee entity) {
 		return getModelMapper().map(entity, EmployeeDTO.class);
 	}
