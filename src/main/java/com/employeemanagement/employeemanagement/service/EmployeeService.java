@@ -7,56 +7,84 @@ import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
+import com.employeemanagement.employeemanagement.entity.Status;
+import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.repository.StatusRepository;
+import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 
 @Service
 public class EmployeeService {
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	private EmployeeMapper employeeMapper;
-	
-	public Employee getById(Long id) {
-		return getEmployeeRepository().findById(id).orElse(null);
+
+	@Autowired
+	private TrainingRepository trainingRepository;
+
+	@Autowired
+	private EmployeeTrainingRepository employeeTrainingRepository;
+
+	@Autowired
+	private StatusRepository statusRepository;
+
+	public EmployeeDTO getById(Long id) {
+		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
+		return employeeDTO;
 	}
-	
-	//Método para buscar uma lista de todos os colaboradores
-	public List<EmployeeDTO> getAll(){
+
+	public List<EmployeeDTO> getAll() {
 		List<Employee> employeeList = getEmployeeRepository().findAll();
-		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee)).toList();
-		
-		if(!employeeListDTO.isEmpty()) {
+		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
+				.toList();
+
+		if (!employeeListDTO.isEmpty()) {
 			return employeeListDTO;
 		} else {
 			return null;
 		}
+
 	}
-	
-	//Método para inserir um colaborador
+
 	public void create(EmployeeDTO employeeDTO) {
-		if(employeeDTO != null) {
-			if(employeeDTO.getFirstName() == null) {
+		if (employeeDTO != null) {
+			if (employeeDTO.getFirstName() == null) {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
 				getEmployeeRepository().save(employeeEntity);
+
+				if (employeeDTO.getTrainingsId() != null) {
+					for (Long trainingId : employeeDTO.getTrainingsId()) {
+						EmployeeTraining relationship = new EmployeeTraining();
+						Training training = getTrainingRepository().getById(trainingId);
+						relationship.setTraining(training);
+						Status status = getStatusRepository().getById((long) 1);
+						relationship.setStatus(status);
+						relationship.setEmployee(employeeEntity);
+
+						employeeTrainingRepository.save(relationship);
+					}
+				}
 			}
 		} else {
 			throw new EmployeeDTOMissingException();
 		}
 	}
-	
-	//Atualizando por ID
+
 	public String update(EmployeeDTO employeeDTO) {
-		Employee defaultEmployee = getById(employeeDTO.getId());
+		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
-		if(defaultEmployee != null) {
+		if (defaultEmployee != null) {
 			defaultEmployee.setFirstName(employeeDTO.getFirstName());
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
@@ -68,23 +96,36 @@ public class EmployeeService {
 		}
 		return responseMessage;
 	}
-	
-	//Delete por ID
-	public String delete(Long id) {
-		Employee employee = getById(id);
-		
-		if(employee == null) {
-			return "This employee ID " + id + " doesn't exist";
-		} else {
-			getEmployeeRepository().deleteById(id);
-			return "Employee of ID " + id + " removed!";
+
+	public void delete(Long id) {
+
+		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getByEmployee(employee);
+		for (EmployeeTraining deleteTraining : listTraining) {
+			getEmployeeTrainingRepository().delete(deleteTraining);
+
 		}
+
+		getEmployeeRepository().deleteById(id);
+
 	}
- 	
+
+	private StatusRepository getStatusRepository() {
+		return statusRepository;
+	}
+
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+		return employeeTrainingRepository;
+	}
+
+	private TrainingRepository getTrainingRepository() {
+		return trainingRepository;
+	}
+
 	private EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
 	}
-	
+
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
 	}
