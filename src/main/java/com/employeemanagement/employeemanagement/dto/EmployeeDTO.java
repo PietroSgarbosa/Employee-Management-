@@ -1,6 +1,5 @@
 package com.employeemanagement.employeemanagement.dto;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,24 +8,23 @@ import org.modelmapper.ModelMapper;
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 public class EmployeeDTO {
-	
+
 	private Long id;
-	
+
 	private String firstName;
-	
+
 	private String middleName;
-	
+
 	private String lastName;
-	
+
 	private String category;
-	
+
 	private String cpf;
-	
-	private List<Long> trainings; 
-	
-	private Set<EmployeeTrainingDTO> EmployeeTrainingDTO =  new HashSet<>();
-	
-	
+
+	private List<Long> trainings;
+
+	private Set<EmployeeTrainingDTO> EmployeeTrainingDTO;
+
 	public Long getId() {
 		return id;
 	}
@@ -74,7 +72,6 @@ public class EmployeeDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
 
 	public List<Long> getTrainings() {
 		return trainings;
@@ -93,11 +90,11 @@ public class EmployeeDTO {
 	}
 
 	static ModelMapper getModelMapper() {
-        return new ModelMapper();
-    }
-    
-    public static EmployeeDTO convertToDTO(Employee entity) {
-        return getModelMapper().map(entity, EmployeeDTO.class);
-    }
+		return new ModelMapper();
+	}
+
+	public static EmployeeDTO convertToDTO(Employee entity) {
+		return getModelMapper().map(entity, EmployeeDTO.class);
+	}
 
 }
