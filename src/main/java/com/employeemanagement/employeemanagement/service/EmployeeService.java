@@ -33,7 +33,7 @@ public class EmployeeService {
 	private TrainingEmployeeRepository trainingEmployeeRepository;
 	
 	public List<Employee> getAll(){
-			return getEmployeeRepository().findAll();
+		return getEmployeeRepository().findAll();
 	}
 	
 	public Employee getById(Long id) {
