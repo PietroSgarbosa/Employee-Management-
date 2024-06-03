@@ -50,11 +50,11 @@ public class EmployeeService {
 		Category category = new Category(employeeDTO.getCategoryId());
 		employee.setCategory(category);
 		getEmployeeRepository().save(employee);
-		for(Long number: employeeDTO.getTrainingList()) {
+		for(Long trainingId: employeeDTO.getTrainingList()) {
 			Status status = new Status((long) 1);
-			Training training = new Training(number);
+			Training training = new Training(trainingId);
 			Employee employe = new Employee(employee.getId());
-			TrainingEmployeeKey trainingEmployeeKey = new TrainingEmployeeKey(employee.getId(), number);
+			TrainingEmployeeKey trainingEmployeeKey = new TrainingEmployeeKey(employee.getId(), trainingId);
 			TrainingEmployee trainingEmployee = new TrainingEmployee(trainingEmployeeKey, employe, training, status);
 			getTrainingEmployeeRepository().save(trainingEmployee);
 		}
