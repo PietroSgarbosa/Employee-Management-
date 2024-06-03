@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeDTOFilter;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
@@ -32,7 +33,7 @@ public class EmployeeController {
 		try {
 			Employee entity = getEmployeeService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(EmployeeDTO.convertToDTO(entity));
+					.body(EmployeeDTOFilter.convertToDTO(entity));
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -52,7 +53,7 @@ public class EmployeeController {
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<EmployeeDTOFilter> employeeListDTO = getEmployeeService().getAll();
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

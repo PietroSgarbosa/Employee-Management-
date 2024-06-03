@@ -2,6 +2,7 @@ package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,8 @@ public class Category {
 	
 	@Column(name = "description", nullable = false)
 	private String description;
-	 
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "category")	
 	private List<Employee> employees ;
 

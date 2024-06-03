@@ -1,41 +1,45 @@
 package com.employeemanagement.employeemanagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import java.io.Serializable;
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEE")
-public class Employee {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "firstName", nullable = false)
-	private String firstName;
-	
-	@Column(name = "middleName")
-	private String middleName;
-	
-	@Column(name = "lastName", nullable = false)
-	private String lastName;
-	
-	@Column(name = "cpf", nullable = false)
-	private String cpf;
-		
-	@OneToOne
-	@JsonIgnore      //Comentar quando for usar o crud pela employee
-	@JoinColumn(name ="category_id")
-	private Category category;
-	
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "middleName")
+    private String middleName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "employee")
+    private List<EmployeeTraining> trainings;
+
 	public Long getId() {
 		return id;
 	}
@@ -84,5 +88,12 @@ public class Employee {
 		this.category = category;
 	}
 
+	public List<EmployeeTraining> getTrainings() {
+		return trainings;
+	}
 
+	public void setTrainings(List<EmployeeTraining> trainings) {
+		this.trainings = trainings;
+	}
+	
 }

@@ -1,31 +1,41 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TRAININGS")
 public class Training {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Column(name = "TITLE", nullable = false, unique = true)
+    private String title;
+
+    @Column(name = "DESCRIPTION", nullable = false, unique = true)
+    private String description;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "training")
+    private List<EmployeeTraining> employers;
 	
-	@Column(name = "TITLE", nullable = false, unique = true)
-	private String title;
-	    
-	@Column(name = "DESCRIPTION", nullable = false, unique = true)
-	private String description;
-
-	public Long getID() {
+	//Getters e Setters
+    
+	public Long getId() {
 		return id;
 	}
 
-	public void setID(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -45,4 +55,12 @@ public class Training {
 		this.description = description;
 	}
 
+	public List<EmployeeTraining> getEmployers() {
+		return employers;
+	}
+
+	public void setEmployers(List<EmployeeTraining> employers) {
+		this.employers = employers;
+	}
+	
 }
