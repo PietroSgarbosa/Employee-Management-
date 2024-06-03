@@ -13,6 +13,8 @@ import com.employeemanagement.employeemanagement.entity.Training;
 public interface EmployeeTrainingRepository extends JpaRepository<EmployeeTraining, Long> {
 
 	List<EmployeeTraining> getBytraining(Training training);
+
 	List<EmployeeTraining> getByEmployee(Employee employee);
 
+	EmployeeTraining findByTrainingAndEmployee(Training training, Employee employee);
 }

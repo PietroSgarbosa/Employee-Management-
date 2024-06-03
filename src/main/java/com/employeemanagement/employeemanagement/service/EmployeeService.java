@@ -110,6 +110,40 @@ public class EmployeeService {
 
 	}
 
+	public void updateStartTraining(Long idEmployee, Long idTraining) {
+
+		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
+		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByTrainingAndEmployee(training,
+				employee);
+		if (employee.getId() != null && training.getId() != null) {
+			Status status = new Status();
+			status.setId((long) 3);// Id de Status Iniciado
+			employeeTraining.setStatus(status);
+			getEmployeeTrainingRepository().save(employeeTraining);
+		} else {
+			throw new EmployeeDTOMissingException();
+
+		}
+	}
+
+	public void finishStartTraining(Long idEmployee, Long idTraining) {
+
+		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
+		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByTrainingAndEmployee(training,
+				employee);
+		if (employee.getId() != null && training.getId() != null) {
+			Status status = new Status();
+			status.setId((long) 4);// Id de Status Finalizado
+			employeeTraining.setStatus(status);
+			getEmployeeTrainingRepository().save(employeeTraining);
+		} else {
+			throw new EmployeeDTOMissingException();
+
+		}
+	}
+
 	private StatusRepository getStatusRepository() {
 		return statusRepository;
 	}
