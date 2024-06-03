@@ -17,38 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
-import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getById/{id}")
-	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
-		try {
-			Employee entity = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(EmployeeDTO.convertToDTO(entity));
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
-		try {
-			getEmployeeService().create(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("Employee inserted successfully!");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Failed trying to insert new data, error message: " + e.getMessage());
-		}
-	}
-	
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
@@ -57,6 +34,27 @@ public class EmployeeController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal Server Error: " + e.getMessage());
+		}
+	}
+
+	@GetMapping(value = "/getById/{id}")
+	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
+		try {
+			EmployeeDTO employeeDTO = getEmployeeService().getById(id);
+			return ResponseEntity.status(HttpStatus.OK).body(employeeDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping(value = "/create")
+	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+		try {
+			getEmployeeService().create(employeeDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed trying to insert new data, error message: " + e.getMessage());
 		}
 	}
 

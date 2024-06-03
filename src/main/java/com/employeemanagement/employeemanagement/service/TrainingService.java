@@ -6,51 +6,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.TrainingMapper;
 
 @Service
 public class TrainingService {
-	
+
 	@Autowired
 	private TrainingRepository trainingRepository;
-	
+
 	@Autowired
 	private TrainingMapper trainingMapper;
-	
+
+	@Autowired
+	private EmployeeTrainingRepository employeeTrainingRepository;
+
 	public Training getById(Long id) {
 		return getTrainingRepository().findById(id).orElse(null);
 	}
 
-	public List<TrainingDTO> getAll(){
+	public List<TrainingDTO> getAll() {
 		List<Training> trainingList = getTrainingRepository().findAll();
-		List<TrainingDTO> trainingListDTO = trainingList.stream().map(training -> TrainingDTO.convertToDTO(training)).toList();
-		
-		if(!trainingListDTO.isEmpty()) {
+		List<TrainingDTO> trainingListDTO = trainingList.stream().map(training -> TrainingDTO.convertToDTO(training))
+				.toList();
+
+		if (!trainingListDTO.isEmpty()) {
 			return trainingListDTO;
 		} else {
 			return null;
 		}
 	}
-	
-	public String update(TrainingDTO trainingDTO) {
-		Training defaultTraining = getById(trainingDTO.getID());
-		String responseMessage = "Collaborator of ID " + trainingDTO.getID() + " not found";
 
-		if(defaultTraining != null) {
-			defaultTraining.setTitle(trainingDTO.getTitle());
+	public String update(TrainingDTO trainingDTO) {
+		Training defaultTraining = getById(trainingDTO.getId());
+		String responseMessage = "Collaborator of ID " + trainingDTO.getId() + " not found";
+
+		if (defaultTraining != null) {
+			defaultTraining.setName(trainingDTO.getName());
 			defaultTraining.setDescription(trainingDTO.getDescription());
 			create(TrainingDTO.convertToDTO(defaultTraining));
-			responseMessage = "Employee of ID " + trainingDTO.getID() + " updated successfully!";
+			responseMessage = "Employee of ID " + trainingDTO.getId() + " updated successfully!";
 			return responseMessage;
 		}
 		return responseMessage;
 	}
-	
+
 	public void create(TrainingDTO trainingDTO) {
-		if(trainingDTO != null) {
-			if(trainingDTO.getTitle() == null && trainingDTO.getDescription() == null) {
+		if (trainingDTO != null) {
+			if (trainingDTO.getName() == null && trainingDTO.getDescription() == null) {
 				throw new IllegalArgumentException("The name and description cannot be null");
 			} else {
 				Training trainingEntity = getTrainingMapper().covertToEntity(trainingDTO);
@@ -60,18 +66,25 @@ public class TrainingService {
 			throw new IllegalArgumentException("The trainingDTO object cannot be null");
 		}
 	}
-	
-	public String delete(Long id) {
-		Training training = getById(id);
-		
-		if(training == null) {
-			return "This training ID " + id + " doesn't exist";
-		} else {
-			getTrainingRepository().deleteById(id);
-			return "Training of ID " + id + " removed!";
+
+	public void delete(Long id) {
+
+		Training training = getTrainingRepository().findById(id).orElse(null);
+		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getBytraining(training);
+		for (EmployeeTraining deleteTraining : listTraining) {
+			getEmployeeTrainingRepository().delete(deleteTraining);
+
 		}
+
+		getTrainingRepository().deleteById(id);
+
 	}
-	
+
+	// Encapsula o repositorio
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+		return employeeTrainingRepository;
+	}
+
 	private TrainingRepository getTrainingRepository() {
 		return trainingRepository;
 	}

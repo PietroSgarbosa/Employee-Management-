@@ -5,27 +5,27 @@ import org.modelmapper.ModelMapper;
 import com.employeemanagement.employeemanagement.entity.Training;
 
 public class TrainingDTO {
-	
+
 	private Long id;
 
-	private String title;
+	private String name;
 
 	private String description;
 
-	public Long getID() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setID(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -43,6 +43,5 @@ public class TrainingDTO {
 	public static TrainingDTO convertToDTO(Training entity) {
 		return getModelMapper().map(entity, TrainingDTO.class);
 	}
-
 
 }
