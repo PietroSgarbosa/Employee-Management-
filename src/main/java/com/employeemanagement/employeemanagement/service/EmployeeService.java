@@ -80,17 +80,28 @@ public class EmployeeService {
 		String responseMessage = "Employee of ID " + employeeDTO.getId() + " not found";
 
 		if(defaultEmployee != null) {
-			defaultEmployee.setFirstName(employeeDTO.getFirstName());
-			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
-			defaultEmployee.setLastName(employeeDTO.getLastName());
-			defaultEmployee.setCpf(employeeDTO.getCpf());
-			defaultEmployee.setCategory(employeeDTO.getCategory());
+			defaultEmployee.setFirstName(employeeDTO.getFirstName() != null ? employeeDTO.getFirstName() : defaultEmployee.getFirstName());
+			defaultEmployee.setMiddleName(employeeDTO.getMiddleName() != null ? employeeDTO.getMiddleName(): defaultEmployee.getMiddleName());
+			defaultEmployee.setLastName(employeeDTO.getLastName() != null ? employeeDTO.getLastName() : defaultEmployee.getLastName());
+			defaultEmployee.setCpf(employeeDTO.getCpf() != null ? employeeDTO.getCpf() : defaultEmployee.getCpf());
 			getEmployeeRepository().save(defaultEmployee);
+		
+			
+			
+			for(Long id : employeeDTO.getTrainings()) {
+					Training training = new Training(id);
+					Status status = new Status((long) 1);
+					Employee employe = new Employee(defaultEmployee.getId());
+					EmployeeTrainingId employeeTrainingId = new EmployeeTrainingId(defaultEmployee.getId(), id);
+					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingId,
+							status, employe, training);
+					getEmployeeTrainingRepository().save(employeeTraining);
+				}
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
+			}
 			return responseMessage;
 		}
-		return responseMessage;
-	}
+
 	
 	
 	
