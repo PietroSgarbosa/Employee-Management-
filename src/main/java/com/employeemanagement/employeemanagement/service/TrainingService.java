@@ -1,14 +1,16 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.TrainingMapper;
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class TrainingService {
@@ -18,6 +20,9 @@ public class TrainingService {
 	
 	@Autowired
 	private TrainingMapper trainingMapper;
+	
+	@Autowired
+	private EmployeeTrainingRepository employeeTrainingRepository;
 	
 	public Training getById(Long id) {
 		return getTrainingRepository().findById(id).orElse(null);
@@ -63,23 +68,31 @@ public class TrainingService {
 		}
 	}
 	
-	public String delete(Long id) {
-		Training training = getById(id);
+	
+	
+	
+	@Transactional
+	public void delete(Long trainingId) {
 		
-		if(training == null) {
-			return "This training ID " + id + " doesn't exist";
-		} else {
-			getTrainingRepository().deleteById(id);
-			return "Training of ID " + id + " removed!";
-		}
-	}
+		Training training = getTrainingRepository().findById(trainingId).orElseThrow(() -> new RuntimeException("Training nor found!"));
+		
+		List<EmployeeTraining> relations = getEmployeeTrainingRepository().findByTraining(training);
+		getEmployeeTrainingRepository().deleteAll(relations);
+		
+		getTrainingRepository().delete(training);		
+	}	
+
 	
 	private TrainingRepository getTrainingRepository() {
 		return trainingRepository;
-	}
+	}	
 
 	private TrainingMapper getTrainingMapper() {
 		return trainingMapper;
+	}
+	
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+		return employeeTrainingRepository;
 	}
 	
 	

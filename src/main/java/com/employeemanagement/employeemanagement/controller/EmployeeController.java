@@ -30,7 +30,7 @@ public class EmployeeController {
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<Employee> employeeListDTO = getEmployeeService().getAll();
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -51,7 +51,7 @@ public class EmployeeController {
 	}
 
 
-	// Inserir apenas um colaborador
+	 //Inserir apenas um colaborador
 	@PostMapping(value = "/create")
 	public @ResponseBody ResponseEntity<String> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {

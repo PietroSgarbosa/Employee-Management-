@@ -1,10 +1,8 @@
 package com.employeemanagement.employeemanagement.dto;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
-
 import com.employeemanagement.employeemanagement.entity.Training;
+
 
 public class TrainingDTO {
 	
@@ -14,9 +12,9 @@ public class TrainingDTO {
 
 	private String description;
 	
-	private String duration;
+//	@JsonIgnore
+//	private List<EmployeeTrainingDTO> employees;
 	
-	private List<EmployeeTrainingDTO> employees;
 	
 
 	public Long getId() {
@@ -41,23 +39,15 @@ public class TrainingDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
+	}	
 	
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-	
-	public List<EmployeeTrainingDTO> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(List<EmployeeTrainingDTO> employees) {
-		this.employees = employees;
-	}
+//	public List<EmployeeTrainingDTO> getEmployees() {
+//		return employees;
+//	}
+//
+//	public void setEmployees(List<EmployeeTrainingDTO> employees) {
+//		this.employees = employees;
+//	}
 
 	static ModelMapper getModelMapper() {
 		return new ModelMapper();

@@ -1,6 +1,7 @@
 package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,18 +18,22 @@ public class Training {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "NAME")
+	@Column(name = "TITLE", nullable = false, unique = true)
 	private String title;
 	    
-	@Column(name = "DESCRIPTION")
-	private String description;	
+	@Column(name = "DESCRIPTION", nullable = false, unique = true)
+	private String description;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "training")	
+	private List<EmployeeTraining> employees;	
 	
-	@Column(name = "duration")
-	private String duration;
+	public Training () {		
+	}
 	
-	@OneToMany(mappedBy = "trainingId")
-	private List<EmployeeTraining> employees;
-	
+	public Training(Long id) {
+		this.id = id;
+	}		
 
 	public Long getId() {
 		return id;
@@ -54,22 +59,12 @@ public class Training {
 		this.description = description;
 	}
 
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-	
-	
-	
 	public List<EmployeeTraining> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployee(List<EmployeeTraining> employees) {
+	public void setEmployees(List<EmployeeTraining> employees) {
 		this.employees = employees;
-	}
+	}	
 	
 }

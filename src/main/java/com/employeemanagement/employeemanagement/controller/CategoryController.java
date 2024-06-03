@@ -1,7 +1,6 @@
 package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.employeemanagement.employeemanagement.dto.TrainingDTO;
-import com.employeemanagement.employeemanagement.entity.Training;
-import com.employeemanagement.employeemanagement.service.TrainingService;
+import com.employeemanagement.employeemanagement.dto.CategoryDTO;
+import com.employeemanagement.employeemanagement.entity.Category;
+import com.employeemanagement.employeemanagement.service.CategoryService;
+
 
 @RestController
-@RequestMapping("/trainings")
-public class TrainingController {
+@RequestMapping("/categories")
+public class CategoryController {
 	
 	@Autowired
-	private TrainingService trainingService;
+	private CategoryService categoryService;
 	
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Training training = getTrainingService().getById(id);
+			Category category = getCategoryService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(training);
+					.body(category);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -40,7 +40,7 @@ public class TrainingController {
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
-			List<TrainingDTO> trainingListDTO = getTrainingService().getAll();
+			List<CategoryDTO> trainingListDTO = getCategoryService().getAll();
 			return ResponseEntity.status(HttpStatus.OK).body(trainingListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -49,10 +49,10 @@ public class TrainingController {
 	}
 	
 	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody TrainingDTO trainingDTO) {
+	public @ResponseBody ResponseEntity<?> create(@RequestBody CategoryDTO categoryDTO) {
 		try {
-			getTrainingService().create(trainingDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("Training inserted successfully!");
+			getCategoryService().create(categoryDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Category inserted successfully!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed trying to insert new data, error message: " + e.getMessage());
@@ -60,9 +60,9 @@ public class TrainingController {
 	}
 	
 	@PutMapping(value = "/update")
-	public @ResponseBody ResponseEntity<String> update(@RequestBody TrainingDTO trainingDTO) {
+	public @ResponseBody ResponseEntity<String> update(@RequestBody CategoryDTO trainingDTO) {
 		try {
-			String message = getTrainingService().update(trainingDTO);
+			String message = getCategoryService().update(trainingDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -73,17 +73,16 @@ public class TrainingController {
 	@DeleteMapping("/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
-			getTrainingService().delete(id);
+			getCategoryService().delete(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Training deleted succesfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}
-	}
-	
+	}	
 
-	private TrainingService getTrainingService() {
-		return trainingService;
-	} 	
+	private CategoryService getCategoryService() {
+		return categoryService;
+	} 
 
 }

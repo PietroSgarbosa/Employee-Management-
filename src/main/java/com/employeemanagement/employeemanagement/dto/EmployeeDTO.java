@@ -4,6 +4,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public class EmployeeDTO {
@@ -17,11 +18,14 @@ public class EmployeeDTO {
 	private String lastName;	
 	
 	private String cpf;	
-
-	private List<EmployeeTrainingDTO> trainings;
-
+	
 	private Category category;	
-
+	
+	private List<Long> listId;	
+	
+	
+	private List<EmployeeTrainingDTO> trainings;
+	
 
 	public Long getId() {
 		return id;
@@ -69,14 +73,22 @@ public class EmployeeDTO {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}		
+	}	
+	
+	public List<Long> getListId() {
+		return listId;
+	}
+
+	public void setLisId(List<Long> listId) {
+		this.listId = listId;
+	}
 	
 
 	public List<EmployeeTrainingDTO> getTrainings() {
 		return trainings;
 	}
 
-	public void setTrainings(List<EmployeeTrainingDTO> trainings) {
+	public void setTraining(List<EmployeeTrainingDTO> trainings) {
 		this.trainings = trainings;
 	}
 	

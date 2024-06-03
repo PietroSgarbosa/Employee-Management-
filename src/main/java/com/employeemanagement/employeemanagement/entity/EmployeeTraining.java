@@ -1,5 +1,8 @@
 package com.employeemanagement.employeemanagement.entity;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,31 +15,35 @@ import jakarta.persistence.Table;
 @Table(name = "EMPLOYEE_TRAINING")
 public class EmployeeTraining {
 	
-	
+	@JsonIgnore
 	@EmbeddedId
-	private EmployeeTrainingId id;	
+	private EmployeeTrainingId id;
 	
-	@ManyToOne	
-	@MapsId("employeeId")
+	@JsonIgnore
+	@ManyToOne
+	@MapsId("idEmployee")
 	@JoinColumn(name = "employee_id")	
-	private Employee employeeId;	
-		
-	
-	@ManyToOne		
-	@MapsId("trainingId")
-	@JoinColumn(name = "training_id")
-	private Training trainingId;	
-	
+	private Employee employee;
 
 	@ManyToOne
-	@JoinColumn(name = "status_id")
-	private Status status;		
-
-
-	public EmployeeTraining(Employee employee, Training training) {		
-		this.employeeId = employee;
-		this.trainingId = training;
-	}
+	@MapsId("idTraining")
+	@JoinColumn(name = "training_id")
+	private Training training;
+	   
+	@ManyToOne
+	@JoinColumn(name = "status")
+	private Status status = new Status();
+	
+	public EmployeeTraining () {
+		}
+	
+	public EmployeeTraining(Training training, Employee employee, Status status, EmployeeTrainingId employeeTrainingId) {
+		this.training = training;
+		this.employee = employee;
+		this.status = status;
+		this.id = employeeTrainingId;
+		
+	}	
 
 
 	public EmployeeTrainingId getId() {
@@ -45,30 +52,30 @@ public class EmployeeTraining {
 
 	public void setId(EmployeeTrainingId id) {
 		this.id = id;
-	}	
-
-	public Employee getEmployeeId() {
-		return employeeId;
 	}
 
-	public void setEmployeeId(Employee employeeId) {
-		this.employeeId = employeeId;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public Training getTrainingId() {
-		return trainingId;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
-	public void setTrainingId(Training trainingId) {
-		this.trainingId = trainingId;
+	public Training getTraining() {
+		return training;
+	}
+
+	public void setTraining(Training training) {
+		this.training = training;
 	}
 
 	public Status getStatus() {
-		return getStatus();
+		return status;
 	}
-	
+
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
+	
 }

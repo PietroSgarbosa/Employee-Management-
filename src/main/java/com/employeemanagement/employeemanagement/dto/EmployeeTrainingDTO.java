@@ -13,7 +13,7 @@ public class EmployeeTrainingDTO {
 	
 	private TrainingDTO training;
 	
-	private Status status;
+	private StatusDTO status;
 	
 	
 	public EmployeeDTO getEmployee() {
@@ -30,16 +30,16 @@ public class EmployeeTrainingDTO {
 	
 	public void setTraining(TrainingDTO training) {
 		this.training = training;
-	}
-	
-	public Status getStatus() {
-		return status;
-	}
-	
-	public void setStatus(Status status) {
-		this.status = status;
 	}	
 	
+	public StatusDTO getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusDTO status) {
+		this.status = status;
+	}
+
 	static ModelMapper getModelMapper() {
 		return new ModelMapper();
 	}
