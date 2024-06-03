@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class Status {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long id;
 	
 	@Column(name = "description")

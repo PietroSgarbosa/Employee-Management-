@@ -1,6 +1,5 @@
 package com.employeemanagement.employeemanagement.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -14,7 +13,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "EMPLOYEE_TRAINING")
 public class EmployeeTraining {
-	
+
 	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
