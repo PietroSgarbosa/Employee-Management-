@@ -1,34 +1,43 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import java.util.List;
+
+
+
 import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEE")
 public class Employee {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "firstName", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "middleName")
 	private String middleName;
-	
+
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "category")
 	private String category;
-	
+
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
+
+	@OneToMany(mappedBy = "employee")
+	private List<EmployeeTraining> trainings;
 
 	public Long getId() {
 		return id;
@@ -76,6 +85,14 @@ public class Employee {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public List<EmployeeTraining> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<EmployeeTraining> trainings) {
+		this.trainings = trainings;
 	}
 
 }
