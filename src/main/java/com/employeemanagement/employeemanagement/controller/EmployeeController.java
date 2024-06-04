@@ -68,6 +68,28 @@ public class EmployeeController {
 					.body("Error trying to update employee. Error message: " + e.getMessage());
 		}
 	}
+	
+	@PutMapping(value = "/concluded")
+	public @ResponseBody ResponseEntity<String> concluded(@RequestParam Long iDEmployee, @RequestParam Long iDTraining) {
+		try {
+			String message = getEmployeeService().concluded(iDEmployee,iDTraining);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update employee. Error message: " + e.getMessage());
+		}
+	}
+	
+	@PutMapping(value = "/inProgress")
+	public @ResponseBody ResponseEntity<String> inProgress(@RequestParam Long iDEmployee, @RequestParam Long iDTraining) {
+		try {
+			String message = getEmployeeService().inProgress(iDEmployee,iDTraining);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update employee. Error message: " + e.getMessage());
+		}
+	}
 
 	@DeleteMapping("/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
@@ -79,6 +101,8 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
+	
+	
 
 	private EmployeeService getEmployeeService() {
 		return employeeService;
