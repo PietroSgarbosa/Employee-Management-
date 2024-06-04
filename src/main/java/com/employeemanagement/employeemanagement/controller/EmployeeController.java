@@ -1,7 +1,6 @@
 package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
@@ -24,7 +22,10 @@ import com.employeemanagement.employeemanagement.service.EmployeeService;
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeService employeeService;
+	private EmployeeService employeeService;	
+	
+	@Autowired
+	private EmployeeTrainingService employeeTrainingService;
 
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
@@ -79,9 +80,21 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
+	
+	@PostMapping("/updateStatus")
+	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId, 
+															@RequestParam Long trainingId, 
+															@RequestParam Long statusId){
+		
+		
+	}
 
 	private EmployeeService getEmployeeService() {
 		return employeeService;
+	}
+	
+	private EmployeeTrainingService getEmployeeTrainigService() {
+		return employeeTrainingServide;
 	}
 
 }

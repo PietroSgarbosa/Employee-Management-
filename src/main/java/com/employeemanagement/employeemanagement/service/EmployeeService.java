@@ -109,6 +109,22 @@ public class EmployeeService {
 		getEmployeeRepository().deleteById(id);
 
 	}
+	
+	
+	public void updateStatus(Long employeeId, Long trainingId, Long statusId) {
+		Employee employee = getEmployeeRepository().findById(employeeId).orElseThrow(() -> new RuntimeException("Employee not found!"));
+		
+		Training training = getTrainingRepository().findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found!"));
+		
+		Status status = getStatusRepository().findById(statusId).orElseThrow(() -> new RuntimeException("Status not found!"));
+		
+		EmployeeTraining relations = getEmployeeTrainingRepository().findByEmployeeAndTraining(employee, training)
+				.orElseThrow(() -> new RuntimeException("Relacionamento não encontrado!"));
+		
+		relations.setStatus(status);
+
+		getEmployeeTrainingRepository().save(relations);
+	}
 
 	private StatusRepository getStatusRepository() {
 		return statusRepository;
