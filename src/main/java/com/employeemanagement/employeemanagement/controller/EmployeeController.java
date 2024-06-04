@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -69,7 +69,7 @@ public class EmployeeController {
 		}
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping(value = "/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getEmployeeService().delete(id);
@@ -78,6 +78,12 @@ public class EmployeeController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}
+	}
+	
+	@PostMapping(value = "/employee/filtrar")
+	public List<Employee> filtrar(@RequestBody EmployeeFilterDTO filter) {
+		Specifiction<Employee> spec = EmployeeSpecification.filtrarProAtributosETreinamentos(filter);
+		return getEmployeeRepository().findAll(spec);
 	}
 
 	private EmployeeService getEmployeeService() {
