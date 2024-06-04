@@ -2,6 +2,7 @@ package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +76,20 @@ public class EmployeeController {
 			getEmployeeService().delete(id);
 			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
 		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Internal error, message: " + e.getMessage());
+		}
+	}
+
+	@PutMapping("/updateStatusTraining")
+	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId,
+			@RequestParam Long trainingId, @RequestParam int status) {
+		try {
+			getEmployeeService().updateTrainingStatus(employeeId, trainingId, status);
+			return ResponseEntity.status(HttpStatus.OK).body("Employee updated sucessfuly");
+
+		} catch (Exception e) {
+
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}

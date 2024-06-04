@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
 
-
 public class EmployeeDTO {
 
 	private Long id;
@@ -22,7 +21,7 @@ public class EmployeeDTO {
 	private String cpf;
 
 	private List<Long> trainingsId;
-	
+
 	private List<EmployeeTrainingDTO> trainings;
 
 	public Long getId() {

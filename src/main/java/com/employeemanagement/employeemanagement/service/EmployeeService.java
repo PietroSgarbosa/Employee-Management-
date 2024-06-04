@@ -3,6 +3,7 @@ package com.employeemanagement.employeemanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
@@ -108,6 +109,32 @@ public class EmployeeService {
 
 		getEmployeeRepository().deleteById(id);
 
+	}
+
+	public String updateTrainingStatus(Long employeeId, Long trainingId, int status) {
+		EmployeeTraining employeeTraining = employeeTrainingRepository.findByEmployeeIdAndTrainingId(employeeId,
+				trainingId);
+		if (employeeTraining != null) {
+
+			if (status == 2) {
+				Status updateStatus = new Status();
+				updateStatus.setId((long) status);
+				employeeTraining.setStatus(updateStatus);
+				employeeTrainingRepository.save(employeeTraining);
+				
+			} else if (status == 3) {
+				Status updateStatus = new Status();
+				updateStatus.setId((long) status);				
+				employeeTraining.setStatus(updateStatus);
+				employeeTrainingRepository.save(employeeTraining);
+				
+			} else {
+				 
+				return "EmployeeTraining NotFound";
+			}
+		}
+		return "Update Failled";
+		
 	}
 
 	private StatusRepository getStatusRepository() {

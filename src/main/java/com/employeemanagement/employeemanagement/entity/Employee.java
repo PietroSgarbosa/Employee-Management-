@@ -30,15 +30,6 @@ public class Employee {
 	@Column(name = "lastName", nullable = false)
 	private String lastName;
 
-	@Column(name = "category")
-	private String category;
-
-	@Column(name = "cpf", nullable = false)
-	private String cpf;
-
-	@OneToMany(mappedBy = "employee")
-	private List<EmployeeTraining> trainings;
-
 	public Long getId() {
 		return id;
 	}
@@ -94,5 +85,16 @@ public class Employee {
 	public void setTrainings(List<EmployeeTraining> trainings) {
 		this.trainings = trainings;
 	}
+
+	@Column(name = "category")
+	private String category;
+
+	@Column(name = "cpf", nullable = false)
+	private String cpf;
+
+	@OneToMany(mappedBy = "employee")
+	private List<EmployeeTraining> trainings;
+
+
 
 }
