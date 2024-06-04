@@ -7,5 +7,5 @@ import com.employeemanagement.employeemanagement.entity.Status;
 
 @Repository
 public interface StatusRepository extends JpaRepository<Status, Long> {
-
+	Status findByDescription(String description);
 }

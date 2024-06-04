@@ -110,36 +110,40 @@ public class EmployeeService {
 
 	}
 
-	public void updateStartTraining(Long idEmployee, Long idTraining) {
+	public String updateStartTraining(Long idEmployee, Long idTraining) {
 
 		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
 		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		String finalizado = "Iniciado";
 		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByTrainingAndEmployee(training,
 				employee);
+		Status status = getStatusRepository().findByDescription(finalizado);
 		if (employee.getId() != null && training.getId() != null) {
-			Status status = new Status();
-			status.setId((long) 3);// Id de Status Iniciado
 			employeeTraining.setStatus(status);
 			getEmployeeTrainingRepository().save(employeeTraining);
+
+			return "Relationship uptaded";
 		} else {
-			throw new EmployeeDTOMissingException();
+			return "Employee or Training not found";
 
 		}
 	}
 
-	public void finishStartTraining(Long idEmployee, Long idTraining) {
+	public String finishStartTraining(Long idEmployee, Long idTraining) {
 
 		Employee employee = getEmployeeRepository().findById(idEmployee).orElse(null);
 		Training training = getTrainingRepository().findById(idTraining).orElse(null);
+		String finalizado = "Finalizado";
 		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByTrainingAndEmployee(training,
 				employee);
+		Status status = getStatusRepository().findByDescription(finalizado);
 		if (employee.getId() != null && training.getId() != null) {
-			Status status = new Status();
-			status.setId((long) 4);// Id de Status Finalizado
 			employeeTraining.setStatus(status);
 			getEmployeeTrainingRepository().save(employeeTraining);
+
+			return "Relationship uptaded";
 		} else {
-			throw new EmployeeDTOMissingException();
+			return "Employee or Training not found";
 
 		}
 	}
