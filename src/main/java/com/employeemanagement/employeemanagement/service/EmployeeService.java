@@ -121,53 +121,52 @@ public class EmployeeService {
 	}
 
 	public String inProgress(Long iDEmployee, Long iDTraining) {
-	    Employee defaultEmployee = getEmployeeRepository().findById(iDEmployee).orElse(null);
-	    if (defaultEmployee != null) {
-	        for (EmployeeTraining training : defaultEmployee.getTrainings()) {
-	            if (training.getTraining().getId() == iDTraining) {
-	                if (training.getStatus().getId() < 2L) {
-	                    employeeTrainingRepository.delete(training);
-	                    
-	                    EmployeeTraining relationship = new EmployeeTraining();
-						Training trainingFound = getTrainingRepository().findById(iDTraining).orElseThrow();
-						relationship.setTraining(trainingFound);
-						Status status = getStatusRepository().findById((long) 2).orElseThrow();
-						relationship.setStatus(status);
-						relationship.setEmployee(defaultEmployee);
-	                    
-						employeeTrainingRepository.save(relationship);
-	                }
-	            }
-	        }
-	        return "Training status changed successfully";
-	    }
+		Employee defaultEmployee = getEmployeeRepository().findById(iDEmployee).orElse(null);
+		if (defaultEmployee != null) {
+			for (EmployeeTraining training : defaultEmployee.getTrainings()) {
+				if (training.getTraining().getId() == iDTraining && training.getStatus().getId() < 2L) {
+					employeeTrainingRepository.delete(training);
 
-	    return "Error when changing status";
+					EmployeeTraining relationship = new EmployeeTraining();
+					Training trainingFound = getTrainingRepository().findById(iDTraining).orElseThrow();
+					relationship.setTraining(trainingFound);
+					Status status = getStatusRepository().findById((long) 2).orElseThrow();
+					relationship.setStatus(status);
+					relationship.setEmployee(defaultEmployee);
+
+					employeeTrainingRepository.save(relationship);
+
+				}
+			}
+			return "Training status changed successfully";
+		}
+
+		return "Error when changing status";
 	}
-	
+
 	public String concluded(Long iDEmployee, Long iDTraining) {
-	    Employee defaultEmployee = getEmployeeRepository().findById(iDEmployee).orElse(null);
-	    if (defaultEmployee != null) {
-	        for (EmployeeTraining training : defaultEmployee.getTrainings()) {
-	            if (training.getTraining().getId() == iDTraining) {
-	                if (training.getStatus().getId() < 3L && training.getStatus().getId() > 1L) {
-	                    employeeTrainingRepository.delete(training);
+		Employee defaultEmployee = getEmployeeRepository().findById(iDEmployee).orElse(null);
+		if (defaultEmployee != null) {
+			for (EmployeeTraining training : defaultEmployee.getTrainings()) {
+				if (training.getTraining().getId() == iDTraining && training.getStatus().getId() < 3L
+						&& training.getStatus().getId() > 1L) {
+					employeeTrainingRepository.delete(training);
 
-	                    EmployeeTraining relationship = new EmployeeTraining();
-						Training trainingFound = getTrainingRepository().findById(iDTraining).orElseThrow();
-						relationship.setTraining(trainingFound);
-						Status status = getStatusRepository().findById((long) 3).orElseThrow();
-						relationship.setStatus(status);
-						relationship.setEmployee(defaultEmployee);
-	                    
-						employeeTrainingRepository.save(relationship);
-	                }
-	            }
-	        }
-	        return "Training status changed successfully";
-	    }
+					EmployeeTraining relationship = new EmployeeTraining();
+					Training trainingFound = getTrainingRepository().findById(iDTraining).orElseThrow();
+					relationship.setTraining(trainingFound);
+					Status status = getStatusRepository().findById((long) 3).orElseThrow();
+					relationship.setStatus(status);
+					relationship.setEmployee(defaultEmployee);
 
-	    return "Error when changing status";
+					employeeTrainingRepository.save(relationship);
+				}
+
+			}
+			return "Training status changed successfully";
+		}
+
+		return "Error when changing status";
 	}
 
 	public void delete(Long id) {
