@@ -45,7 +45,7 @@ public class TrainingService {
 		String responseMessage = "Collaborator of ID " + trainingDTO.getId() + " not found";
 
 		if (defaultTraining != null) {
-			defaultTraining.setName(trainingDTO.getName());
+			defaultTraining.setTitle(trainingDTO.getTitle());
 			defaultTraining.setDescription(trainingDTO.getDescription());
 			create(TrainingDTO.convertToDTO(defaultTraining));
 			responseMessage = "Employee of ID " + trainingDTO.getId() + " updated successfully!";
@@ -56,7 +56,7 @@ public class TrainingService {
 
 	public void create(TrainingDTO trainingDTO) {
 		if (trainingDTO != null) {
-			if (trainingDTO.getName() == null && trainingDTO.getDescription() == null) {
+			if (trainingDTO.getTitle() == null && trainingDTO.getDescription() == null) {
 				throw new IllegalArgumentException("The name and description cannot be null");
 			} else {
 				Training trainingEntity = getTrainingMapper().covertToEntity(trainingDTO);
@@ -80,7 +80,6 @@ public class TrainingService {
 
 	}
 
-	// Encapsula o repositorio
 	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
 		return employeeTrainingRepository;
 	}
