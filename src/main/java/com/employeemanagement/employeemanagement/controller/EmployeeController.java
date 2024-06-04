@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -22,10 +23,7 @@ import com.employeemanagement.employeemanagement.service.EmployeeService;
 public class EmployeeController {
 
 	@Autowired
-	private EmployeeService employeeService;	
-	
-	@Autowired
-	private EmployeeTrainingService employeeTrainingService;
+	private EmployeeService employeeService;
 
 	@GetMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll() {
@@ -80,21 +78,22 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
-	
-	@PostMapping("/updateStatus")
-	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId, 
-															@RequestParam Long trainingId, 
-															@RequestParam Long statusId){
-		
-		
+
+	@PutMapping("/updateStatus")
+	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId,
+			@RequestParam Long trainingId, int flag) {
+		try {
+			String message = getEmployeeService().updateStatus(employeeId, trainingId, flag);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Internal error, message: " + e.getMessage());
+		}
+
 	}
 
 	private EmployeeService getEmployeeService() {
 		return employeeService;
-	}
-	
-	private EmployeeTrainingService getEmployeeTrainigService() {
-		return employeeTrainingServide;
 	}
 
 }

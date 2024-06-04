@@ -109,21 +109,39 @@ public class EmployeeService {
 		getEmployeeRepository().deleteById(id);
 
 	}
-	
-	
-	public void updateStatus(Long employeeId, Long trainingId, Long statusId) {
-		Employee employee = getEmployeeRepository().findById(employeeId).orElseThrow(() -> new RuntimeException("Employee not found!"));
-		
-		Training training = getTrainingRepository().findById(trainingId).orElseThrow(() -> new RuntimeException("Training not found!"));
-		
-		Status status = getStatusRepository().findById(statusId).orElseThrow(() -> new RuntimeException("Status not found!"));
-		
-		EmployeeTraining relations = getEmployeeTrainingRepository().findByEmployeeAndTraining(employee, training)
-				.orElseThrow(() -> new RuntimeException("Relacionamento não encontrado!"));
-		
-		relations.setStatus(status);
 
-		getEmployeeTrainingRepository().save(relations);
+	public String updateStatus(Long employeeId, Long trainingId, int flag) {
+
+//		Employee employee = getEmployeeRepository().findById(employeeId).orElse(null);
+//
+//		Training training = getTrainingRepository().findById(trainingId).orElse(null);
+
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByEmployeeIdAndTrainingId(employeeId,
+				trainingId);
+
+		if (employeeId != null && trainingId != null) {
+
+			if (flag == 3) {
+				Status status = new Status();
+				status.setId((long) flag);
+				employeeTraining.setStatus(status);
+				employeeTrainingRepository.save(employeeTraining);
+			} else if (flag == 2) {
+				Status status = new Status();
+				status.setId((long) flag);
+				employeeTraining.setStatus(status);
+				employeeTrainingRepository.save(employeeTraining);
+			} else {
+				
+				return "Status inválido!";				
+
+			}
+		} else {
+			
+			return "Employee or Training not found!";
+					
+		}
+		return "EmployeeStatus updated succesfully";
 	}
 
 	private StatusRepository getStatusRepository() {

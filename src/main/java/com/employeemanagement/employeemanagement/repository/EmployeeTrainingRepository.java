@@ -1,13 +1,11 @@
 package com.employeemanagement.employeemanagement.repository;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
+import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
 
 @Repository
@@ -15,6 +13,7 @@ public interface EmployeeTrainingRepository extends JpaRepository<EmployeeTraini
 
 	List<EmployeeTraining> getBytraining(Training training);
 	List<EmployeeTraining> getByEmployee(Employee employee);
-	Optional<EmployeeTraining> findByEmployeeAndTraining(Employee employee, Training training);
+	EmployeeTraining findByEmployeeIdAndTrainingId(Long employeeId, Long trainingId);
+
 
 }

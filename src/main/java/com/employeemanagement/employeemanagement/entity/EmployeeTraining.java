@@ -63,5 +63,6 @@ public class EmployeeTraining {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
 
 }
