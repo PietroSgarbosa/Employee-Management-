@@ -102,6 +102,10 @@ public class EmployeeService {
 		EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(idEmployee, idTraining);
 		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingKey)
 		.orElseThrow(() -> new EntityNotFoundException("The user with id: " + idEmployee + ", its not registred on Training of id: " + idTraining));
+		Status statusAtual = employeeTraining.getStatus();
+		if(statusAtual.getId() == 3) {
+			throw new IllegalArgumentException("You cannot finish a training that is already over");
+		}
 		Status status = new Status((long) 3);
 		employeeTraining.setStatus(status);
 		getEmployeeTrainingRepository().save(employeeTraining);
@@ -111,6 +115,10 @@ public class EmployeeService {
 		EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(idEmployee, idTraining);
 		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingKey)
 		.orElseThrow(() -> new EntityNotFoundException("The user with id: " + idEmployee + ", its not registred on Training of id: " + idTraining));
+		Status statusAtual = employeeTraining.getStatus();
+		if(statusAtual.getId() == 2) {
+			throw new IllegalArgumentException("You cannot begin a training that is already in progress");
+		}
 		Status status = new Status((long) 2);
 		employeeTraining.setStatus(status);
 		getEmployeeTrainingRepository().save(employeeTraining);
