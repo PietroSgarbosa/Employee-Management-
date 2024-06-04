@@ -87,7 +87,7 @@ public class EmployeeController {
 			return ResponseEntity.status(HttpStatus.OK).body("Training Started Sucessfully !");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error trying to update employee. Error message: " + e.getMessage());
+					.body("Error trying to update Status. Error message: " + e.getMessage());
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class EmployeeController {
 			return ResponseEntity.status(HttpStatus.OK).body("Training Finished Sucessfully !");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Error trying to update employee. Error message: " + e.getMessage());
+					.body("Error trying to update Status. Error message: " + e.getMessage());
 		}
 	}
 	
