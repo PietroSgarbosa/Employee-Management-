@@ -81,7 +81,7 @@ public class EmployeeController {
 
 	@PutMapping("/updateStatus")
 	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId,
-			@RequestParam Long trainingId, int flag) {
+			@RequestParam Long trainingId, @RequestParam int flag) {
 		try {
 			String message = getEmployeeService().updateStatus(employeeId, trainingId, flag);
 			return ResponseEntity.status(HttpStatus.OK).body(message);

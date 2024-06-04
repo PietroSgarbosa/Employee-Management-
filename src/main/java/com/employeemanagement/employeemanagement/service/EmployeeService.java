@@ -110,11 +110,7 @@ public class EmployeeService {
 
 	}
 
-	public String updateStatus(Long employeeId, Long trainingId, int flag) {
-
-//		Employee employee = getEmployeeRepository().findById(employeeId).orElse(null);
-//
-//		Training training = getTrainingRepository().findById(trainingId).orElse(null);
+	public String updateStatus(Long employeeId, Long trainingId, int flag) {		
 
 		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findByEmployeeIdAndTrainingId(employeeId,
 				trainingId);
