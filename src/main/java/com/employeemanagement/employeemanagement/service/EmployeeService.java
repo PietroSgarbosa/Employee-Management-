@@ -2,8 +2,10 @@ package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.EmployeeTrainingKey;
@@ -14,6 +16,7 @@ import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingEx
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
+import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
 @Service
 public class EmployeeService {
@@ -32,17 +35,12 @@ public class EmployeeService {
 		return employeeDTO;
 	}
 
-	public List<EmployeeDTO> getAll() {
-		List<Employee> employeeList = getEmployeeRepository().findAll();
+	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilterDTO){
+		Specification<Employee> specification = EmployeeSpecification.withAtributes(employeeFilterDTO);
+		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
-
-		if (!employeeListDTO.isEmpty()) {
-			return employeeListDTO;
-		} else {
-			return null;
-		}
-
+		return employeeListDTO;
 	}
 
 	public void create(EmployeeDTO employeeDTO) {
