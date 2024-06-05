@@ -2,7 +2,6 @@ package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
+
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -27,10 +28,10 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
+	@PostMapping(value = "/getAll")
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilter) {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll(employeeFilter);
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

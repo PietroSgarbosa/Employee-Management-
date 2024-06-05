@@ -2,12 +2,17 @@ package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.jpa.domain.Specification;
+
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
+
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeSpecification;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
@@ -18,6 +23,7 @@ import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepo
 import com.employeemanagement.employeemanagement.repository.StatusRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
+
 
 @Service
 public class EmployeeService {
@@ -42,8 +48,9 @@ public class EmployeeService {
 		return employeeDTO;
 	}
 
-	public List<EmployeeDTO> getAll() {
-		List<Employee> employeeList = getEmployeeRepository().findAll();
+	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilter) {
+		Specification<Employee> specification = EmployeeSpecification.withAttributes(employeeFilter);
+		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
 
@@ -115,27 +122,27 @@ public class EmployeeService {
 		EmployeeTraining employeeTraining = employeeTrainingRepository.findByEmployeeIdAndTrainingId(employeeId,
 				trainingId);
 		if (employeeTraining != null) {
+			Status updateStatus = new Status();
+			updateStatus.setId((long) status);
 
-			if (status == 2) {
-				Status updateStatus = new Status();
-				updateStatus.setId((long) status);
+			switch (status) {
+			case 2:
+			case 3:
 				employeeTraining.setStatus(updateStatus);
 				employeeTrainingRepository.save(employeeTraining);
-				
-			} else if (status == 3) {
-				Status updateStatus = new Status();
-				updateStatus.setId((long) status);				
-				employeeTraining.setStatus(updateStatus);
-				employeeTrainingRepository.save(employeeTraining);
-				
-			} else {
-				 
-				return "EmployeeTraining NotFound";
+
 			}
 		}
-		return "Update Failled";
-		
+
+		return "Update Failed";
 	}
+	
+//	  public List<EmployeeDTO> getEmployeesByFilter(EmployeeFilterDTO employeeFilter) {
+//	        Specification<EmployeeDTO> spec = EmployeeSpecification.withAttributes(employeeFilter);
+//	        return employeeRepository.findAll(spec);
+//	    }
+
+
 
 	private StatusRepository getStatusRepository() {
 		return statusRepository;
