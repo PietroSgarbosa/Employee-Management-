@@ -1,21 +1,20 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
+import com.employeemanagement.employeemanagement.entity.EmployeeTrainingKey;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
-import com.employeemanagement.employeemanagement.entity.TrainingEmployee;
-import com.employeemanagement.employeemanagement.entity.TrainingEmployeeKey;
-import com.employeemanagement.employeemanagement.entity.Category;
+import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
+import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
-import com.employeemanagement.employeemanagement.repository.TrainingEmployeeRepository;
+import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
@@ -28,63 +27,58 @@ public class EmployeeService {
 	private EmployeeRepository employeeRepository;
 
 	@Autowired
-	private CategoryService categoryService;
-
-	@Autowired
 	private EmployeeMapper employeeMapper;
-	
-	@Autowired
-	private TrainingEmployeeRepository trainingEmployeeRepository;
 
-	public List<EmployeeDTO> getAll() {
-		List<Employee> employeeList = getEmployeeRepository().findAll();
+	@Autowired
+	private EmployeeTrainingRepository employeeTrainingRepository;
+
+	public EmployeeDTO getById(Long id) {
+		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
+		return employeeDTO;
+	}
+
+	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilterDTO){
+		Specification<Employee> specification = EmployeeSpecification.withAtributes(employeeFilterDTO);
+		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
+		return employeeListDTO;
+	}
 
-		if (!employeeListDTO.isEmpty()) {
-			return employeeListDTO;
-		} else {
-			return null;
-		}
-	}
-	
-	public Employee getById(Long id) {
-        return getEmployeeRepository().findById(id).orElse(null);
-    }
-	
-	public List<Employee> findWithFilter(EmployeeFilterDTO employee){
-		Specification<Employee> specification = EmployeeSpecification.withAtributes(employee);
-		return getEmployeeRepository().findAll(specification);
-	}
-	
 	public void create(EmployeeDTO employeeDTO) {
-		Employee employee = getEmployeeMapper().covertToEntity(employeeDTO);
-		Category category = new Category(employeeDTO.getCategoryId());
-		employee.setCategory(category);
-		getEmployeeRepository().save(employee);
-		for(Long list: employeeDTO.getTrainingList()) {
-			Status status = new Status((long) 1);
-			Training training = new Training(list);
-			Employee employe = new Employee(employee.getId());
-			TrainingEmployeeKey trainingEmployeeKey = new TrainingEmployeeKey(employee.getId(), list);
-			TrainingEmployee trainingEmployee = new TrainingEmployee(trainingEmployeeKey, employe, training, status);
-			getTrainingEmployeeRepository().save(trainingEmployee);
+		if (employeeDTO != null) {
+			if (employeeDTO.getFirstName() == null) {
+				throw new EmployeeNameMissingException();
+			} else {
+				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+				getEmployeeRepository().save(employeeEntity);
+				if (employeeDTO.getTrainingsId() != null) {
+					for (Long trainingId : employeeDTO.getTrainingsId()) {
+						Status status = new Status((long) 1);
+						Training training = new Training(trainingId);
+						Employee employe = new Employee(employeeEntity.getId());
+						EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employeeEntity.getId(), trainingId);
+						EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employe, training, status);
+						employeeTrainingRepository.save(employeeTraining);
+					}
+				}
+			}
+		} else {
+			throw new EmployeeDTOMissingException();
 		}
 	}
 
 	public String update(EmployeeDTO employeeDTO) {
-		Employee defaultEmployee = getById(employeeDTO.getId());
+		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
 		if (defaultEmployee != null) {
-
-			defaultEmployee.setFirstName(employeeDTO.getFirstName() != null ? employeeDTO.getFirstName() : defaultEmployee.getFirstName());
-			defaultEmployee.setMiddleName(employeeDTO.getMiddleName() != null ? employeeDTO.getMiddleName(): defaultEmployee.getMiddleName());
-			defaultEmployee.setLastName(employeeDTO.getLastName() != null ? employeeDTO.getLastName() : defaultEmployee.getLastName());
-			defaultEmployee.setCpf(employeeDTO.getCpf() != null ? employeeDTO.getCpf() : defaultEmployee.getCpf());
-			Category category = getCategoryService().finById(employeeDTO.getCategoryId());
-			defaultEmployee.setCategory(category);
-			getEmployeeRepository().save(defaultEmployee);
+			defaultEmployee.setFirstName(employeeDTO.getFirstName());
+			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
+			defaultEmployee.setLastName(employeeDTO.getLastName());
+			defaultEmployee.setCpf(employeeDTO.getCpf());
+			defaultEmployee.setCategory(employeeDTO.getCategory());
+			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
 		}
@@ -92,12 +86,44 @@ public class EmployeeService {
 	}
 
 	public void delete(Long id) {
-		Employee employee = getEmployeeRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe um Employee com o Id: " + id));
-		List<TrainingEmployee> listTrainingEmployee = getTrainingEmployeeRepository().getByidEmployee(employee);
-		for(TrainingEmployee trainingEmployee: listTrainingEmployee) {
-			getTrainingEmployeeRepository().delete(trainingEmployee);		
+		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getByEmployee(employee);
+		for (EmployeeTraining deleteTraining : listTraining) {
+			getEmployeeTrainingRepository().delete(deleteTraining);
+
 		}
 		getEmployeeRepository().deleteById(id);
+
+	}
+  
+	public void finishTraining(Long idEmployee, Long idTraining) {
+		EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(idEmployee, idTraining);
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingKey)
+		.orElseThrow(() -> new EntityNotFoundException("The user with id: " + idEmployee + ", its not registred on Training of id: " + idTraining));
+		Status statusAtual = employeeTraining.getStatus();
+		if(statusAtual.getId() == 3) {
+			throw new IllegalArgumentException("You cannot finish a training that is already over");
+		}
+		Status status = new Status((long) 3);
+		employeeTraining.setStatus(status);
+		getEmployeeTrainingRepository().save(employeeTraining);
+	}
+	
+	public void startTraining(Long idEmployee, Long idTraining) {
+		EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(idEmployee, idTraining);
+		EmployeeTraining employeeTraining = getEmployeeTrainingRepository().findById(employeeTrainingKey)
+		.orElseThrow(() -> new EntityNotFoundException("The user with id: " + idEmployee + ", its not registred on Training of id: " + idTraining));
+		Status statusAtual = employeeTraining.getStatus();
+		if(statusAtual.getId() == 2) {
+			throw new IllegalArgumentException("You cannot begin a training that is already in progress");
+		}
+		Status status = new Status((long) 2);
+		employeeTraining.setStatus(status);
+		getEmployeeTrainingRepository().save(employeeTraining);
+	}
+
+	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
+		return employeeTrainingRepository;
 	}
 
 	private EmployeeRepository getEmployeeRepository() {
@@ -106,14 +132,6 @@ public class EmployeeService {
 
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
-	}
-
-	private TrainingEmployeeRepository getTrainingEmployeeRepository() {
-		return trainingEmployeeRepository;
-	}
-
-	private CategoryService getCategoryService() {
-		return categoryService;
 	}
 
 }

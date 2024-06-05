@@ -10,24 +10,23 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "STATUS")
 public class Status {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	private Long id;
+	
+	@Column(name = "DESCRIPTION")
+	private String description;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Long id;
+	public Status() {
+		
+	}
+	
+	public Status(Long id) {
+		super();
+		this.id = id;
+	}
 
-    @Column(name = "DESCRIPTION")
-    private String description;
-
-    public Status(Long id) {
-    	this.id = id;
-    }
-    
-    public Status() {
-    	
-    }
-    
-    
 	public Long getId() {
 		return id;
 	}
@@ -43,6 +42,5 @@ public class Status {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-    
-    
+
 }

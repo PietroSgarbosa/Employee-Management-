@@ -4,18 +4,18 @@ import org.modelmapper.ModelMapper;
 import com.employeemanagement.employeemanagement.entity.Training;
 
 public class TrainingDTO {
-	
+
 	private Long id;
 
 	private String title;
 
 	private String description;
 
-	public Long getID() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setID(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -42,6 +42,5 @@ public class TrainingDTO {
 	public static TrainingDTO convertToDTO(Training entity) {
 		return getModelMapper().map(entity, TrainingDTO.class);
 	}
-
 
 }

@@ -1,6 +1,7 @@
 package com.employeemanagement.employeemanagement.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,44 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
-import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getById/{id}")
-	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
+	@PostMapping(value = "/getAll")
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilterDTO) {
 		try {
-			Employee entity = getEmployeeService().getById(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(EmployeeDTO.convertToDTO(entity));
-		} catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PostMapping(value = "/create")
-	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
-		try {
-			getEmployeeService().create(employeeDTO);
-			return ResponseEntity.status(HttpStatus.OK).body("Employee inserted successfully!");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Failed trying to insert new data, error message: " + e.getMessage());
-		}
-	}
-
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
-		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll(employeeFilterDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -59,11 +38,27 @@ public class EmployeeController {
 		}
 	}
 
-	@PostMapping(value="/filter")
-	public ResponseEntity<List<Employee>> filter(@RequestBody EmployeeFilterDTO employee){
-		return ResponseEntity.status(HttpStatus.OK).body(getEmployeeService().findWithFilter(employee));
+	@GetMapping(value = "/getById/{id}")
+	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
+		try {
+			EmployeeDTO employeeDTO = getEmployeeService().getById(id);
+			return ResponseEntity.status(HttpStatus.OK).body(employeeDTO);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	
+
+	@PostMapping(value = "/create")
+	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
+		try {
+			getEmployeeService().create(employeeDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("employee inserted successfully!");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed trying to insert new data, error message: " + e.getMessage());
+		}
+	}
+
 	@PutMapping(value = "/update")
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
@@ -79,13 +74,35 @@ public class EmployeeController {
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getEmployeeService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Employee deleted succesfully!");
+			return ResponseEntity.status(HttpStatus.OK).body("employee deleted succesfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
 
+	@PutMapping(value = "/startTraining")
+	public @ResponseBody ResponseEntity<String> startTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining) {
+		try {
+			getEmployeeService().startTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Started Sucessfully !");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update Status. Error message: " + e.getMessage());
+		}
+	}
+	
+	@PutMapping(value = "/finishTraining")
+	public @ResponseBody ResponseEntity<String> finishTraining(@RequestParam Long idEmployee, @RequestParam Long idTraining) {
+		try {
+			getEmployeeService().finishTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Finished Sucessfully !");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update Status. Error message: " + e.getMessage());
+		}
+	}
+	
 	private EmployeeService getEmployeeService() {
 		return employeeService;
 	}

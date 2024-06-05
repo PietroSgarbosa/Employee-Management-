@@ -1,83 +1,49 @@
 package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "EMPLOYEE")
-@NamedEntityGraph(name = "Employee.detail",
-    attributeNodes = {
-    	@NamedAttributeNode("firstName"),
-    	@NamedAttributeNode("middleName"),
-        @NamedAttributeNode("lastName"),
-        @NamedAttributeNode("category"),
-        @NamedAttributeNode("cpf"),
-        @NamedAttributeNode(value = "trainings", subgraph = "TrainingEmployee.detail")
-    },
-    subgraphs = {
-        @NamedSubgraph(name = "TrainingEmployee.detail",
-            attributeNodes = {
-                @NamedAttributeNode("idTraining"),
-                @NamedAttributeNode("idStatus")
-            }
-        )
-    }
-)
 public class Employee {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "firstName", nullable = false)
+
+	@Column(name = "FIRSTNAME", nullable = false)
 	private String firstName;
-	
-	@Column(name = "middleName")
+
+	@Column(name = "MIDDLENAME")
 	private String middleName;
-	
-	@Column(name = "lastName", nullable = false)
+
+	@Column(name = "LASTNAME", nullable = false)
 	private String lastName;
-	
-	@Column(name = "cpf", nullable = false)
+
+	@Column(name = "CATEGORY")
+	private String category;
+
+	@Column(name = "CPF", nullable = false)
 	private String cpf;
-	
-	@ManyToOne
-	@JsonIgnore      
-	@JoinColumn(name ="ID_CATEGORY")
-	private Category category;
-	
-	@OneToMany(mappedBy = "idEmployee")
-	private List<TrainingEmployee> trainings;
-	
-	public Employee(Long id) {
-		this.id = id;
-	}
-	
+
+	@OneToMany(mappedBy = "employee")
+	private List<EmployeeTraining> trainings;
+
 	public Employee() {
 		
 	}
 	
-	public List<TrainingEmployee> getTrainings() {
-		return trainings;
+	public Employee(Long id) {
+		super();
+		this.id = id;
 	}
 
-	public void setTrainings(List<TrainingEmployee> trainings) {
-		this.trainings = trainings;
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -110,11 +76,11 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -124,6 +90,14 @@ public class Employee {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public List<EmployeeTraining> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<EmployeeTraining> trainings) {
+		this.trainings = trainings;
 	}
 
 }

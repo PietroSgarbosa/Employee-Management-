@@ -35,14 +35,13 @@ public class EmployeeSpecification {
 				predicates.add(builder.equal(root.get("cpf"), employeeFilter.getCpf()));
 			}
 			
-			if(employeeFilter.getTraining() != null) {
-				Join<Object, Object> trainingJoin = root.join("trainings");
-				predicates.add(builder.equal(trainingJoin.get("idTraining").get("id"), employeeFilter.getTraining()));
+			if(employeeFilter.getCategory() != null) {
+				predicates.add(builder.equal(root.get("category"), employeeFilter.getCategory()));
 			}
 			
-			if(employeeFilter.getCategory() != null) {
-				Join<Object, Object> categoryJoin = root.join("category");
-				predicates.add(builder.equal(categoryJoin.get("id"), employeeFilter.getCategory()));
+			if(employeeFilter.getTraining() != null) {
+				Join<Object, Object> trainingJoin = root.join("trainings");
+				predicates.add(builder.equal(trainingJoin.get("training").get("id"), employeeFilter.getTraining()));
 			}
 			
 			return builder.and(predicates.toArray(new Predicate[0]));
