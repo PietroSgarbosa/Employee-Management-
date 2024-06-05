@@ -80,7 +80,6 @@ public class TrainingService {
 
 	}
 
-	// Encapsula o repositorio
 	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
 		return employeeTrainingRepository;
 	}
