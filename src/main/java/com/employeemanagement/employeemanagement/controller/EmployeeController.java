@@ -82,19 +82,7 @@ public class EmployeeController {
 		}
 	}
 
-	@PutMapping("/updateStatusTraining")
-	public @ResponseBody ResponseEntity<String> updateStatus(@RequestParam Long employeeId,
-			@RequestParam Long trainingId, @RequestParam int status) {
-		try {
-			getEmployeeService().updateTrainingStatus(employeeId, trainingId, status);
-			return ResponseEntity.status(HttpStatus.OK).body("Employee updated sucessfuly");
 
-		} catch (Exception e) {
-
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Internal error, message: " + e.getMessage());
-		}
-	}
 
 	private EmployeeService getEmployeeService() {
 		return employeeService;

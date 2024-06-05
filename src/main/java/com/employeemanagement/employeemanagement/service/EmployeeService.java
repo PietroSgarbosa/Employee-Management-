@@ -2,7 +2,6 @@ package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -23,7 +22,6 @@ import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepo
 import com.employeemanagement.employeemanagement.repository.StatusRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
-
 
 @Service
 public class EmployeeService {
@@ -117,32 +115,6 @@ public class EmployeeService {
 		getEmployeeRepository().deleteById(id);
 
 	}
-
-	public String updateTrainingStatus(Long employeeId, Long trainingId, int status) {
-		EmployeeTraining employeeTraining = employeeTrainingRepository.findByEmployeeIdAndTrainingId(employeeId,
-				trainingId);
-		if (employeeTraining != null) {
-			Status updateStatus = new Status();
-			updateStatus.setId((long) status);
-
-			switch (status) {
-			case 2:
-			case 3:
-				employeeTraining.setStatus(updateStatus);
-				employeeTrainingRepository.save(employeeTraining);
-
-			}
-		}
-
-		return "Update Failed";
-	}
-	
-//	  public List<EmployeeDTO> getEmployeesByFilter(EmployeeFilterDTO employeeFilter) {
-//	        Specification<EmployeeDTO> spec = EmployeeSpecification.withAttributes(employeeFilter);
-//	        return employeeRepository.findAll(spec);
-//	    }
-
-
 
 	private StatusRepository getStatusRepository() {
 		return statusRepository;
