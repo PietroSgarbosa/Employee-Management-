@@ -26,11 +26,6 @@ public class EmployeeSpecification {
 	            criteriaBuilder.equal(root.get("cpf"), cpf);
 	}
 	
-	public static Specification<Employee> trainings(List<Long> trainingsId) {
-	    return (root, criteriaQuery, criteriaBuilder) ->
-	            criteriaBuilder.equal(root.get("trainingsId"), trainingsId);
-	}
-	
 	public static Specification<Employee> hasEmployeeWithTraining(List<Long> trainingsId) {
 	    return (root, query, criteriaBuilder) -> {
 	        Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("trainings");
