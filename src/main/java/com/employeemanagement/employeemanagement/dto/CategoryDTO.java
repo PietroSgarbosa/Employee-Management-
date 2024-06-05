@@ -13,9 +13,6 @@ public class CategoryDTO {
 
 	private String description;
 
-	@JsonIgnore
-	private List<EmployeeDTO> employees;
-
 	public Long getId() {
 		return id;
 	}
@@ -30,14 +27,6 @@ public class CategoryDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public List<EmployeeDTO> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(List<EmployeeDTO> employees) {
-		this.employees = employees;
 	}
 
 	static ModelMapper getModelMapper() {
