@@ -21,23 +21,32 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "FIRSTNAME", nullable = false)
 	private String firstName;
 
-	@Column(name = "middleName")
+	@Column(name = "MIDDLENAME")
 	private String middleName;
 
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "LASTNAME", nullable = false)
 	private String lastName;
 
-	@Column(name = "category")
+	@Column(name = "CATEGORY")
 	private String category;
 
-	@Column(name = "cpf", nullable = false)
+	@Column(name = "CPF", nullable = false)
 	private String cpf;
 
 	@OneToMany(mappedBy = "employee")
 	private List<EmployeeTraining> trainings;
+
+	public Employee() {
+		
+	}
+	
+	public Employee(Long id) {
+		super();
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;

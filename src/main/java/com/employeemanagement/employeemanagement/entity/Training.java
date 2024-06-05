@@ -15,18 +15,27 @@ public class Training {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "NAME", nullable = false, unique = true)
-	private String name;
+	@Column(name = "TITLE", nullable = false, unique = true)
+	private String title;
 
 	@Column(name = "DESCRIPTION", nullable = false, unique = true)
 	private String description;
 
-	public String getName() {
-		return name;
+	public Training() {
+		
+	}
+	
+	public Training(Long id) {
+		super();
+		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Long getId() {
