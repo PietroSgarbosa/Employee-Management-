@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 
@@ -17,7 +18,7 @@ public class EmployeeDTO {
 
 	private String lastName;
 
-	private String category;
+	private Category category;
 
 	private String cpf;
 
@@ -55,13 +56,13 @@ public class EmployeeDTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
+	}	
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
