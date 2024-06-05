@@ -15,8 +15,17 @@ public class Status {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long id;
 	
-	@Column(name = "description")
+	@Column(name = "DESCRIPTION")
 	private String description;
+
+	public Status() {
+		
+	}
+	
+	public Status(Long id) {
+		super();
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
