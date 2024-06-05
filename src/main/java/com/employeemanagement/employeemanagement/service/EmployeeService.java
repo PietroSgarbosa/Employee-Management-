@@ -3,6 +3,7 @@ package com.employeemanagement.employeemanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
@@ -43,20 +44,35 @@ public class EmployeeService {
 	}
 
 	public List<EmployeeDTO> getAll(EmployeeDTO dto) {
-		
-		List<Employee> employeeList = getEmployeeRepository().findAll(EmployeeSpecification
-				.firstName(dto.getFirstName()).or(EmployeeSpecification.lastName(dto.getLastName()))
-				.or(EmployeeSpecification.cpf(dto.getCpf())).or(EmployeeSpecification.middleName(dto.getMiddleName())));
+	    Specification<Employee> spec = Specification.where(null);
 
-		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
-				.toList();
+	    if (dto.getFirstName() != null && !dto.getFirstName().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.firstName(dto.getFirstName()));
+	    }
 
-		if (!employeeListDTO.isEmpty()) {
-			return employeeListDTO;
-		} else {
-			return null;
-		}
+	    if (dto.getLastName() != null && !dto.getLastName().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.lastName(dto.getLastName()));
+	    }
+	    
+	    if (dto.getMiddleName() != null && !dto.getMiddleName().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.middleName(dto.getMiddleName()));
+	    }
 
+	    if (dto.getCpf() != null && !dto.getCpf().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.cpf(dto.getCpf()));
+	    }
+
+	    if (dto.getTrainingsId() != null && !dto.getTrainingsId().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.employeeWithTraining(dto.getTrainingsId()));
+	    }
+
+	    List<Employee> employeeList = employeeRepository.findAll(spec);
+
+	    List<EmployeeDTO> employeeListDTO = employeeList.stream()
+	            .map(EmployeeDTO::convertToDTO)
+	            .toList();
+
+	    return employeeListDTO.isEmpty() ? null : employeeListDTO;
 	}
 
 	public void create(EmployeeDTO employeeDTO) {

@@ -29,10 +29,9 @@ public class EmployeeSpecification {
 
 	public static Specification<Employee> employeeWithTraining(List<Long> trainingsId) {
 		return (root, query, criteriaBuilder) -> {
-			Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("traninings");
-			return employeeTrainingJoin.get("trainings").get("id").in(trainingsId);
+			Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("trainings");
+			return employeeTrainingJoin.get("training").get("id").in(trainingsId);
 		};
-
 	}
 
 }
