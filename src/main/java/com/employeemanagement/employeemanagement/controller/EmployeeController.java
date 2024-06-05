@@ -26,10 +26,10 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
+	@PostMapping(value = "/getAll")
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeDTO dto) {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAllSpecification(dto);
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,8 +1,13 @@
 package com.employeemanagement.employeemanagement.specification;
 
+import java.util.List;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
+
+import jakarta.persistence.criteria.Join;
 
 public class EmployeeSpecification {
 	
@@ -20,5 +25,18 @@ public class EmployeeSpecification {
 	    return (root, criteriaQuery, criteriaBuilder) ->
 	            criteriaBuilder.equal(root.get("cpf"), cpf);
 	}
+	
+	public static Specification<Employee> trainings(List<Long> trainingsId) {
+	    return (root, criteriaQuery, criteriaBuilder) ->
+	            criteriaBuilder.equal(root.get("trainingsId"), trainingsId);
+	}
+	
+	public static Specification<Employee> hasEmployeeWithTraining(List<Long> trainingsId) {
+	    return (root, query, criteriaBuilder) -> {
+	        Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("trainings");
+	        return employeeTrainingJoin.get("training").get("id").in(trainingsId);
+	    };
+	}
+
 
 }
