@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
@@ -79,12 +80,18 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
+//	
+//	@PostMapping(value = "/filtrar")
+//	public @ResponseBody ResponseEntity<List<EmployeeFilterDTO>> filtrar(@RequestBody Employee filter) {
+//		List<EmployeeFilterDTO> employeesDTO = getEmployeeService().findyFilter(filter);
+//		return ResponseEntity.ok(employeesDTO);
+//	}
 	
-	@PostMapping(value = "/employee/filtrar")
-	public List<Employee> filtrar(@RequestBody EmployeeFilterDTO filter) {
-		Specifiction<Employee> spec = EmployeeSpecification.filtrarProAtributosETreinamentos(filter);
-		return getEmployeeRepository().findAll(spec);
-	}
+	
+	
+	
+	
+	
 
 	private EmployeeService getEmployeeService() {
 		return employeeService;

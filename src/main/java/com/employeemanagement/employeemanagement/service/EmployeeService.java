@@ -1,12 +1,16 @@
 package com.employeemanagement.employeemanagement.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.employeemanagement.employeemanagement.entity.EmployeeSpecification;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
@@ -109,6 +113,20 @@ public class EmployeeService {
 		getEmployeeRepository().deleteById(id);
 
 	}
+	
+//	public List<EmployeeFilterDTO> findyFilter(EmployeeFilterDTO filter){
+//		Specification<Employee> spec = EmployeeSpecification.byCriteria(filter);
+//		List<Employee> employees = getEmployeeRepository().findAll(spec);
+//		
+//		return employees.stream().map(employee -> {
+//			EmployeeFilterDTO dto = new EmployeeFilterDTO();
+//			dto.setFirsName(employee.getFirstName());
+//			dto.setMiddleName(employee.getMiddleName());
+//			dto.setLastName(employee.getLastName());
+//			dto.setTrainingsId(employee.getTrainings().stream().map(et -> et.getTraining().getId()).collect(Collectors.toList()));
+//			return dto;
+//		}).collect(Collectors.toList());
+//	}
 	
 
 	private StatusRepository getStatusRepository() {

@@ -12,7 +12,7 @@ public class EmployeeFilterDTO {
 	private String middleName;
 	private String lastName;
 	private String cpf;
-	private List<EmployeeTrainingDTO> trainings;
+	private List<Long> trainingsId;
 	
 		
 	
@@ -47,15 +47,15 @@ public class EmployeeFilterDTO {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
-	public List<EmployeeTrainingDTO> getTrainings() {
-		return trainings;
-	}
-
-	public void setTrainings(List<EmployeeTrainingDTO> trainings) {
-		this.trainings = trainings;
-	}
 	
+	public List<Long> getTrainingsId() {
+		return trainingsId;
+	}
+
+	public void setTrainingsId(List<Long> trainingsId) {
+		this.trainingsId = trainingsId;
+	}
+
 	static ModelMapper getModelMapper() {
 		return new ModelMapper();
 	}
