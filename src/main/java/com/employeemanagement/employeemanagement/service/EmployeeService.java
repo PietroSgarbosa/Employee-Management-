@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Status;
@@ -43,29 +44,10 @@ public class EmployeeService {
 		return employeeDTO;
 	}
 
-	public List<EmployeeDTO> getAll(EmployeeDTO dto) {
-	    Specification<Employee> spec = Specification.where(null);
+	public List<EmployeeDTO> getAll(EmployeeFilterDTO dto) {
+	    Specification<Employee> spec = EmployeeSpecification.employeeFilter(dto);
 
-	    if (dto.getFirstName() != null && !dto.getFirstName().isEmpty()) {
-	        spec = spec.and(EmployeeSpecification.firstName(dto.getFirstName()));
-	    }
-
-	    if (dto.getLastName() != null && !dto.getLastName().isEmpty()) {
-	        spec = spec.and(EmployeeSpecification.lastName(dto.getLastName()));
-	    }
-	    
-	    if (dto.getMiddleName() != null && !dto.getMiddleName().isEmpty()) {
-	        spec = spec.and(EmployeeSpecification.middleName(dto.getMiddleName()));
-	    }
-
-	    if (dto.getCpf() != null && !dto.getCpf().isEmpty()) {
-	        spec = spec.and(EmployeeSpecification.cpf(dto.getCpf()));
-	    }
-
-	    if (dto.getTrainingsId() != null && !dto.getTrainingsId().isEmpty()) {
-	        spec = spec.and(EmployeeSpecification.employeeWithTraining(dto.getTrainingsId()));
-	    }
-
+	   
 	    List<Employee> employeeList = employeeRepository.findAll(spec);
 
 	    List<EmployeeDTO> employeeListDTO = employeeList.stream()

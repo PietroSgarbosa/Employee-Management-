@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -27,7 +28,7 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 
 	@PostMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeDTO dto) {
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO dto) {
 		try {
 			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll(dto);
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);

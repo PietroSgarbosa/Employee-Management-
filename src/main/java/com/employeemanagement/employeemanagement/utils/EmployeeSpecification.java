@@ -1,9 +1,8 @@
 package com.employeemanagement.employeemanagement.utils;
 
-import java.util.List;
-
 import org.springframework.data.jpa.domain.Specification;
 
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 
@@ -11,27 +10,34 @@ import jakarta.persistence.criteria.Join;
 
 public class EmployeeSpecification {
 
-	public static Specification<Employee> firstName(String firstName) {
-		return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("firstName"), firstName);
-	}
+	public static Specification<Employee> employeeFilter(EmployeeFilterDTO dto) {
 
-	public static Specification<Employee> middleName(String middleName) {
-		return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("middleName"), middleName);
-	}
+		if (dto.getFirstName() != null) {
+			return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("firstName"),
+					dto.getFirstName());
+		}
 
-	public static Specification<Employee> lastName(String lastName) {
-		return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("lastName"), lastName);
-	}
+		if (dto.getMiddleName() != null) {
+			return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("middleName"),
+					dto.getMiddleName());
+		}
 
-	public static Specification<Employee> cpf(String cpf) {
-		return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("cpf"), cpf);
-	}
+		if (dto.getLastName() != null) {
+			return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("lastName"),
+					dto.getLastName());
+		}
 
-	public static Specification<Employee> employeeWithTraining(List<Long> trainingsId) {
-		return (root, query, criteriaBuilder) -> {
-			Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("trainings");
-			return employeeTrainingJoin.get("training").get("id").in(trainingsId);
-		};
-	}
+		if (dto.getCpf() != null) {
+			return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("cpf"), dto.getCpf());
+		}
 
+		if (dto.getTraining() != null) {
+			return (root, query, criteriaBuilder) -> {
+				Join<Employee, EmployeeTraining> employeeTrainingJoin = root.join("trainings");
+				return employeeTrainingJoin.get("training").get("id").in(dto.getTraining());
+			};
+		}
+		return null;
+
+	}
 }
