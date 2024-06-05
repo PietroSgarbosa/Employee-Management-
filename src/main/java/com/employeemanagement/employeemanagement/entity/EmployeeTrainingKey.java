@@ -1,7 +1,6 @@
 package com.employeemanagement.employeemanagement.entity;
 
 import java.io.Serializable;
-
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -38,6 +37,4 @@ public class EmployeeTrainingKey implements Serializable{
 	public void setTraining(Long training) {
 		this.training = training;
 	}
-	
-	
 }

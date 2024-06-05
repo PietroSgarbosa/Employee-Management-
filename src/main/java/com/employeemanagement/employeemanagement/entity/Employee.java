@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -26,8 +28,9 @@ public class Employee {
 	@Column(name = "LASTNAME", nullable = false)
 	private String lastName;
 
-	@Column(name = "CATEGORY")
-	private String category;
+	@ManyToOne    
+	@JoinColumn(name ="ID_CATEGORY")
+	private Category category;
 
 	@Column(name = "CPF", nullable = false)
 	private String cpf;
@@ -76,11 +79,11 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.EmployeeTrainingKey;
@@ -17,7 +18,6 @@ import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -51,6 +51,8 @@ public class EmployeeService {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+				Category category = new Category(employeeDTO.getCategoryId());
+				employeeEntity.setCategory(category);
 				getEmployeeRepository().save(employeeEntity);
 				if (employeeDTO.getTrainingsId() != null) {
 					for (Long trainingId : employeeDTO.getTrainingsId()) {
@@ -71,7 +73,6 @@ public class EmployeeService {
 	public String update(EmployeeDTO employeeDTO) {
 		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
-
 		if (defaultEmployee != null) {
 			defaultEmployee.setFirstName(employeeDTO.getFirstName());
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
@@ -93,7 +94,6 @@ public class EmployeeService {
 
 		}
 		getEmployeeRepository().deleteById(id);
-
 	}
   
 	public void finishTraining(Long idEmployee, Long idTraining) {

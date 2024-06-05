@@ -42,5 +42,4 @@ public class TrainingDTO {
 	public static TrainingDTO convertToDTO(Training entity) {
 		return getModelMapper().map(entity, TrainingDTO.class);
 	}
-
 }

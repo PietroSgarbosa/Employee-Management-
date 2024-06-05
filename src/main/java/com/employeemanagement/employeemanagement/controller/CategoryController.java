@@ -73,8 +73,8 @@ public class CategoryController {
 	@PutMapping(value = "/update")
 	public @ResponseBody ResponseEntity<String> update(@RequestBody CategoryDTO categoryDTO) {
 		try {
-			String message = getCategoryService().update(categoryDTO);
-			return ResponseEntity.status(HttpStatus.OK).body(message);
+			getCategoryService().update(categoryDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Category updated Sucesfully.");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error trying to update category. Error message: " + e.getMessage());

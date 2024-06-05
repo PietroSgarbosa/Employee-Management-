@@ -1,6 +1,5 @@
 package com.employeemanagement.employeemanagement.dto;
 
-
 public class EmployeeFilterDTO {
 
 	private Long id;

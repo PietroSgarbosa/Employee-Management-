@@ -28,9 +28,7 @@ public class TrainingService {
 
 	public List<TrainingDTO> getAll() {
 		List<Training> trainingList = getTrainingRepository().findAll();
-		List<TrainingDTO> trainingListDTO = trainingList.stream().map(training -> TrainingDTO.convertToDTO(training))
-				.toList();
-
+		List<TrainingDTO> trainingListDTO = trainingList.stream().map(training -> TrainingDTO.convertToDTO(training)).toList();
 		if (!trainingListDTO.isEmpty()) {
 			return trainingListDTO;
 		} else {
@@ -41,7 +39,6 @@ public class TrainingService {
 	public String update(TrainingDTO trainingDTO) {
 		Training defaultTraining = getById(trainingDTO.getId());
 		String responseMessage = "Collaborator of ID " + trainingDTO.getId() + " not found";
-
 		if (defaultTraining != null) {
 			defaultTraining.setTitle(trainingDTO.getTitle());
 			defaultTraining.setDescription(trainingDTO.getDescription());
@@ -66,14 +63,11 @@ public class TrainingService {
 	}
 
 	public void delete(Long id) {
-
 		Training training = getTrainingRepository().findById(id).orElse(null);
 		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getBytraining(training);
 		for (EmployeeTraining deleteTraining : listTraining) {
 			getEmployeeTrainingRepository().delete(deleteTraining);
-
 		}
-
 		getTrainingRepository().deleteById(id);
 
 	}
