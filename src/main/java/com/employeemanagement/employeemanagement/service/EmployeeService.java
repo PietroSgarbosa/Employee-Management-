@@ -3,6 +3,7 @@ package com.employeemanagement.employeemanagement.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
@@ -43,23 +44,33 @@ public class EmployeeService {
 	}
 
 	public List<EmployeeDTO> getAllSpecification(EmployeeDTO dto) {
+	    Specification<Employee> spec = Specification.where(null);
 
-		List<Employee> employeeList = employeeRepository.findAll(EmployeeSpecification.firstName(dto.getFirstName())
-				.or(EmployeeSpecification.lastName(dto.getLastName()))
-				.or(EmployeeSpecification.cpf(dto.getCpf()))
-				.or(EmployeeSpecification.hasEmployeeWithTraining(dto.getTrainingsId()))
-				);
-		
-		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
-				.toList();
+	    if (dto.getFirstName() != null && !dto.getFirstName().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.firstName(dto.getFirstName()));
+	    }
 
-		if (!employeeListDTO.isEmpty()) {
-			return employeeListDTO;
-		} else {
-			return null;
-		}
+	    if (dto.getLastName() != null && !dto.getLastName().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.lastName(dto.getLastName()));
+	    }
 
+	    if (dto.getCpf() != null && !dto.getCpf().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.cpf(dto.getCpf()));
+	    }
+
+	    if (dto.getTrainingsId() != null && !dto.getTrainingsId().isEmpty()) {
+	        spec = spec.and(EmployeeSpecification.hasEmployeeWithTraining(dto.getTrainingsId()));
+	    }
+
+	    List<Employee> employeeList = employeeRepository.findAll(spec);
+
+	    List<EmployeeDTO> employeeListDTO = employeeList.stream()
+	            .map(EmployeeDTO::convertToDTO)
+	            .toList();
+
+	    return employeeListDTO.isEmpty() ? null : employeeListDTO;
 	}
+
 
 	public void create(EmployeeDTO employeeDTO) {
 		if (employeeDTO != null) {
