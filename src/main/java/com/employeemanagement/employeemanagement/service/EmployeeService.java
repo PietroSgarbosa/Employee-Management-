@@ -17,6 +17,7 @@ import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepo
 import com.employeemanagement.employeemanagement.repository.StatusRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
+import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
 @Service
 public class EmployeeService {
@@ -41,8 +42,12 @@ public class EmployeeService {
 		return employeeDTO;
 	}
 
-	public List<EmployeeDTO> getAll() {
-		List<Employee> employeeList = getEmployeeRepository().findAll();
+	public List<EmployeeDTO> getAll(EmployeeDTO dto) {
+		
+		List<Employee> employeeList = getEmployeeRepository().findAll(EmployeeSpecification
+				.firstName(dto.getFirstName()).or(EmployeeSpecification.lastName(dto.getLastName()))
+				.or(EmployeeSpecification.cpf(dto.getCpf())).or(EmployeeSpecification.middleName(dto.getMiddleName())));
+
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
 
