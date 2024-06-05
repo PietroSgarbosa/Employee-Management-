@@ -8,7 +8,7 @@ import com.employeemanagement.employeemanagement.entity.Employee;
 
 public class EmployeeFilterDTO {
 	
-	private String firsName;
+	private String firstName;
 	private String middleName;
 	private String lastName;
 	private String cpf;
@@ -16,12 +16,12 @@ public class EmployeeFilterDTO {
 	
 		
 	
-	public String getFirsName() {
-		return firsName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirsName(String firsName) {
-		this.firsName = firsName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getMiddleName() {
@@ -52,8 +52,8 @@ public class EmployeeFilterDTO {
 		return trainingsId;
 	}
 
-	public void setTrainingsId(List<Long> trainingsId) {
-		this.trainingsId = trainingsId;
+	public void setTrainings(List<Long> trainings) {
+		this.trainingsId = trainings;
 	}
 
 	static ModelMapper getModelMapper() {

@@ -114,19 +114,20 @@ public class EmployeeService {
 
 	}
 	
-//	public List<EmployeeFilterDTO> findyFilter(EmployeeFilterDTO filter){
-//		Specification<Employee> spec = EmployeeSpecification.byCriteria(filter);
-//		List<Employee> employees = getEmployeeRepository().findAll(spec);
-//		
-//		return employees.stream().map(employee -> {
-//			EmployeeFilterDTO dto = new EmployeeFilterDTO();
-//			dto.setFirsName(employee.getFirstName());
-//			dto.setMiddleName(employee.getMiddleName());
-//			dto.setLastName(employee.getLastName());
-//			dto.setTrainingsId(employee.getTrainings().stream().map(et -> et.getTraining().getId()).collect(Collectors.toList()));
-//			return dto;
-//		}).collect(Collectors.toList());
-//	}
+	public List<EmployeeFilterDTO> findyFilter(EmployeeFilterDTO filter){
+		Specification<Employee> spec = EmployeeSpecification.byCriteria(filter);
+		List<Employee> employees = getEmployeeRepository().findAll(spec);
+		
+		return employees.stream().map(employee -> {
+			EmployeeFilterDTO dto = new EmployeeFilterDTO();
+			dto.setFirstName(employee.getFirstName());
+			dto.setMiddleName(employee.getMiddleName());
+			dto.setLastName(employee.getLastName());
+			dto.setCpf(employee.getCpf());
+			dto.setTrainings(employee.getTrainings().stream().map(et -> et.getTraining().getId()).collect(Collectors.toList()));
+			return dto;
+		}).collect(Collectors.toList());
+	}
 	
 
 	private StatusRepository getStatusRepository() {

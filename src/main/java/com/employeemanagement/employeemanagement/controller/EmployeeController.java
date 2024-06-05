@@ -80,15 +80,17 @@ public class EmployeeController {
 					.body("Internal error, message: " + e.getMessage());
 		}
 	}
-//	
-//	@PostMapping(value = "/filtrar")
-//	public @ResponseBody ResponseEntity<List<EmployeeFilterDTO>> filtrar(@RequestBody Employee filter) {
-//		List<EmployeeFilterDTO> employeesDTO = getEmployeeService().findyFilter(filter);
-//		return ResponseEntity.ok(employeesDTO);
-//	}
 	
-	
-	
+	@PostMapping(value = "/filtrar")
+	public @ResponseBody ResponseEntity<List<EmployeeFilterDTO>> filtrar(@RequestBody EmployeeFilterDTO filter) {
+		try {
+			List<EmployeeFilterDTO> employeesFilterDTO = getEmployeeService().findyFilter(filter);
+			return ResponseEntity.ok(employeesFilterDTO);
+		} catch (Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body(null);
+	}
+}
 	
 	
 	

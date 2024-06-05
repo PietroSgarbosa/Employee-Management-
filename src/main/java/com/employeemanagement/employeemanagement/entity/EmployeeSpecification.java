@@ -14,12 +14,12 @@ import jakarta.persistence.criteria.Predicate;
 @Component
 public class EmployeeSpecification {
 	
-	public static Specification<EmployeeFilterDTO> byCriteria(EmployeeFilterDTO filter){
+	public static Specification<Employee> byCriteria(EmployeeFilterDTO filter){
 		return  (root, query, builder) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			
-			if (filter.getFirsName() != null) {
-				predicates.add(builder.like(root.get("firstName"), "%" + filter.getFirsName() + "%"));
+			if (filter.getFirstName() != null) {
+				predicates.add(builder.like(root.get("firstName"), "%" + filter.getFirstName() + "%"));
 			}
 			
 			if (filter.getMiddleName() != null) {
@@ -36,7 +36,7 @@ public class EmployeeSpecification {
 			
 			if (filter.getTrainingsId() != null && !filter.getTrainingsId().isEmpty()) {
 				Join<Employee, EmployeeTraining> trainingJoin = root.join("trainings");
-				predicates.add(trainingJoin.get("trainings").in(filter.getTrainingsId()));
+				predicates.add(trainingJoin.get("trainingsId").in(filter.getTrainingsId()));
 				
 			}
 			return builder.and(predicates.toArray(new Predicate[0]));
