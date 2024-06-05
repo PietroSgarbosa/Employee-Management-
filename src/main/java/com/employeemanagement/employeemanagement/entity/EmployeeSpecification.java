@@ -14,29 +14,33 @@ import jakarta.persistence.criteria.Predicate;
 @Component
 public class EmployeeSpecification {
 	
-	public static Specification<Employee> byCriteria(EmployeeFilterDTO filter){
+	public static Specification<Employee> byCriteria(EmployeeFilterDTO employeeFilterDTO){
 		return  (root, query, builder) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			
-			if (filter.getFirstName() != null) {
-				predicates.add(builder.like(root.get("firstName"), "%" + filter.getFirstName() + "%"));
+			if (employeeFilterDTO.getFirstName() != null) {
+				predicates.add(builder.like(root.get("firstName"), "%" + employeeFilterDTO.getFirstName() + "%"));
+				
 			}
 			
-			if (filter.getMiddleName() != null) {
-				predicates.add(builder.like(root.get("middleName"), "%" + filter.getMiddleName() + "%"));
+			if (employeeFilterDTO.getMiddleName() != null) {
+				predicates.add(builder.like(root.get("middleName"), "%" + employeeFilterDTO.getMiddleName() + "%"));
 			}
 			
-			if (filter.getLastName() != null) {
-				predicates.add(builder.like(root.get("lastName"), "%" + filter.getLastName() + "%"));
+			if (employeeFilterDTO.getLastName() != null) {
+				predicates.add(builder.like(root.get("lastName"), "%" + employeeFilterDTO.getLastName() + "%"));
 			}
 			
-			if (filter.getCpf() != null) {
-				predicates.add(builder.like(root.get("cpf"), "%" + filter.getCpf() + "%"));
+			if (employeeFilterDTO.getCpf() != null) {
+				predicates.add(builder.like(root.get("cpf"), "%" + employeeFilterDTO.getCpf() + "%"));
 			}
 			
-			if (filter.getTrainingsId() != null && !filter.getTrainingsId().isEmpty()) {
-				Join<Employee, EmployeeTraining> trainingJoin = root.join("trainings");
-				predicates.add(trainingJoin.get("trainingsId").in(filter.getTrainingsId()));
+			if (employeeFilterDTO.getTrainingsId() != null) {
+				
+				Join<Object, Object> trainingJoin = root.join("trainings");
+				
+				predicates.add(builder.equal(trainingJoin.get("training").get("id"), employeeFilterDTO.getTrainingsId()));
+				
 				
 			}
 			return builder.and(predicates.toArray(new Predicate[0]));

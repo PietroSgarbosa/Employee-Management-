@@ -1,9 +1,6 @@
 package com.employeemanagement.employeemanagement.dto;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
-
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 public class EmployeeFilterDTO {
@@ -12,10 +9,11 @@ public class EmployeeFilterDTO {
 	private String middleName;
 	private String lastName;
 	private String cpf;
-	private List<Long> trainingsId;
+	private Long trainingsId;
+			
 	
-		
 	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -46,14 +44,14 @@ public class EmployeeFilterDTO {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-	
-	public List<Long> getTrainingsId() {
+	}	
+
+	public Long getTrainingsId() {
 		return trainingsId;
 	}
 
-	public void setTrainings(List<Long> trainings) {
-		this.trainingsId = trainings;
+	public void setTrainingsId(Long trainingsId) {
+		this.trainingsId = trainingsId;
 	}
 
 	static ModelMapper getModelMapper() {

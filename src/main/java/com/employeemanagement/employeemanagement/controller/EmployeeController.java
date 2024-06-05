@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
-import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -82,9 +81,9 @@ public class EmployeeController {
 	}
 	
 	@PostMapping(value = "/filtrar")
-	public @ResponseBody ResponseEntity<List<EmployeeFilterDTO>> filtrar(@RequestBody EmployeeFilterDTO filter) {
+	public @ResponseBody ResponseEntity<List<EmployeeDTO>> filtrar(@RequestBody EmployeeFilterDTO filter) {
 		try {
-			List<EmployeeFilterDTO> employeesFilterDTO = getEmployeeService().findyFilter(filter);
+			List<EmployeeDTO> employeesFilterDTO = getEmployeeService().findyFilter(filter);
 			return ResponseEntity.ok(employeesFilterDTO);
 		} catch (Exception e) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

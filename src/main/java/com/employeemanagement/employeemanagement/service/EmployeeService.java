@@ -114,19 +114,14 @@ public class EmployeeService {
 
 	}
 	
-	public List<EmployeeFilterDTO> findyFilter(EmployeeFilterDTO filter){
-		Specification<Employee> spec = EmployeeSpecification.byCriteria(filter);
-		List<Employee> employees = getEmployeeRepository().findAll(spec);
+	public List<EmployeeDTO> findyFilter(EmployeeFilterDTO filter){
 		
-		return employees.stream().map(employee -> {
-			EmployeeFilterDTO dto = new EmployeeFilterDTO();
-			dto.setFirstName(employee.getFirstName());
-			dto.setMiddleName(employee.getMiddleName());
-			dto.setLastName(employee.getLastName());
-			dto.setCpf(employee.getCpf());
-			dto.setTrainings(employee.getTrainings().stream().map(et -> et.getTraining().getId()).collect(Collectors.toList()));
-			return dto;
-		}).collect(Collectors.toList());
+		Specification<Employee> spec = EmployeeSpecification.byCriteria(filter);
+		List<Employee> employee = getEmployeeRepository().findAll(spec);
+		List<EmployeeDTO> employeeDTO = employee.stream().map(emp -> EmployeeDTO.convertToDTO(emp)).toList();
+		return employeeDTO;
+		
+		
 	}
 	
 
