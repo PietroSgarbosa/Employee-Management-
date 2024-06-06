@@ -88,7 +88,7 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
-			Category category = getCategoryMapper().covertToEntity(employeeDTO.getCategory());
+			Category category = new Category(employeeDTO.getCategoryId());
 			defaultEmployee.setCategory(category);
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";

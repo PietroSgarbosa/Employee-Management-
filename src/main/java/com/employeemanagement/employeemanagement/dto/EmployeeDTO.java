@@ -16,7 +16,7 @@ public class EmployeeDTO {
 
 	private CategoryDTO category;
 	
-	private Long categoryId;
+	private Long categoryId; 
 
 	private String cpf;
 
