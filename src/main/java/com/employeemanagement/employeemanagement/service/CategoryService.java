@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.employeemanagement.employeemanagement.dto.CategoryDTO;
 import com.employeemanagement.employeemanagement.entity.Category;
+import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.repository.CategoryRepository;
+import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.utils.CategoryMapper;
 
 @Service
@@ -17,12 +19,14 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 
 	@Autowired
+	private EmployeeRepository employeeRepository;
+
+	@Autowired
 	private CategoryMapper categoryMapper;
 
-	public Category finById(Long id) {
+	public Category findById(Long id) {
 		return getCategoryRepository().findById(id).orElse(null);
 	}
-
 
 	public List<CategoryDTO> getAll() {
 		List<Category> categoryList = getCategoryRepository().findAll();
@@ -49,7 +53,7 @@ public class CategoryService {
 	}
 
 	public String update(CategoryDTO categoryDTO) {
-		Category defaultCategory = finById(categoryDTO.getId());
+		Category defaultCategory = findById(categoryDTO.getId());
 		String responseMessage = "Category of ID " + categoryDTO.getId() + " not found";
 
 		if (defaultCategory != null) {
@@ -66,18 +70,28 @@ public class CategoryService {
 	}
 
 	public String delete(Long id) {
-		Category category = finById(id);
+		Category category = findById(id);
+		List<Employee> employees = getEmployeeRepository().findByCategory(category);
 
-		if (category == null) {
-			return "This category ID " + id + " doesn't exist";
+		if (employees == null) {
+			if (category != null) {
+				getCategoryRepository().delete(category);
+				return "Category deleted sucessfully";
+			} else {
+				return "Id: " + id + "not found";
+			}
 		} else {
-			getCategoryRepository().deleteById(id);
-			return "Category of ID " + id + " removed!";
+			return "There are employees registered with the specified category, please check";
 		}
+
 	}
 
 	public CategoryRepository getCategoryRepository() {
 		return categoryRepository;
+	}
+
+	public EmployeeRepository getEmployeeRepository() {
+		return employeeRepository;
 	}
 
 	public CategoryMapper getCategoryMapper() {

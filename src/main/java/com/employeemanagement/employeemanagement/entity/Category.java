@@ -2,6 +2,7 @@ package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,12 +19,13 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
-	 
-	@OneToMany(mappedBy = "category")	
-	private List<Employee> employees ;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "category")
+	private List<Employee> employees;
 
 	public Long getId() {
 		return id;
@@ -49,5 +51,4 @@ public class Category {
 		this.employees = employees;
 	}
 
-	
 }
