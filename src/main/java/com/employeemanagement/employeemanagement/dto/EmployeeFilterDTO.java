@@ -1,20 +1,19 @@
 package com.employeemanagement.employeemanagement.dto;
 
-
 public class EmployeeFilterDTO {
 
 	private Long id;
-	
+
 	private String firstName;
-	
+
 	private String middleName;
-	
+
 	private String lastName;
-	
-	private String category;
-	
+
 	private String cpf;
 	
+	private Long category;
+
 	private Long training;
 
 	public Long getId() {
@@ -49,11 +48,12 @@ public class EmployeeFilterDTO {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+
+	public Long getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Long category) {
 		this.category = category;
 	}
 
@@ -72,5 +72,5 @@ public class EmployeeFilterDTO {
 	public void setTraining(Long training) {
 		this.training = training;
 	}
-	
+
 }

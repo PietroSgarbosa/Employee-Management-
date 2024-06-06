@@ -30,7 +30,7 @@ public class CategoryController {
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Category entity = getCategoryService().finById(id);
+			Category entity = getCategoryService().findById(id);
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,8 +62,8 @@ public class CategoryController {
 	@DeleteMapping("/delete")
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
-			getCategoryService().delete(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Category deleted succesfully");
+			String message = getCategoryService().delete(id);
+			return ResponseEntity.status(HttpStatus.OK).body(message);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
