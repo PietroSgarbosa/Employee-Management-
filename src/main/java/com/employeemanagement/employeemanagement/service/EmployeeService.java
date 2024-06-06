@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.EmployeeTrainingKey;
@@ -15,6 +16,7 @@ import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingExc
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.utils.CategoryMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
@@ -25,10 +27,16 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@Autowired
 	private EmployeeMapper employeeMapper;
-
+	
+	@Autowired
+	private CategoryMapper categoryMapper;
+	
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
@@ -51,6 +59,8 @@ public class EmployeeService {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+				Category category = getCategoryService().finById(employeeDTO.getCategoryId());
+				employeeEntity.setCategory(category);
 				getEmployeeRepository().save(employeeEntity);
 				if (employeeDTO.getTrainingsId() != null) {
 					for (Long trainingId : employeeDTO.getTrainingsId()) {
@@ -77,7 +87,10 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
-			defaultEmployee.setCategory(employeeDTO.getCategory());
+			
+			Category category = getCategoryService().finById(employeeDTO.getCategoryId());
+			defaultEmployee.setCategory(category);
+			
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
@@ -129,6 +142,14 @@ public class EmployeeService {
 	private EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
 	}
+	
+	private CategoryService getCategoryService() {
+		return categoryService;
+	}
+	
+	private CategoryMapper getCategoryMapper() {
+		return categoryMapper;
+	} 
 
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
