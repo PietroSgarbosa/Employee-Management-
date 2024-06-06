@@ -33,7 +33,6 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
-	
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
