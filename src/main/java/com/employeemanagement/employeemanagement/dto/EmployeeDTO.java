@@ -17,12 +17,14 @@ public class EmployeeDTO {
 	private String middleName;
 
 	private String lastName;
-
-	private Category category;
-
+	
 	private String cpf;
 
-	private List<Long> trainingsId;
+	private Category category;	
+	
+	private Long categoryId;
+	
+	private List<Long> listId;
 	
 	private List<EmployeeTrainingDTO> trainings;
 
@@ -65,6 +67,16 @@ public class EmployeeDTO {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
 
 	public String getCpf() {
 		return cpf;
@@ -72,14 +84,14 @@ public class EmployeeDTO {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}	
+
+	public List<Long> getListId() {
+		return listId;
 	}
 
-	public List<Long> getTrainingsId() {
-		return trainingsId;
-	}
-
-	public void setTrainingsId(List<Long> trainingsId) {
-		this.trainingsId = trainingsId;
+	public void setListId(List<Long> listId) {
+		this.listId = listId;
 	}
 
 	public List<EmployeeTrainingDTO> getTrainings() {

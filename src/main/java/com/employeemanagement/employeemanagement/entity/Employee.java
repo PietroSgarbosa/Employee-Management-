@@ -2,7 +2,7 @@ package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 
@@ -32,6 +32,7 @@ public class Employee {
 	@Column(name = "LASTNAME", nullable = false)
 	private String lastName;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "CATEGORY")
 	private Category category;
