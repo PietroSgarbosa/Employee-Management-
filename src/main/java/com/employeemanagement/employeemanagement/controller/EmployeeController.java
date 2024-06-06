@@ -27,8 +27,8 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
+	@PostMapping(value = "/getAll")
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilterDTO) {
 		try {
 			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
