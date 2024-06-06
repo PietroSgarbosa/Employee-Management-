@@ -14,8 +14,7 @@ public class EmployeeMapper {
 		entity.setFirstName(dto.getFirstName());
 		entity.setMiddleName(dto.getMiddleName());
 		entity.setLastName(dto.getLastName());
-		entity.setCpf(dto.getCpf());
-		entity.setCategory(dto.getCategory());
+		entity.setCpf(dto.getCpf());		
 		return entity;
 	}
 

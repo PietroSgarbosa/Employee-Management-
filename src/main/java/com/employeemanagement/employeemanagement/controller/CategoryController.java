@@ -30,7 +30,7 @@ public class CategoryController {
 	@GetMapping(value = "/getById/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Category entity = getCategoryService().finById(id);
+			Category entity = getCategoryService().findById(id);
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

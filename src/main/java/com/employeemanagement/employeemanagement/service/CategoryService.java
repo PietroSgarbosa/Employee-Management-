@@ -19,7 +19,7 @@ public class CategoryService {
 	@Autowired
 	private CategoryMapper categoryMapper;
 
-	public Category finById(Long id) {
+	public Category findById(Long id) {
 		return getCategoryRepository().findById(id).orElse(null);
 	}
 
@@ -49,7 +49,7 @@ public class CategoryService {
 	}
 
 	public String update(CategoryDTO categoryDTO) {
-		Category defaultCategory = finById(categoryDTO.getId());
+		Category defaultCategory = findById(categoryDTO.getId());
 		String responseMessage = "Category of ID " + categoryDTO.getId() + " not found";
 
 		if (defaultCategory != null) {
@@ -66,7 +66,7 @@ public class CategoryService {
 	}
 
 	public String delete(Long id) {
-		Category category = finById(id);
+		Category category = findById(id);
 
 		if (category == null) {
 			return "This category ID " + id + " doesn't exist";

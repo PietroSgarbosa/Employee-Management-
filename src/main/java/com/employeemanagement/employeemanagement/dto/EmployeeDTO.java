@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
 
-
 public class EmployeeDTO {
 
 	private Long id;
@@ -17,14 +16,17 @@ public class EmployeeDTO {
 
 	private String lastName;
 
-	private String category;
+	private Long categoryId;
+
+	private CategoryDTO category;
 
 	private String cpf;
 
 	private List<Long> trainingsId;
-	
+
 	private List<EmployeeTrainingDTO> trainings;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -57,11 +59,19 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public CategoryDTO getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(CategoryDTO category) {
 		this.category = category;
 	}
 
