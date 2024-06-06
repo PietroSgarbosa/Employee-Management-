@@ -73,7 +73,7 @@ public class CategoryService {
 		Category category = findById(id);
 		List<Employee> employees = getEmployeeRepository().findByCategory(category);
 
-		if (employees == null) {
+		if (employees.isEmpty()) {
 			if (category != null) {
 				getCategoryRepository().delete(category);
 				return "Category deleted sucessfully";
