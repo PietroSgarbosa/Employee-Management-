@@ -16,7 +16,6 @@ import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingExc
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
-import com.employeemanagement.employeemanagement.utils.CategoryMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
@@ -34,8 +33,6 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeMapper employeeMapper;
 	
-	@Autowired
-	private CategoryMapper categoryMapper;
 	
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
@@ -147,9 +144,6 @@ public class EmployeeService {
 		return categoryService;
 	}
 	
-	private CategoryMapper getCategoryMapper() {
-		return categoryMapper;
-	} 
 
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
