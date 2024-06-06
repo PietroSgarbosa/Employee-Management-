@@ -53,26 +53,25 @@ public class EmployeeService {
 				.toList();
 		return employeeListDTO;
 	}
-
+	
 	public void create(EmployeeDTO employeeDTO) {
 		if (employeeDTO != null) {
 			if (employeeDTO.getFirstName() == null) {
 				throw new EmployeeNameMissingException();
-				
 			} else {
-				
 				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
-				Category category = getCategoryService().finById(employeeDTO.getCategoryId());	
+				Category category = getCategoryService().finById(employeeDTO.getCategoryId());
 				employeeEntity.setCategory(category);
 				getEmployeeRepository().save(employeeEntity);
-				if (employeeDTO.getTrainings() != null) {
-					for (Long trainingId : employeeDTO.getListId()) {
+				if (employeeDTO.getTrainingsId() != null) {
+					for (Long trainingId : employeeDTO.getTrainingsId()) {
 						Status status = new Status((long) 1);
-						Training training = new Training(trainingId);						
+						Training training = new Training(trainingId);
 						Employee employe = new Employee(employeeEntity.getId());
 						EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employeeEntity.getId(), trainingId);
-						EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employe, training, status);						
-						employeeTrainingRepository.save(employeeTraining);					}
+						EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employe, training, status);
+						employeeTrainingRepository.save(employeeTraining);
+					}
 				}
 			}
 		} else {
@@ -80,36 +79,82 @@ public class EmployeeService {
 		}
 	}
 
+//	public void create(EmployeeDTO employeeDTO) {
+//		if (employeeDTO != null) {
+//			if (employeeDTO.getFirstName() == null) {
+//				throw new EmployeeNameMissingException();
+//				
+//			} else {
+//				
+//				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+//				Category category = getCategoryService().finById(employeeDTO.getCategoryId());	
+//				employeeEntity.setCategory(category);
+//				getEmployeeRepository().save(employeeEntity);
+//				if (employeeDTO.getTrainings() != null) {
+//					for (Long trainingId : employeeDTO.getTrainingsId()) {
+//						Status status = new Status((long) 1);
+//						Training training = new Training(trainingId);						
+//						Employee employe = new Employee(employeeEntity.getId());
+//						EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employeeEntity.getId(), trainingId);
+//						EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employe, training, status);						
+//						employeeTrainingRepository.save(employeeTraining);					}
+//				}
+//			}
+//		} else {
+//			throw new EmployeeDTOMissingException();
+//		}
+//	}
+	
 	public String update(EmployeeDTO employeeDTO) {
-		Employee employee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
+		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
-		if (employee != null) {
-			employee.setFirstName(employeeDTO.getFirstName());
-			employee.setMiddleName(employeeDTO.getMiddleName());
-			employee.setLastName(employeeDTO.getLastName());
-			employee.setCpf(employeeDTO.getCpf());
-			Category category = getCategoryService().finById(employeeDTO.getCategoryId());	
-			employee.setCategory(category);
+		if (defaultEmployee != null) {
+			defaultEmployee.setFirstName(employeeDTO.getFirstName());
+			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
+			defaultEmployee.setLastName(employeeDTO.getLastName());
+			defaultEmployee.setCpf(employeeDTO.getCpf());
 			
-			//List<Long> listId = employeeDTO.getListId();
+			Category category = getCategoryService().finById(employeeDTO.getCategoryId());
+			defaultEmployee.setCategory(category);
 			
-//			for (Long id : listId) {				
-//				Training training = getTrainingService().getById(id);
-//				if (training != null) {
-//					Status status = new Status((long) 1);					
-//					EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employee.getId(), training.getId());					
-//					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employee, training, status);
-//					getEmployeeTrainingRepository().save(employeeTraining);					
-//				}				
-//			}			
-			getEmployeeRepository().save(employee);
+			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
 		}
 		return responseMessage;
 	}
-	
+
+//	public String update(EmployeeDTO employeeDTO) {
+//		Employee employee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
+//		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
+//
+//		if (employee != null) {
+//			employee.setFirstName(employeeDTO.getFirstName());
+//			employee.setMiddleName(employeeDTO.getMiddleName());
+//			employee.setLastName(employeeDTO.getLastName());
+//			employee.setCpf(employeeDTO.getCpf());
+//			Category category = getCategoryService().finById(employeeDTO.getCategoryId());	
+//			employee.setCategory(category);
+//			
+//			//List<Long> listId = employeeDTO.getListId();
+//			
+////			for (Long id : listId) {				
+////				Training training = getTrainingService().getById(id);'
+////				if (training != null) {
+////					Status status = new Status((long) 1);					
+////					EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employee.getId(), training.getId());					
+////					EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employee, training, status);
+////					getEmployeeTrainingRepository().save(employeeTraining);					
+////				}				
+////			}			
+//			getEmployeeRepository().save(employee);
+//			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
+//			return responseMessage;
+//		}
+//		return responseMessage;
+//	}
+//	
 
 	public void delete(Long id) {
 		Employee employee = getEmployeeRepository().findById(id).orElse(null);
