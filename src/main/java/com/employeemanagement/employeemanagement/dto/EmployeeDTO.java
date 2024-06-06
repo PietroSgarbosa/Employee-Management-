@@ -2,7 +2,6 @@ package com.employeemanagement.employeemanagement.dto;
 
 import java.util.List;
 import org.modelmapper.ModelMapper;
-import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.Employee;
 
 public class EmployeeDTO {
@@ -15,7 +14,7 @@ public class EmployeeDTO {
 
 	private String lastName;
 
-	private Category category;
+	private CategoryDTO category;
 	
 	private Long categoryId;
 
@@ -57,12 +56,12 @@ public class EmployeeDTO {
 		this.lastName = lastName;
 	}
 
-	public Category getCategory() {
+	public CategoryDTO getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(CategoryDTO categoryDTO) {
+		this.category = categoryDTO;
 	}
 	
 	public Long getCategoryId() {

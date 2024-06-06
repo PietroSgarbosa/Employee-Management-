@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import com.employeemanagement.employeemanagement.dto.CategoryDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Category;
@@ -16,6 +18,7 @@ import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingExc
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.utils.CategoryMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,6 +34,9 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
+	
+	@Autowired
+	private CategoryMapper categoryMapper;
 
 	public EmployeeDTO getById(Long id) {
 		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
@@ -82,7 +88,8 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
-			defaultEmployee.setCategory(employeeDTO.getCategory());
+			Category category = getCategoryMapper().covertToEntity(employeeDTO.getCategory());
+			defaultEmployee.setCategory(category);
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
@@ -124,6 +131,10 @@ public class EmployeeService {
 		Status status = new Status((long) 2);
 		employeeTraining.setStatus(status);
 		getEmployeeTrainingRepository().save(employeeTraining);
+	}
+	
+	private CategoryMapper getCategoryMapper() {
+		return categoryMapper;
 	}
 
 	private EmployeeTrainingRepository getEmployeeTrainingRepository() {
