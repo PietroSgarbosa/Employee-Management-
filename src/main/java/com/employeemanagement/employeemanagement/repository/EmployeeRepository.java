@@ -15,4 +15,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	List<Employee> findAll(Specification<Employee> specification);
 
 	List<Employee> findByCategory(Category category);
+	
 }

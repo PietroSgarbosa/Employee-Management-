@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.employeemanagement.employeemanagement.dto.CategoryDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.entity.Category;
@@ -16,8 +17,10 @@ import com.employeemanagement.employeemanagement.entity.Status;
 import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.exception.EmployeeDTOMissingException;
 import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingException;
+import com.employeemanagement.employeemanagement.repository.CategoryRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.utils.CategoryMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
@@ -28,6 +31,9 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private EmployeeMapper employeeMapper;
@@ -85,7 +91,9 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
-			defaultEmployee.setCategory(employeeDTO.getCategory());
+
+			Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
+			defaultEmployee.setCategory(category);
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
@@ -143,5 +151,11 @@ public class EmployeeService {
 	private EmployeeMapper getEmployeeMapper() {
 		return employeeMapper;
 	}
+
+	public CategoryRepository getCategoryRepository() {
+		return categoryRepository;
+	}
+	
+	
 
 }
