@@ -35,7 +35,8 @@ public class EmployeeSpecification {
 			}
 			
 			if(employeeFilter.getCategory() != null) {
-				predicates.add(builder.equal(root.get("category"), employeeFilter.getCategory()));
+				Join<Object, Object> categoryJoin = root.join("category");
+				predicates.add(builder.equal(categoryJoin.get("id"), employeeFilter.getCategory()));
 			}
 			
 			if(employeeFilter.getTraining() != null) {

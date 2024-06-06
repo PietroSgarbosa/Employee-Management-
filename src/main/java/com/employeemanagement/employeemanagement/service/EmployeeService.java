@@ -34,6 +34,7 @@ public class EmployeeService {
 
 	public EmployeeDTO getById(Long id) {
 		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
+		employeeDTO.setCategoryId(null);
 		return employeeDTO;
 	}
 
@@ -42,6 +43,9 @@ public class EmployeeService {
 		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
+		for(EmployeeDTO employeeDTO: employeeListDTO) {
+			employeeDTO.setCategoryId(null);
+		}
 		return employeeListDTO;
 	}
 
