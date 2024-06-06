@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
 @RestController
@@ -26,10 +27,10 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@GetMapping(value = "/getAll")
-	public @ResponseBody ResponseEntity<?> getAll() {
+	@PostMapping(value = "/getAll")
+	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilterDTO) {
 		try {
-			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll();
+			List<EmployeeDTO> employeeListDTO = getEmployeeService().getAll(employeeFilterDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(employeeListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -77,6 +78,30 @@ public class EmployeeController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Internal error, message: " + e.getMessage());
+		}
+	}
+
+	@PutMapping(value = "/startTraining")
+	public @ResponseBody ResponseEntity<String> startTraining(@RequestParam Long idEmployee,
+			@RequestParam Long idTraining) {
+		try {
+			getEmployeeService().startTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Started Sucessfully !");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update Status. Error message: " + e.getMessage());
+		}
+	}
+
+	@PutMapping(value = "/finishTraining")
+	public @ResponseBody ResponseEntity<String> finishTraining(@RequestParam Long idEmployee,
+			@RequestParam Long idTraining) {
+		try {
+			getEmployeeService().finishTraining(idEmployee, idTraining);
+			return ResponseEntity.status(HttpStatus.OK).body("Training Finished Sucessfully !");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Error trying to update Status. Error message: " + e.getMessage());
 		}
 	}
 

@@ -2,14 +2,13 @@ package com.employeemanagement.employeemanagement.entity;
 
 import java.util.List;
 
-
-
 import jakarta.persistence.Column;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -21,23 +20,33 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "FIRSTNAME", nullable = false)
 	private String firstName;
 
-	@Column(name = "middleName")
+	@Column(name = "MIDDLENAME")
 	private String middleName;
 
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "LASTNAME", nullable = false)
 	private String lastName;
 
-	@Column(name = "category")
-	private String category;
-
-	@Column(name = "cpf", nullable = false)
+	@Column(name = "CPF", nullable = false)
 	private String cpf;
+	
+	@JoinColumn(name = "category_id")
+	@ManyToOne
+	private Category category;
 
 	@OneToMany(mappedBy = "employee")
 	private List<EmployeeTraining> trainings;
+
+	public Employee() {
+		
+	}
+	
+	public Employee(Long id) {
+		super();
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
@@ -71,11 +80,12 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public String getCategory() {
+
+	public Category getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
