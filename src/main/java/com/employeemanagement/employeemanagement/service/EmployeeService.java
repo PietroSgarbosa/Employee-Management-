@@ -48,7 +48,7 @@ public class EmployeeService {
 
 	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilterDTO){
 		Specification<Employee> specification = EmployeeSpecification.withAtributes(employeeFilterDTO);
-		List<Employee> employeeList = getEmployeeRepository().findAll();
+		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
 		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
 				.toList();
 		return employeeListDTO;
