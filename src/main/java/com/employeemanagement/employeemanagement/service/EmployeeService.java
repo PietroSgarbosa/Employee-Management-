@@ -22,6 +22,9 @@ import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepo
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
+import java.util.ArrayList;
+import java.util.Base64;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -40,15 +43,25 @@ public class EmployeeService {
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
 	public EmployeeDTO getById(Long id) {
-		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
+		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(employee);
+		if(employee.getPhoto() != null) {
+			employeeDTO.setPhoto(base64Converter(employee.getPhoto()));
+		}
 		return employeeDTO;
 	}
 
 	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilterDTO) {
 		Specification<Employee> specification = EmployeeSpecification.withAtributes(employeeFilterDTO);
 		List<Employee> employeeList = getEmployeeRepository().findAll(specification);
-		List<EmployeeDTO> employeeListDTO = employeeList.stream().map(employee -> EmployeeDTO.convertToDTO(employee))
-				.toList();
+		List<EmployeeDTO> employeeListDTO = new ArrayList<EmployeeDTO>();
+		for(Employee employee : employeeList) {
+			EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(employee);
+			if(employee.getPhoto() != null) {
+				employeeDTO.setPhoto(base64Converter(employee.getPhoto()));
+			}
+			employeeListDTO.add(employeeDTO);
+		}
 		return employeeListDTO;
 	}
 
@@ -136,6 +149,10 @@ public class EmployeeService {
 		Status status = new Status((long) 2);
 		employeeTraining.setStatus(status);
 		getEmployeeTrainingRepository().save(employeeTraining);
+	}
+	
+	private String base64Converter(byte[] img) {
+		return Base64.getEncoder().encodeToString(img);
 	}
 
 	private EmployeeTrainingRepository getEmployeeTrainingRepository() {

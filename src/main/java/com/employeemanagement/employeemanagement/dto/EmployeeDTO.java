@@ -25,6 +25,8 @@ public class EmployeeDTO {
 	private List<Long> trainingsId;
 
 	private List<EmployeeTrainingDTO> trainings;
+	
+	private String photo;
 
 	public Long getId() {
 		return id;
@@ -96,6 +98,14 @@ public class EmployeeDTO {
 
 	public void setTrainings(List<EmployeeTrainingDTO> trainings) {
 		this.trainings = trainings;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	static ModelMapper getModelMapper() {
