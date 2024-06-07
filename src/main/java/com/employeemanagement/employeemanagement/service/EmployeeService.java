@@ -29,7 +29,7 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 
@@ -40,7 +40,8 @@ public class EmployeeService {
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
 	public EmployeeDTO getById(Long id) {
-		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id).orElse(null));
+		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(getEmployeeRepository().findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + " does not exist")));
 		return employeeDTO;
 	}
 
@@ -71,7 +72,7 @@ public class EmployeeService {
 								trainingId);
 						EmployeeTraining employeeTraining = new EmployeeTraining(employeeTrainingKey, employe, training,
 								status);
-						employeeTrainingRepository.save(employeeTraining);
+						getEmployeeTrainingRepository().save(employeeTraining);
 					}
 				}
 			}
@@ -81,7 +82,8 @@ public class EmployeeService {
 	}
 
 	public String update(EmployeeDTO employeeDTO) {
-		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
+		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow(
+				() -> new EntityNotFoundException("Employee with id " + employeeDTO.getId() + " does not exist"));
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
 		if (defaultEmployee != null) {
@@ -89,6 +91,8 @@ public class EmployeeService {
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
+			
+			
 
 			Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
 			defaultEmployee.setCategory(category);
@@ -100,7 +104,7 @@ public class EmployeeService {
 	}
 
 	public void delete(Long id) {
-		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		Employee employee = getEmployeeRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + " does not exist"));
 		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getByEmployee(employee);
 		for (EmployeeTraining deleteTraining : listTraining) {
 			getEmployeeTrainingRepository().delete(deleteTraining);
@@ -153,7 +157,5 @@ public class EmployeeService {
 	public CategoryRepository getCategoryRepository() {
 		return categoryRepository;
 	}
-	
-	
 
 }
