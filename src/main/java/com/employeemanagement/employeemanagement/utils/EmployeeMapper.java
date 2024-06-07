@@ -1,5 +1,7 @@
 package com.employeemanagement.employeemanagement.utils;
 
+import java.util.Base64;
+
 import org.springframework.stereotype.Component;
 
 import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
@@ -15,6 +17,9 @@ public class EmployeeMapper {
 		entity.setMiddleName(dto.getMiddleName());
 		entity.setLastName(dto.getLastName());
 		entity.setCpf(dto.getCpf());
+		if(dto.getPhoto() != null) {
+			entity.setPhoto(Base64.getDecoder().decode(dto.getPhoto()));
+		}
 
 		return entity;
 	}
