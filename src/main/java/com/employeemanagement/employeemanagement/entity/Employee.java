@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -38,6 +39,10 @@ public class Employee {
 
 	@OneToMany(mappedBy = "employee")
 	private List<EmployeeTraining> trainings;
+	
+	@Column(name = "PHOTO")
+	@Lob
+	private byte[] photo;
 
 	public Employee() {
 		
@@ -105,4 +110,12 @@ public class Employee {
 		this.trainings = trainings;
 	}
 
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
+	
 }
