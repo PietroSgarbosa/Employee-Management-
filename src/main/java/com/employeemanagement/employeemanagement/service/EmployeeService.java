@@ -37,18 +37,18 @@ public class EmployeeService {
 	private CategoryRepository categoryRepository;
 
 	@Autowired
-	private EmployeeMapper employeeMapper;
-
-	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
 	public EmployeeDTO getById(Long id) {
 		Employee employee = getEmployeeRepository().findById(id).orElse(null);
-		EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(employee);
-		if(employee.getPhoto() != null) {
-			employeeDTO.setPhoto(base64Converter(employee.getPhoto()));
+		if(employee != null) {
+			EmployeeDTO employeeDTO = EmployeeDTO.convertToDTO(employee);
+			if(employee.getPhoto() != null) {
+				employeeDTO.setPhoto(base64Converter(employee.getPhoto()));
+			}
+			return employeeDTO;
 		}
-		return employeeDTO;
+		return null;
 	}
 
 	public List<EmployeeDTO> getAll(EmployeeFilterDTO employeeFilterDTO) {
@@ -70,7 +70,7 @@ public class EmployeeService {
 			if (employeeDTO.getFirstName() == null) {
 				throw new EmployeeNameMissingException();
 			} else {
-				Employee employeeEntity = getEmployeeMapper().covertToEntity(employeeDTO);
+				Employee employeeEntity = EmployeeMapper.covertToEntity(employeeDTO);
 				Category category = new Category();
 				category.setId(employeeDTO.getCategoryId());
 				employeeEntity.setCategory(category);
@@ -97,7 +97,7 @@ public class EmployeeService {
 		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
-		if (defaultEmployee != null) {
+		if (defaultEmployee.getId() != null) {
 			defaultEmployee.setFirstName(employeeDTO.getFirstName());
 			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
 			defaultEmployee.setLastName(employeeDTO.getLastName());
@@ -161,10 +161,6 @@ public class EmployeeService {
 
 	private EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
-	}
-
-	private EmployeeMapper getEmployeeMapper() {
-		return employeeMapper;
 	}
 
 	public CategoryRepository getCategoryRepository() {
