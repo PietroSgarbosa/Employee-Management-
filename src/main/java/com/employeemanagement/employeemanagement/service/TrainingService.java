@@ -12,6 +12,8 @@ import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepo
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.TrainingMapper;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class TrainingService {
 
@@ -25,7 +27,8 @@ public class TrainingService {
 	private EmployeeTrainingRepository employeeTrainingRepository;
 
 	public Training getById(Long id) {
-		return getTrainingRepository().findById(id).orElse(null);
+		return getTrainingRepository().findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Training with Id " + id + " does not exist"));
 	}
 
 	public List<TrainingDTO> getAll() {

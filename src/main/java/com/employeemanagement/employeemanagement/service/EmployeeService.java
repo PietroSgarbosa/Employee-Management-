@@ -94,7 +94,8 @@ public class EmployeeService {
 	}
 
 	public String update(EmployeeDTO employeeDTO) {
-		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow();
+		Employee defaultEmployee = getEmployeeRepository().findById(employeeDTO.getId()).orElseThrow(
+				() -> new EntityNotFoundException("Employee with id " + employeeDTO.getId() + " does not exist"));
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
 		if (defaultEmployee != null) {
@@ -113,7 +114,8 @@ public class EmployeeService {
 	}
 
 	public void delete(Long id) {
-		Employee employee = getEmployeeRepository().findById(id).orElse(null);
+		Employee employee = getEmployeeRepository().findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Employee with id " + id + " does not exist"));
 		List<EmployeeTraining> listTraining = getEmployeeTrainingRepository().getByEmployee(employee);
 		for (EmployeeTraining deleteTraining : listTraining) {
 			getEmployeeTrainingRepository().delete(deleteTraining);
