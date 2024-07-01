@@ -10,7 +10,7 @@ import com.employeemanagement.employeemanagement.entity.Employee;
 @Component
 public class EmployeeMapper {
 
-	public Employee covertToEntity(EmployeeDTO dto) {
+	public static Employee covertToEntity(EmployeeDTO dto) {
 		Employee entity = new Employee();
 		entity.setId(dto.getId());
 		entity.setFirstName(dto.getFirstName());

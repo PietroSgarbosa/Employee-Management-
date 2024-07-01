@@ -30,7 +30,7 @@ public class TrainingController {
 	@Autowired
 	private TrainingService trainingService;
 	
-	@GetMapping(value = "/getById/{id}")
+	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
 			Training entity = getTrainingService().getById(id);
@@ -41,7 +41,7 @@ public class TrainingController {
 		}
 	}
 	
-	@GetMapping(value = "/getAll")
+	@GetMapping()
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
 			List<TrainingDTO> trainingListDTO = getTrainingService().getAll();
@@ -52,7 +52,7 @@ public class TrainingController {
 		}
 	}
 	
-	@PostMapping(value = "/create")
+	@PostMapping()
 	public @ResponseBody ResponseEntity<?> create(@RequestBody TrainingDTO trainingDTO) {
 		try {
 			getTrainingService().create(trainingDTO);
@@ -63,7 +63,7 @@ public class TrainingController {
 		}
 	}
 	
-	@PutMapping(value = "/update")
+	@PutMapping()
 	public @ResponseBody ResponseEntity<String> update(@RequestBody TrainingDTO trainingDTO) {
 		try {
 			String message = getTrainingService().update(trainingDTO);
@@ -74,7 +74,7 @@ public class TrainingController {
 		}
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping()
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getTrainingService().delete(id);

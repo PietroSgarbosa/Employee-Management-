@@ -38,7 +38,7 @@ public class EmployeeController {
 		}
 	}
 
-	@GetMapping(value = "/getById/{id}")
+	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
 			EmployeeDTO employeeDTO = getEmployeeService().getById(id);
@@ -48,7 +48,7 @@ public class EmployeeController {
 		}
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping()
 	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {
 			getEmployeeService().create(employeeDTO);
@@ -59,7 +59,7 @@ public class EmployeeController {
 		}
 	}
 
-	@PutMapping(value = "/update")
+	@PutMapping()
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
 			String message = getEmployeeService().update(employeeDTO);
@@ -70,7 +70,7 @@ public class EmployeeController {
 		}
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping()
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			getEmployeeService().delete(id);
