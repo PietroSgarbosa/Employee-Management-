@@ -29,7 +29,7 @@ public class CategoryService {
 	}
 
 	public List<CategoryDTO> getAll() {
-		List<Category> categoryList = getCategoryRepository().findAll();
+		List<Category> categoryList = getCategoryRepository().findAllByOrderByDescriptionAsc();
 		List<CategoryDTO> categoryListDTO = categoryList.stream().map(category -> CategoryDTO.convertToDTO(category))
 				.toList();
 

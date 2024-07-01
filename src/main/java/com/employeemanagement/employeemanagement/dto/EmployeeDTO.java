@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmployeeDTO {
 

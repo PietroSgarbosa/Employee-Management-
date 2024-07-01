@@ -11,6 +11,16 @@ public class TrainingDTO {
 	private String title;
 
 	private String description;
+	
+	private StatusDTO status;
+
+	public StatusDTO getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusDTO status) {
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;
