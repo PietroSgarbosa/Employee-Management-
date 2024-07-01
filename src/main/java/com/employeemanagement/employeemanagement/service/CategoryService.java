@@ -39,16 +39,15 @@ public class CategoryService {
 			return null;
 		}
 	}
+	
 
 	public void create(CategoryDTO dto) {
 		if (dto != null) {
 			Category category = getCategoryMapper().covertToEntity(dto);
 
 			getCategoryRepository().save(category);
-
 		} else {
 			throw new IllegalArgumentException("Atributes cannot by null");
-
 		}
 	}
 
@@ -56,7 +55,7 @@ public class CategoryService {
 		Category defaultCategory = findById(categoryDTO.getId());
 		String responseMessage = "Category of ID " + categoryDTO.getId() + " not found";
 
-		if (defaultCategory != null) {
+		if (defaultCategory.getId() != null) {
 
 			defaultCategory.setDescription(categoryDTO.getDescription() != null ? categoryDTO.getDescription()
 					: defaultCategory.getDescription());
