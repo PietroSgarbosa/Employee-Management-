@@ -41,8 +41,7 @@ import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
 @SpringBootTest
 public class EmployeeServiceTest {
-	
-	//Constantes que são reutilizadas em mais de uma linha
+
 	private static final String LN_2 = "LN_2";
 	private static final String FN_2 = "FN_2";
 	private static final String LN_1 = "LN_1";
@@ -104,7 +103,7 @@ public class EmployeeServiceTest {
 		EmployeeDTO result = employeeService.getById(EMPLOYEE_ID);
 		
 		//Assert
-		assertThat(result).isNull(); //Para validar o retorno precisa ser null pois o ID não existe na base de dados 
+		assertThat(result).isNull(); 
 		verify(employeeRepository, times(1)).findById(EMPLOYEE_ID);
 	}
 	
@@ -112,9 +111,6 @@ public class EmployeeServiceTest {
 	@Test
 	void testGetAll() {
 		//Arrange
-		//Usando a dependência mockito-inline do JUNIT4 para criar mocks de classes com métodos
-		//estáticos (EmployeeSpecification), o método estático externo PRECISA ser mockado para 
-		//ser invocado na condição WHEN como um método do serviço
 		EmployeeFilterDTO filter = new EmployeeFilterDTO();
 		Specification<Employee> specification = mock(Specification.class);
 		MockedStatic<EmployeeSpecification> mockedStaticClass = mockStatic(EmployeeSpecification.class);
@@ -133,7 +129,6 @@ public class EmployeeServiceTest {
 		
 		List<Employee> employeeList = Arrays.asList(employee1, employee2);
 		
-		//Invocando método estático e método do repositório
 		mockedStaticClass.when((Verification) EmployeeSpecification.withAtributes(filter)).thenReturn(specification);
         when(employeeRepository.findAll(specification)).thenReturn(employeeList);
 		
@@ -148,7 +143,6 @@ public class EmployeeServiceTest {
 		assertThat(result.get(1).getCpf()).isEqualTo(EMPLOYEE_CPF2);
 		verify(employeeRepository, times(1)).findAll(specification); 
 		
-		//Fechando registro de classe estática mockada
 		mockedStaticClass.close();
 	}
 	
@@ -160,7 +154,6 @@ public class EmployeeServiceTest {
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName(FN_1);
 		employeeDTO.setLastName(LN_1);
-		//employeeDTO.setTrainingsId(List.of(1l, 2l));
 		employeeDTO.setCpf(EMPLOYEE_CPF);
 		
 		Employee employeeEntity = new Employee();
@@ -168,7 +161,6 @@ public class EmployeeServiceTest {
 		employeeEntity.setLastName(LN_1);
 		employeeEntity.setCpf(EMPLOYEE_CPF);
 		
-		//Mockando a conversão estática de DTO para entidade para que o endereço cache do resultado convertido seja o mesmo
 		when(EmployeeMapper.covertToEntity(employeeDTO)).thenReturn(employeeEntity);
 		when(employeeRepository.save(employeeEntity)).thenReturn(employeeEntity);
 		
@@ -181,7 +173,7 @@ public class EmployeeServiceTest {
 	
 	@Test
 	void testCreate_WhenNameIsMissing() {
-		//Arrange, quando o nome é vazio
+		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName(null);
 		
@@ -193,7 +185,7 @@ public class EmployeeServiceTest {
 	
 	@Test
 	void testCreate_WhenDTOIsNull() {
-		//Arrange, quando o DTO é vazio
+		//Arrange
 		EmployeeDTO employeeDTO = null;
 		
 		//Act e Assert
@@ -227,7 +219,7 @@ public class EmployeeServiceTest {
 		when(employeeRepository.findById(employeeDTO.getId())).thenReturn(Optional.of(employeeEntityToBeUpdated));
 		when(categoryRepository.findById(employeeDTO.getCategoryId())).thenReturn(Optional.of(category));
 		mockedStaticClass.when((Verification) EmployeeDTO.convertToDTO(employeeEntityToBeUpdated)).thenReturn(employeeDTO);
-		Mockito.doNothing().when(mockedSpy).create(employeeDTO); //DoNothing é utilizado quando testamos uma função void
+		Mockito.doNothing().when(mockedSpy).create(employeeDTO); 
 		when(EmployeeMapper.covertToEntity(employeeDTO)).thenReturn(employeeEntityToBeUpdated);
 		
 		//Act
@@ -258,7 +250,7 @@ public class EmployeeServiceTest {
 		
 		//Assert
 		assertThat(result).isEqualTo("Collaborator of ID " + EMPLOYEE_ID + " not found");
-		verify(mockedSpy, times(0)).create(any(EmployeeDTO.class)); //Usando Spy para verificar invocação do método do service
+		verify(mockedSpy, times(0)).create(any(EmployeeDTO.class)); 
 	}
 	
 	@Test

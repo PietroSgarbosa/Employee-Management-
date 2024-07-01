@@ -24,7 +24,6 @@ import com.employeemanagement.employeemanagement.service.EmployeeService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-//Annotation para testes jUnit, testando em controladores/controllers
 @SpringBootTest
 public class EmployeeControllerTest {
 	
@@ -50,11 +49,9 @@ public class EmployeeControllerTest {
 	@Test
 	void testGetAll() {
 		//Arrange
-		//Filtro mockado que será passado para teste
 		EmployeeFilterDTO filter = new EmployeeFilterDTO();
 		filter.setFirstName("Test");
 		
-		//Resultados mockados esperados do teste do filtro
 		EmployeeDTO employee1 = new EmployeeDTO();
 		employee1.setFirstName("Test");
 		employee1.setCpf("444");
@@ -63,7 +60,6 @@ public class EmployeeControllerTest {
 		employee2.setFirstName("Test");
 		employee2.setCpf("123");
 		
-		//Condição
 		List<EmployeeDTO> employeeListDTO = Arrays.asList(employee1, employee2);
 		when(employeeService.getAll(filter)).thenReturn(employeeListDTO);
 		
@@ -72,7 +68,7 @@ public class EmployeeControllerTest {
 		
 		//Assert
 		assertThat(testResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(testResponse.getBody()).hasSameClassAs(employeeListDTO); //Testando para ver se o tipo de classe é o mesmo comparado
+		assertThat(testResponse.getBody()).hasSameClassAs(employeeListDTO); 
 		assertThat(testResponse.getBody().get(0).getFirstName()).isEqualTo("Test");
 		assertThat(testResponse.getBody().get(1).getFirstName()).isEqualTo("Test");
 		verify(employeeService, times(1)).getAll(filter);
@@ -80,8 +76,7 @@ public class EmployeeControllerTest {
 	
 	@Test
 	void testGetAll_WhenControllerThrowsException(){
-		
-		//Gerando exceção genérica para ser verificada MOCKADA
+		//Arrange
 		EmployeeFilterDTO filter = new EmployeeFilterDTO();
         when(employeeService.getAll(filter)).thenThrow(new RuntimeException(DATABASE_ERROR));
         
@@ -119,7 +114,6 @@ public class EmployeeControllerTest {
 		//Arrange
 		Long employeeId = 1L;
 		
-		//Gerando exceção genérica para ser verificada MOCKADA
         when(employeeService.getById(employeeId)).thenThrow(new RuntimeException(DATABASE_ERROR));
         
         //Act
@@ -134,7 +128,7 @@ public class EmployeeControllerTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	void testCreate() {
-		//Arrange - montar os dados mockados, no caso o DTO/entidade que será salvo sem situação WHEN
+		//Arrange 
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName("Teste");
 		employeeDTO.setCpf("123");
@@ -159,9 +153,7 @@ public class EmployeeControllerTest {
 		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName("Teste Exception");
-		
-		//Gerando exceção genérica para ser verificada MOCKADA, o comando doThrow é usado para 
-		//métodos que não retornam nada (VOID)
+	
         doThrow(new RuntimeException(DATABASE_ERROR)).when(employeeService).create(employeeDTO);
         
         //Act

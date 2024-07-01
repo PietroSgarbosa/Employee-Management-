@@ -26,11 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-//Annotation para testes jUnit
 @SpringBootTest
 public class CategoryServiceTest {
 	
-	//Cria uma instancia mockada do repositório
 	@Mock
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -48,11 +46,9 @@ public class CategoryServiceTest {
 		MockitoAnnotations.openMocks(this);
 	}
 	
-	//Situação em que traz uma lista
 	@Test 
 	void testGetAll() {
-		
-		//Instanciando três objetos categorias para testar getAll
+		//Arrange
 		Category category1 = new Category();
 		category1.setId(1L);
 		category1.setDescription("Intern");
@@ -65,26 +61,21 @@ public class CategoryServiceTest {
 		category3.setId(3L);
 		category3.setDescription("Jr I");
 		
-		//Instanciando array diretamente do construtor
 		List<Category> categoryList = Arrays.asList(category1, category2, category3);
 		
-		//Mockando dados de teste no banco simulado pelo repository
 		when(categoryRepository.findAll()).thenReturn(categoryList);
 		
 		//"Act"
-		//Pegando resultado direto do service de Category
 		List<CategoryDTO> result = categoryService.getAll();
 		
 		//"Assert"
-		//Testando resultados do teste
 		assertThat(result).hasSize(3);
 		assertThat(result.get(0).getDescription()).isEqualTo("Intern");
 		assertThat(result.get(1).getDescription()).isEqualTo("Trainee");
 		assertThat(result.get(2).getDescription()).isEqualTo("Jr I");
-		verify(categoryRepository, times(1)).findAll(); //O Número 1 simboliza SE EXECUTOU UMA VEZ A INVOCAÇÃO DO MÉTODO
+		verify(categoryRepository, times(1)).findAll(); 
 	}
 	
-	//Situação em que traz null
 	@Test
 	void testGetAll_WhenServiceReturnsNull() {
 		
@@ -99,11 +90,9 @@ public class CategoryServiceTest {
 		verify(categoryRepository, times(1)).findAll();
 	}
 	
-	
-	//Testando getById
 	@Test
 	void testGetById() {
-		
+		//Arrange
 		Optional<Category> category1 = Optional.ofNullable(new Category());
 		category1.get().setId(1L);
 		category1.get().setDescription("Intern");
@@ -131,7 +120,6 @@ public class CategoryServiceTest {
 		verify(categoryRepository, times(1)).findById(id);
 	}
 	
-	//Testando getById para retornar valor diferente do pesquisado
 	@Test
 	void testGetById_WhenReturnIsDifferent() {
 		
@@ -151,12 +139,9 @@ public class CategoryServiceTest {
 		verify(categoryRepository, times(1)).findById(id);
 	}
 	
-	//Testando a invocação do método de create, essa é a forma como o Mockito usa para 
-	//verificar se uma gravação foi feita com sucesso uma vez que o serviço retorna VOID 
 	@Test
 	void testCreate() {
-		
-		//O DTO e a entidade precisam ter o mesmo ID
+		//Arrange
 		CategoryDTO categoryDTO = new CategoryDTO();
 		categoryDTO.setId(1L);
 		categoryDTO.setDescription("Intern");
@@ -168,16 +153,14 @@ public class CategoryServiceTest {
 		//"Act"
 		categoryService.create(categoryDTO);
 	
-		//A funação refEq certifica de que a entidade é equivalente a conversão do DTO original
+		//Assert
 		verify(categoryRepository, times(1)).save(refEq(category1));
 	}
 	
-	//Testando cenário de exception ao salvar 
 	@Test
 	void testCreate_WhenServiceThrowsException() {
 	
 		//"Act & Assert"
-		//Usando assertThrows para testar exceptions simples
 		assertThrows(IllegalArgumentException.class, () -> {
 			categoryService.create(null);
 		});
@@ -185,7 +168,7 @@ public class CategoryServiceTest {
 	
 	@Test
 	void testUpdate() {
-		
+		//Assert
 		Long id = 1L;
 		CategoryDTO categoryDTO = new CategoryDTO();
 		categoryDTO.setId(id);
@@ -200,19 +183,16 @@ public class CategoryServiceTest {
 		//"Act"
 		String result = categoryService.update(categoryDTO);
 
-		//"Assert" assegurando que a string do resultado é a esparada e de que o valor foi
-		//alterado corretamente na entidade original
+		//"Assert" 
 		verify(categoryRepository, times(1)).findById(id);
 		verify(categoryRepository, times(1)).save(categoryToBeUpdated);
 		assertThat(result).isEqualTo("Category of ID " + id + " updated successfully!");
 		assertThat(categoryToBeUpdated.getDescription()).isEqualTo("Trainee");
-		
 	}
 	
-	//Testando segunda opção de retorno do update
 	@Test
 	void testUpdate_SecondReturnCondition() {
-		
+		//Assert
 		Long categoryId = 999L;
 		
 		CategoryDTO categoryDTO = new CategoryDTO();
@@ -226,13 +206,12 @@ public class CategoryServiceTest {
 		String result = categoryService.update(categoryDTO);
 		
 		assertThat(result).isEqualTo("Category of ID " + categoryDTO.getId() + " not found");
-		verify(categoryRepository, times(0)).save(any(Category.class)); //O Número 0 SIMBOLIZA SE O MÉTODO NÃO FOI CHAMADO
+		verify(categoryRepository, times(0)).save(any(Category.class)); 
 	}
 	
 	@Test
 	void testDelete() {
-		
-		//TODOS OS DADOS MOCKADOS -----------------------/
+		//Arrange
 		Long id = 1L;
 		
 		Category category = new Category();
@@ -240,16 +219,13 @@ public class CategoryServiceTest {
 		
 		List<Employee> employees = new ArrayList<Employee>();
 		
-		//Condição para deletar, retornar lista vazia
 		when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
 		when(employeeRepository.findByCategory(category)).thenReturn(employees);
 		
-		//FIM DOS DADOS MOCKADOS ------------------------/
-		
-		//"Act" GATILHO PARA ATIVAR O SERVICE
+		//"Act" 
 		categoryService.delete(id);
 		
-		//"Assert" VALIDAÇÕES - COMEÇO DO TESTE
+		//"Assert" 
 		verify(categoryRepository, times(1)).findById(id);
 		verify(employeeRepository, times(1)).findByCategory(category);
 		verify(categoryRepository, times(1)).delete(category);

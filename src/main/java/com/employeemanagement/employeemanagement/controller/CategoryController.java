@@ -27,7 +27,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping(value = "/getById/{id}")
+	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
 			Category entity = getCategoryService().findById(id);
@@ -37,7 +37,7 @@ public class CategoryController {
 		}
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping()
 	public @ResponseBody ResponseEntity<?> create(@RequestBody CategoryDTO categoryDTO) {
 		try {
 			getCategoryService().create(categoryDTO);
@@ -48,7 +48,7 @@ public class CategoryController {
 		}
 	}
 
-	@GetMapping(value = "/getAll")
+	@GetMapping()
 	public @ResponseBody ResponseEntity<?> getAll() {
 		try {
 			List<CategoryDTO> categoryListDTO = getCategoryService().getAll();
@@ -59,7 +59,7 @@ public class CategoryController {
 		}
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping()
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
 			String message = getCategoryService().delete(id);
@@ -70,7 +70,7 @@ public class CategoryController {
 		}
 	}
 
-	@PutMapping(value = "/update")
+	@PutMapping()
 	public @ResponseBody ResponseEntity<String> update(@RequestBody CategoryDTO categoryDTO) {
 		try {
 			String message = getCategoryService().update(categoryDTO);

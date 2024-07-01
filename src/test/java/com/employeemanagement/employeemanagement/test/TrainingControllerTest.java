@@ -74,7 +74,7 @@ public class TrainingControllerTest {
 	
 	@Test
 	void testGetById_WhenControllerThrowsException() {
-		//Gerando exceção genérica para ser verificada MOCKADA
+		//Arrange
         when(trainingService.getById(TRAINING_ID)).thenThrow(new RuntimeException(DATABASE_ERROR));
         
         //Act
