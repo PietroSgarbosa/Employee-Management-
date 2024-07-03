@@ -32,7 +32,7 @@ public class TrainingService {
 	}
 
 	public List<TrainingDTO> getAll() {
-		List<Training> trainingList = getTrainingRepository().findAll();
+		List<Training> trainingList = getTrainingRepository().findAllByOrderByTitleAsc();
 		List<TrainingDTO> trainingListDTO = trainingList.stream().map(training -> TrainingDTO.convertToDTO(training))
 				.toList();
 
