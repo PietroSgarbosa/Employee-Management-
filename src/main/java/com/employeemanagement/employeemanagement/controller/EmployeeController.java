@@ -20,6 +20,12 @@ import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
@@ -27,6 +33,13 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+    @Operation(
+    		summary = "Get all employees using filter", 
+    		description = "Returns a list of EmployeeDTO or an empty list")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = { @Content(schema = @Schema(implementation = EmployeeDTO.class), mediaType ="application/json")}),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@PostMapping(value = "/getAll")
 	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilterDTO) {
 		try {
@@ -38,6 +51,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Search employee by ID", 
+    		description = "Returns EmployeeDTO or null")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = { @Content(schema = @Schema(implementation = EmployeeDTO.class), mediaType ="application/json")}),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
@@ -48,6 +68,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Submit new employee", 
+    		description = "Submit new employee receiving a EmployeeDTO model class")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = @Content( mediaType = "text/plain", schema = @Schema(type = "string", example = "Employee inserted successfully!"))),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@PostMapping()
 	public @ResponseBody ResponseEntity<?> create(@RequestBody EmployeeDTO employeeDTO) {
 		try {
@@ -59,6 +86,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Update an employee", 
+    		description = "Update existing employee")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = @Content( mediaType = "text/plain", schema = @Schema(type = "string", example = "Employee updated successfully!"))),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@PutMapping()
 	public @ResponseBody ResponseEntity<String> update(@RequestBody EmployeeDTO employeeDTO) {
 		try {
@@ -70,6 +104,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Delete an employee", 
+    		description = "Delete an existing employee")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = @Content( mediaType = "text/plain", schema = @Schema(type = "string", example = "Employee deleted successfully!"))),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@DeleteMapping()
 	public @ResponseBody ResponseEntity<String> delete(@RequestParam Long id) {
 		try {
@@ -81,6 +122,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Start training for existing employee", 
+    		description = "Change the status of a training to 'OnGoing'")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = @Content( mediaType = "text/plain", schema = @Schema(type = "string", example = "Status changed succesfully!"))),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@PutMapping(value = "/startTraining")
 	public @ResponseBody ResponseEntity<String> startTraining(@RequestParam Long idEmployee,
 			@RequestParam Long idTraining) {
@@ -93,6 +141,13 @@ public class EmployeeController {
 		}
 	}
 
+    @Operation(
+    		summary = "Finish training for existing employee", 
+    		description = "Change the status of a training to 'Complete'")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = @Content( mediaType = "text/plain", schema = @Schema(type = "string", example = "Status changed succesfully!"))),
+        @ApiResponse(responseCode = "500", description = "Internal error on server/API")
+    })
 	@PutMapping(value = "/finishTraining")
 	public @ResponseBody ResponseEntity<String> finishTraining(@RequestParam Long idEmployee,
 			@RequestParam Long idTraining) {
