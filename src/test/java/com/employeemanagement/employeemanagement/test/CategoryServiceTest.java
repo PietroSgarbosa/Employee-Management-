@@ -57,23 +57,18 @@ public class CategoryServiceTest {
 		category2.setId(2L);
 		category2.setDescription("Trainee");
 		
-		Category category3 = new Category();
-		category3.setId(3L);
-		category3.setDescription("Jr I");
+		List<Category> categoryList = Arrays.asList(category1, category2);
 		
-		List<Category> categoryList = Arrays.asList(category1, category2, category3);
-		
-		when(categoryRepository.findAll()).thenReturn(categoryList);
+		when(categoryRepository.findAllByOrderByDescriptionAsc()).thenReturn(categoryList);
 		
 		//"Act"
 		List<CategoryDTO> result = categoryService.getAll();
 		
 		//"Assert"
-		assertThat(result).hasSize(3);
+		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getDescription()).isEqualTo("Intern");
 		assertThat(result.get(1).getDescription()).isEqualTo("Trainee");
-		assertThat(result.get(2).getDescription()).isEqualTo("Jr I");
-		verify(categoryRepository, times(1)).findAll(); 
+		verify(categoryRepository, times(1)).findAllByOrderByDescriptionAsc(); 
 	}
 	
 	@Test
@@ -87,7 +82,7 @@ public class CategoryServiceTest {
 		
 		//"Assert"
 		assertThat(result).isNull();
-		verify(categoryRepository, times(1)).findAll();
+		verify(categoryRepository, times(0)).findAll();
 	}
 	
 	@Test
@@ -100,7 +95,7 @@ public class CategoryServiceTest {
 		Employee employee1 = new Employee();
 		employee1.setId(1L);
 		employee1.setCpf("111");
-		employee1.setFirstName("Pietro Sgarbosa");
+		employee1.setFullName("Pietro Sgarbosa");
 		
 		List<Employee> employeeList1 = Arrays.asList(employee1);
 		Long id = category1.get().getId();
@@ -116,7 +111,7 @@ public class CategoryServiceTest {
 		assertThat(result).isNotNull();
 		assertThat(result.get().getDescription()).isEqualTo("Intern");
 		assertThat(result.get().getId()).isEqualTo(1L);
-		assertThat(result.get().getEmployees().get(0).getFirstName()).isEqualTo("Pietro Sgarbosa");
+		assertThat(result.get().getEmployees().get(0).getFullName()).isEqualTo("Pietro Sgarbosa");
 		verify(categoryRepository, times(1)).findById(id);
 	}
 	

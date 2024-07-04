@@ -18,11 +18,4 @@ public class TrainingMapper {
 		return entity;
 	}
 	
-	private static TrainingDTO mapToTrainingDTO(TrainingDTO training) {
-		TrainingDTO dto = new TrainingDTO();
-		dto.setId(training.getId());
-		dto.setTitle(training.getTitle());
-		dto.setStatus(training.getStatus());
-		return dto;
-	}
 }

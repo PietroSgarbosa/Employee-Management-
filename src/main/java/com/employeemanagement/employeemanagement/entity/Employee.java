@@ -1,5 +1,6 @@
 package com.employeemanagement.employeemanagement.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -23,17 +24,17 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "FIRSTNAME", nullable = false)
-	private String firstName;
-
-	@Column(name = "MIDDLENAME")
-	private String middleName;
-
-	@Column(name = "LASTNAME", nullable = false)
-	private String lastName;
+	@Column(name = "FULLNAME", nullable = false)
+	private String fullName;
 
 	@Column(name = "CPF", nullable = false)
 	private String cpf;
+	
+	@Column(name = "RG", nullable = false)
+	private String rg;
+	
+	@Column(name = "ADMISSION_DATE", nullable = false)
+	private LocalDate admissionDate;
 	
 	@JoinColumn(name = "category_id")
 	@ManyToOne
@@ -63,30 +64,29 @@ public class Employee {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getMiddleName() {
-		return middleName;
+	public String getRg() {
+		return rg;
 	}
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public LocalDate getAdmissionDate() {
+		return admissionDate;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setAdmissionDate(LocalDate admissionDate) {
+		this.admissionDate = admissionDate;
 	}
-
 
 	public Category getCategory() {
 		return category;

@@ -53,11 +53,11 @@ public class EmployeeControllerTest {
 		filter.setFirstName("Test");
 		
 		EmployeeDTO employee1 = new EmployeeDTO();
-		employee1.setFirstName("Test");
+		employee1.setFullName("Test");
 		employee1.setCpf("444");
 		
 		EmployeeDTO employee2 = new EmployeeDTO();
-		employee2.setFirstName("Test");
+		employee2.setFullName("Test");
 		employee2.setCpf("123");
 		
 		List<EmployeeDTO> employeeListDTO = Arrays.asList(employee1, employee2);
@@ -69,8 +69,8 @@ public class EmployeeControllerTest {
 		//Assert
 		assertThat(testResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(testResponse.getBody()).hasSameClassAs(employeeListDTO); 
-		assertThat(testResponse.getBody().get(0).getFirstName()).isEqualTo("Test");
-		assertThat(testResponse.getBody().get(1).getFirstName()).isEqualTo("Test");
+		assertThat(testResponse.getBody().get(0).getFullName()).isEqualTo("Test");
+		assertThat(testResponse.getBody().get(1).getFullName()).isEqualTo("Test");
 		verify(employeeService, times(1)).getAll(filter);
 	}
 	
@@ -94,7 +94,7 @@ public class EmployeeControllerTest {
 	void testGetById() {
 		//Arrange
 		EmployeeDTO employee1 = new EmployeeDTO();
-		employee1.setFirstName("Test");
+		employee1.setFullName("Test");
 		employee1.setId(EMPLOYEE_ID);
 		
 		when(employeeService.getById(EMPLOYEE_ID)).thenReturn(employee1);
@@ -105,7 +105,7 @@ public class EmployeeControllerTest {
 		//Assert
 		assertThat(testResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(testResponse.getBody()).hasSameClassAs(employee1);
-		assertThat(testResponse.getBody().getFirstName()).isEqualTo("Test");
+		assertThat(testResponse.getBody().getFullName()).isEqualTo("Test");
 		verify(employeeService, times(1)).getById(EMPLOYEE_ID);
 	}
 	
@@ -130,9 +130,8 @@ public class EmployeeControllerTest {
 	void testCreate() {
 		//Arrange 
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName("Teste");
+		employeeDTO.setFullName("Teste");
 		employeeDTO.setCpf("123");
-		employeeDTO.setLastName("Teste");
 		employeeDTO.setPhoto(null);
 		employeeDTO.setCategoryId(1L);
 		List<Long> trainingsId = Arrays.asList(1L, 2L, 3L);
@@ -152,7 +151,7 @@ public class EmployeeControllerTest {
 	void testCreate_WhenControllerThrowsException() {
 		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName("Teste Exception");
+		employeeDTO.setFullName("Teste Exception");
 	
         doThrow(new RuntimeException(DATABASE_ERROR)).when(employeeService).create(employeeDTO);
         
@@ -204,7 +203,7 @@ public class EmployeeControllerTest {
 	void testUpdate_WhenControllerThrowsException() {
 		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName("Teste Exception");
+		employeeDTO.setFullName("Teste Exception");
 		
         doThrow(new RuntimeException(DATABASE_ERROR)).when(employeeService).update(employeeDTO);
         

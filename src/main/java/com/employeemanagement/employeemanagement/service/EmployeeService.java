@@ -67,7 +67,7 @@ public class EmployeeService {
 
 	public void create(EmployeeDTO employeeDTO) {
 		if (employeeDTO != null) {
-			if (employeeDTO.getFirstName() == null) {
+			if (employeeDTO.getFullName() == null) {
 				throw new EmployeeNameMissingException();
 			} else {
 				Employee employeeEntity = EmployeeMapper.covertToEntity(employeeDTO);
@@ -99,13 +99,15 @@ public class EmployeeService {
 		String responseMessage = "Collaborator of ID " + employeeDTO.getId() + " not found";
 
 		if (defaultEmployee.getId() != null) {
-			defaultEmployee.setFirstName(employeeDTO.getFirstName());
-			defaultEmployee.setMiddleName(employeeDTO.getMiddleName());
-			defaultEmployee.setLastName(employeeDTO.getLastName());
+			defaultEmployee.setFullName(employeeDTO.getFullName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
+			defaultEmployee.setRg(employeeDTO.getRg());
 
-			Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
-			defaultEmployee.setCategory(category);
+			if(employeeDTO.getCategoryId() != null) {
+				Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
+				defaultEmployee.setCategory(category);
+			}
+
 			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;

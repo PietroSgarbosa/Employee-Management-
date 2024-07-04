@@ -13,10 +13,10 @@ public class EmployeeMapper {
 	public static Employee covertToEntity(EmployeeDTO dto) {
 		Employee entity = new Employee();
 		entity.setId(dto.getId());
-		entity.setFirstName(dto.getFirstName());
-		entity.setMiddleName(dto.getMiddleName());
-		entity.setLastName(dto.getLastName());
+		entity.setFullName(dto.getFullName());;
 		entity.setCpf(dto.getCpf());
+		entity.setRg(dto.getRg());
+		entity.setAdmissionDate(dto.getAdmissionDate());
 		if(dto.getPhoto() != null) {
 			entity.setPhoto(Base64.getDecoder().decode(dto.getPhoto()));
 		}

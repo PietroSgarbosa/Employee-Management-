@@ -1,23 +1,23 @@
 package com.employeemanagement.employeemanagement.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmployeeDTO {
 
 	private Long id;
 
-	private String firstName;
-
-	private String middleName;
-
-	private String lastName;
+	private String fullName;
 
 	private String cpf;
+	
+	private String rg;
+	
+	private LocalDate admissionDate;
 
 	private CategoryDTO category;
 
@@ -37,28 +37,28 @@ public class EmployeeDTO {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
-	public String getMiddleName() {
-		return middleName;
+	public String getRg() {
+		return rg;
 	}
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public LocalDate getAdmissionDate() {
+		return admissionDate;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setAdmissionDate(LocalDate admissionDate) {
+		this.admissionDate = admissionDate;
 	}
 
 	public CategoryDTO getCategory() {

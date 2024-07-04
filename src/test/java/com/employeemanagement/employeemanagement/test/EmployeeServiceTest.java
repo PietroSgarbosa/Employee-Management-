@@ -42,9 +42,7 @@ import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 @SpringBootTest
 public class EmployeeServiceTest {
 
-	private static final String LN_2 = "LN_2";
 	private static final String FN_2 = "FN_2";
-	private static final String LN_1 = "LN_1";
 	private static final String FN_1 = "FN_1";
 	private static final Long EMPLOYEE_ID = 1L;
 	private static final String EMPLOYEE_CPF = "123";
@@ -118,14 +116,12 @@ public class EmployeeServiceTest {
 		Employee employee1 = new Employee();
 		employee1.setId(EMPLOYEE_ID);
 		employee1.setCpf(EMPLOYEE_CPF);
-		employee1.setFirstName(FN_1);
-		employee1.setLastName(LN_1);
+		employee1.setFullName(FN_1);
 		
 		Employee employee2 = new Employee();
 		employee2.setId(EMPLOYEE_ID2);
 		employee2.setCpf(EMPLOYEE_CPF2);
-		employee2.setFirstName(FN_2);
-		employee2.setLastName(LN_2);
+		employee2.setFullName(FN_2);
 		
 		List<Employee> employeeList = Arrays.asList(employee1, employee2);
 		
@@ -152,13 +148,11 @@ public class EmployeeServiceTest {
 		mockStatic(EmployeeMapper.class);
 		
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName(FN_1);
-		employeeDTO.setLastName(LN_1);
+		employeeDTO.setFullName(FN_1);
 		employeeDTO.setCpf(EMPLOYEE_CPF);
 		
 		Employee employeeEntity = new Employee();
-		employeeEntity.setFirstName(FN_1);
-		employeeEntity.setLastName(LN_1);
+		employeeEntity.setFullName(FN_1);
 		employeeEntity.setCpf(EMPLOYEE_CPF);
 		
 		when(EmployeeMapper.covertToEntity(employeeDTO)).thenReturn(employeeEntity);
@@ -175,7 +169,7 @@ public class EmployeeServiceTest {
 	void testCreate_WhenNameIsMissing() {
 		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName(null);
+		employeeDTO.setFullName(null);
 		
 		//Act e Assert
 		assertThrows(EmployeeNameMissingException.class, () -> {
@@ -201,8 +195,7 @@ public class EmployeeServiceTest {
 		String responseMessage = "Employee of ID " + EMPLOYEE_ID + " updated successfully!";
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId(EMPLOYEE_ID);
-		employeeDTO.setFirstName(FN_2);
-		employeeDTO.setLastName(LN_2);
+		employeeDTO.setFullName(FN_2);
 		employeeDTO.setCpf(EMPLOYEE_CPF);
 		employeeDTO.setCategoryId(1L);
 		
@@ -212,8 +205,7 @@ public class EmployeeServiceTest {
 		
 		Employee employeeEntityToBeUpdated = new Employee();
 		employeeEntityToBeUpdated.setId(EMPLOYEE_ID);
-		employeeEntityToBeUpdated.setFirstName(FN_1);
-		employeeEntityToBeUpdated.setLastName(LN_1);
+		employeeEntityToBeUpdated.setFullName(FN_1);
 		employeeEntityToBeUpdated.setCpf(EMPLOYEE_CPF);
 	
 		when(employeeRepository.findById(employeeDTO.getId())).thenReturn(Optional.of(employeeEntityToBeUpdated));
@@ -236,8 +228,7 @@ public class EmployeeServiceTest {
 	void testUpdate_WhenEmployeeNotFound() {
 		//Arrange
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		employeeDTO.setFirstName(FN_1);
-		employeeDTO.setLastName(LN_1);
+		employeeDTO.setFullName(FN_1);
 		employeeDTO.setCpf(EMPLOYEE_CPF);
 		employeeDTO.setId(EMPLOYEE_ID);
 		
