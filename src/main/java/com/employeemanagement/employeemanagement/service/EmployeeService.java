@@ -19,6 +19,7 @@ import com.employeemanagement.employeemanagement.exception.EmployeeNameMissingEx
 import com.employeemanagement.employeemanagement.repository.CategoryRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
+import com.employeemanagement.employeemanagement.repository.StatusRepository;
 import com.employeemanagement.employeemanagement.utils.EmployeeMapper;
 import com.employeemanagement.employeemanagement.utils.EmployeeSpecification;
 
@@ -38,6 +39,9 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
+	
+	@Autowired
+	private StatusRepository statusRepository;
 
 	public EmployeeDTO getById(Long id) {
 		Employee employee = getEmployeeRepository().findById(id).orElse(null);
@@ -77,7 +81,13 @@ public class EmployeeService {
 				getEmployeeRepository().save(employeeEntity);
 				if (employeeDTO.getTrainingsId() != null) {
 					for (Long trainingId : employeeDTO.getTrainingsId()) {
-						Status status = new Status((long) 1);
+						
+						//PLANO A
+						//Status status = new Status((long) 1);
+						
+						//PLANO B
+						Status status = statusRepository.findById(1L).orElse(null);
+						
 						Training training = new Training(trainingId);
 						Employee employe = new Employee(employeeEntity.getId());
 						EmployeeTrainingKey employeeTrainingKey = new EmployeeTrainingKey(employeeEntity.getId(),
