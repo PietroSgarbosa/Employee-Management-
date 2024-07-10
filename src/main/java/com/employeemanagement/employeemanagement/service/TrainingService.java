@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.employeemanagement.employeemanagement.dto.CategoryDTO;
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
+import com.employeemanagement.employeemanagement.entity.Category;
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.repository.CategoryRepository;
 import com.employeemanagement.employeemanagement.repository.EmployeeTrainingRepository;
 import com.employeemanagement.employeemanagement.repository.TrainingRepository;
 import com.employeemanagement.employeemanagement.utils.TrainingMapper;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TrainingService {
@@ -25,10 +26,17 @@ public class TrainingService {
 
 	@Autowired
 	private EmployeeTrainingRepository employeeTrainingRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
-	public Training getById(Long id) {
-		return getTrainingRepository().findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Training with Id " + id + " does not exist"));
+	public TrainingDTO getById(Long id) {
+		Training training = getTrainingRepository().findById(id).orElse(null);
+		TrainingDTO trainingDTO = TrainingDTO.convertToDTO(training);
+		if(training.getCategory() != null) {
+			trainingDTO.setCategoryDTO(CategoryDTO.convertToDTO(training.getCategory()));
+		}
+		return trainingDTO;
 	}
 
 	public List<TrainingDTO> getAll() {
@@ -37,6 +45,12 @@ public class TrainingService {
 				.toList();
 
 		if (!trainingListDTO.isEmpty()) {
+			for (Training training : trainingList) {
+				if(training.getCategory() != null) {
+					CategoryDTO categoryDTO = CategoryDTO.convertToDTO(training.getCategory());
+					trainingListDTO.get(trainingList.indexOf(training)).setCategoryDTO(categoryDTO);
+				}
+			}
 			return trainingListDTO;
 		} else {
 			return null;
@@ -44,7 +58,7 @@ public class TrainingService {
 	}
 
 	public String update(TrainingDTO trainingDTO) {
-		Training defaultTraining = getById(trainingDTO.getId());
+		Training defaultTraining = getTrainingRepository().findById(trainingDTO.getId()).orElse(null);
 		String responseMessage = "Training of ID " + trainingDTO.getId() + " not found";
 
 		if (defaultTraining != null) {
@@ -64,6 +78,14 @@ public class TrainingService {
 			} else {
 				Training trainingEntity = getTrainingMapper().covertToEntity(trainingDTO);
 				getTrainingRepository().save(trainingEntity);
+				if(trainingDTO.getCategoryId() != null) {
+					Category category = categoryRepository.findById(trainingDTO.getCategoryId()).orElse(null);
+					trainingEntity.setCategory(category);
+					category.getTrainings().add(trainingEntity);
+					categoryRepository.save(category);
+					getTrainingRepository().save(trainingEntity);
+				}
+				
 			}
 		} else {
 			throw new IllegalArgumentException("The trainingDTO object cannot be null");

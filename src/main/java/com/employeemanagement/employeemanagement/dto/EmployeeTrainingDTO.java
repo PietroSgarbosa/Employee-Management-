@@ -13,7 +13,6 @@ public class EmployeeTrainingDTO {
 	
     private TrainingDTO training;
     
-    @JsonIgnore
     private Status status;
 
     public EmployeeDTO getEmployee() {
