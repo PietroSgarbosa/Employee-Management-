@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.employeemanagement.employeemanagement.controller.TrainingController;
 import com.employeemanagement.employeemanagement.dto.TrainingDTO;
-import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.service.TrainingService;
 
 @SpringBootTest
@@ -49,17 +48,12 @@ public class TrainingControllerTest {
 	@Test
 	void testGetById() {
 		//Arrange
-		Training training = new Training();
-		training.setTitle("Unit Test");
-		training.setId(TRAINING_ID);
-		training.setDescription(TRAINING_DESCRIPTION);
-		
 		TrainingDTO trainingDTO = new TrainingDTO();
 		trainingDTO.setTitle("Unit Test");
 		trainingDTO.setId(TRAINING_ID);
 		trainingDTO.setDescription(TRAINING_DESCRIPTION);
 	
-		when(trainingService.getById(TRAINING_ID)).thenReturn(training);
+		when(trainingService.getById(TRAINING_ID)).thenReturn(trainingDTO);
 		
 		//Act
 		ResponseEntity<TrainingDTO> testResponse = (ResponseEntity<TrainingDTO>) trainingController.getById(TRAINING_ID); 

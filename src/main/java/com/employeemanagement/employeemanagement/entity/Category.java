@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +25,15 @@ public class Category {
 	private String description;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	private List<Employee> employees;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+	private List<Training> trainings;
+
+	public Category() {
+	}
 
 	public Long getId() {
 		return id;
@@ -49,6 +57,14 @@ public class Category {
 
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
+	}
+
+	public List<Training> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(List<Training> trainings) {
+		this.trainings = trainings;
 	}
 
 }

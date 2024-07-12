@@ -35,7 +35,7 @@ public class TrainingController {
 	
     @Operation(
     		summary = "Search training by ID", 
-    		description = "Returns a training entity by it exactly ID")
+    		description = "Returns a trainingDTO by it exactly ID")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = { @Content(schema = @Schema(implementation = Training.class), mediaType ="application/json")}),
         @ApiResponse(responseCode = "500", description = "Internal error on server/API")
@@ -43,9 +43,9 @@ public class TrainingController {
 	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
-			Training entity = getTrainingService().getById(id);
+			TrainingDTO trainingDTO = getTrainingService().getById(id);
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(TrainingDTO.convertToDTO(entity));
+					.body(trainingDTO);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

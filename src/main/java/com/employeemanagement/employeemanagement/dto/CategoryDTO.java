@@ -3,9 +3,11 @@ package com.employeemanagement.employeemanagement.dto;
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class CategoryDTO {
 
+	@JsonIgnore
 	private Long id;
 
 	private String description;
