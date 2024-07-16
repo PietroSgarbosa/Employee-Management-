@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class EmployeeDTO {
 
@@ -21,11 +22,14 @@ public class EmployeeDTO {
 
 	private CategoryDTO category;
 
+	@JsonIgnore
 	private Long categoryId;
 
+	@JsonIgnore
 	private List<Long> trainingsId;
 
-	private List<EmployeeTrainingDTO> trainings;
+	@JsonIgnore
+	private List<EmployeeTrainingDTO> trainings; 
 	
 	private String photo;
 
