@@ -4,15 +4,19 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.EmployeeTraining;
 import com.employeemanagement.employeemanagement.entity.Status;
+import com.employeemanagement.employeemanagement.utils.Views;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 public class EmployeeTrainingDTO {
 
 	@JsonIgnore
     private EmployeeDTO employee;
 	
+	@JsonView(Views.Basic.class)
     private TrainingDTO training;
     
+    @JsonIgnore
     private Status status;
 
     public EmployeeDTO getEmployee() {
