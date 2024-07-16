@@ -7,21 +7,32 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.employeemanagement.employeemanagement.utils.CategoryDTOSerializer;
+import com.employeemanagement.employeemanagement.utils.Views;
 
 public class EmployeeDTO {
 
+	@JsonView(Views.Basic.class)
 	private Long id;
 
+	@JsonView(Views.Basic.class)
 	private String fullName;
 
+	@JsonView(Views.Detailed.class)
 	private String cpf;
 	
+	@JsonView(Views.Detailed.class)
 	private String rg;
 	
+	@JsonView(Views.Detailed.class)
 	private LocalDate admissionDate;
 
+	@JsonView(Views.Basic.class)
+	@JsonSerialize(using = CategoryDTOSerializer.class)
 	private CategoryDTO category;
-
+	
 	@JsonIgnore
 	private Long categoryId;
 
@@ -31,6 +42,8 @@ public class EmployeeDTO {
 	@JsonIgnore
 	private List<EmployeeTrainingDTO> trainings; 
 	
+	@JsonView(Views.Basic.class)
+	@JsonIgnore
 	private String photo;
 
 	public Long getId() {

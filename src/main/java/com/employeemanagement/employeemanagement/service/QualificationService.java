@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.employeemanagement.employeemanagement.dto.CategoryDTO;
+import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeTrainingDTO;
 import com.employeemanagement.employeemanagement.dto.QualificationDTO;
@@ -50,10 +50,7 @@ public class QualificationService {
 	
 	private QualificationDTO buildQualification(Employee employee) {
 		QualificationDTO qualificationDTO = new QualificationDTO();
-		qualificationDTO.setId(employee.getId());
-		qualificationDTO.setFullName(employee.getFullName());
-		qualificationDTO.setStatusTrainings(null);
-		qualificationDTO.setCategory(CategoryDTO.convertToDTO(employee.getCategory()));
+		qualificationDTO.setEmployee(EmployeeDTO.convertToDTO(employee));
 		
 		for(EmployeeTraining relationship : employee.getTrainings()) {
 			EmployeeTrainingDTO relationshipDTO = EmployeeTrainingDTO.convertToDTO(relationship);
@@ -65,7 +62,7 @@ public class QualificationService {
 		}
 
 		if(employee.getPhoto() != null) {
-			qualificationDTO.setPhoto(base64Converter(employee.getPhoto()));
+			qualificationDTO.getEmployee().setPhoto(base64Converter(employee.getPhoto()));
 		}
 		
 		return qualificationDTO;

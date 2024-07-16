@@ -3,18 +3,24 @@ package com.employeemanagement.employeemanagement.dto;
 import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Training;
+import com.employeemanagement.employeemanagement.utils.Views;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.employeemanagement.employeemanagement.utils.StatusDTOSerializer;
 
 public class TrainingDTO {
 
-	@JsonIgnore
 	private Long id;
 
+	@JsonView(Views.Basic.class)
 	private String title;
 
+	@JsonView(Views.Basic.class)
 	private String description;
 	
-	@JsonIgnore
+	@JsonView(Views.Basic.class)
+	@JsonSerialize(using = StatusDTOSerializer.class)
 	private StatusDTO status;
 	
 	@JsonIgnore

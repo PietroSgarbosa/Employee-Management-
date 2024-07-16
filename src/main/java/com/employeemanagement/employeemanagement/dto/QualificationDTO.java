@@ -2,51 +2,16 @@ package com.employeemanagement.employeemanagement.dto;
 
 import java.util.List;
 
+import com.employeemanagement.employeemanagement.utils.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class QualificationDTO {
 	
-	private Long id;
-
-	private String fullName;
-
-	private CategoryDTO category;
+	@JsonView(Views.Basic.class)
+	private EmployeeDTO employee;
 	
-	private String statusTrainings;
-
+	@JsonView(Views.Basic.class)
 	private List<EmployeeTrainingDTO> trainings;
-	
-	private String photo;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public CategoryDTO getCategory() {
-		return category;
-	}
-
-	public void setCategory(CategoryDTO category) {
-		this.category = category;
-	}
-
-	public String getStatusTrainings() {
-		return statusTrainings;
-	}
-
-	public void setStatusTrainings(String statusTrainings) {
-		this.statusTrainings = statusTrainings;
-	}
 
 	public List<EmployeeTrainingDTO> getTrainings() {
 		return trainings;
@@ -56,14 +21,12 @@ public class QualificationDTO {
 		this.trainings = trainings;
 	}
 
-	public String getPhoto() {
-		return photo;
+	public EmployeeDTO getEmployee() {
+		return employee;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setEmployee(EmployeeDTO employee) {
+		this.employee = employee;
 	}
-	
-	
 
 }

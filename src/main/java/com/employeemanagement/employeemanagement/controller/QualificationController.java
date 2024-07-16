@@ -17,6 +17,8 @@ import com.employeemanagement.employeemanagement.dto.EmployeeDTO;
 import com.employeemanagement.employeemanagement.dto.EmployeeFilterDTO;
 import com.employeemanagement.employeemanagement.dto.QualificationDTO;
 import com.employeemanagement.employeemanagement.service.QualificationService;
+import com.employeemanagement.employeemanagement.utils.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,6 +40,7 @@ public class QualificationController {
 			@ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = {
 					@Content(schema = @Schema(implementation = EmployeeDTO.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "500", description = "Internal error on server/API") })
+	@JsonView(Views.Basic.class)
 	@PostMapping()
 	public @ResponseBody ResponseEntity<?> getAll(@RequestBody EmployeeFilterDTO employeeFilterDTO) {
 		try {
@@ -56,6 +59,7 @@ public class QualificationController {
         @ApiResponse(responseCode = "200", description = "Endpoint working succesfully", content = { @Content(schema = @Schema(implementation = QualificationDTO.class), mediaType ="application/json")}),
         @ApiResponse(responseCode = "500", description = "Internal error on server/API")
     })
+    @JsonView(Views.Basic.class)
 	@GetMapping(value = "/{id}")
 	public @ResponseBody ResponseEntity<?> getById(@PathVariable Long id) {
 		try {
