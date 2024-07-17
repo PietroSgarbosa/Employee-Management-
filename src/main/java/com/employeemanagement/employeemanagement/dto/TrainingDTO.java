@@ -4,13 +4,14 @@ import org.modelmapper.ModelMapper;
 
 import com.employeemanagement.employeemanagement.entity.Training;
 import com.employeemanagement.employeemanagement.utils.Views;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.employeemanagement.employeemanagement.utils.StatusDTOSerializer;
+import com.employeemanagement.employeemanagement.utils.TrainingDTOSerializer;
 
+@JsonSerialize(using = TrainingDTOSerializer.class)
 public class TrainingDTO {
 
+	@JsonView(Views.Basic.class)
 	private Long id;
 
 	@JsonView(Views.Basic.class)
@@ -20,12 +21,12 @@ public class TrainingDTO {
 	private String description;
 	
 	@JsonView(Views.Basic.class)
-	@JsonSerialize(using = StatusDTOSerializer.class)
 	private StatusDTO status;
 	
-	@JsonIgnore
+	@JsonView(Views.Basic.class)
 	private Long categoryId;
 	
+	@JsonView(Views.Basic.class)
 	private CategoryDTO categoryDTO;
 
 	public StatusDTO getStatus() {

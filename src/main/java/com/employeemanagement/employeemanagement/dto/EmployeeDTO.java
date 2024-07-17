@@ -1,17 +1,18 @@
 package com.employeemanagement.employeemanagement.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.employeemanagement.employeemanagement.entity.Employee;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.employeemanagement.employeemanagement.utils.CategoryDTOSerializer;
+import com.employeemanagement.employeemanagement.utils.EmployeeDTOSerializer;
 import com.employeemanagement.employeemanagement.utils.Views;
 
+@JsonSerialize(using = EmployeeDTOSerializer.class)
 public class EmployeeDTO {
 
 	@JsonView(Views.Basic.class)
@@ -26,24 +27,23 @@ public class EmployeeDTO {
 	@JsonView(Views.Detailed.class)
 	private String rg;
 	
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonView(Views.Detailed.class)
-	private LocalDate admissionDate;
+	private Date admissionDate;
 
 	@JsonView(Views.Basic.class)
-	@JsonSerialize(using = CategoryDTOSerializer.class)
 	private CategoryDTO category;
 	
-	@JsonIgnore
+	@JsonView(Views.Basic.class)
 	private Long categoryId;
 
-	@JsonIgnore
+	@JsonView(Views.Basic.class)
 	private List<Long> trainingsId;
 
-	@JsonIgnore
+	@JsonView(Views.Basic.class)
 	private List<EmployeeTrainingDTO> trainings; 
 	
 	@JsonView(Views.Basic.class)
-	@JsonIgnore
 	private String photo;
 
 	public Long getId() {
@@ -70,11 +70,11 @@ public class EmployeeDTO {
 		this.rg = rg;
 	}
 
-	public LocalDate getAdmissionDate() {
+	public Date getAdmissionDate() {
 		return admissionDate;
 	}
 
-	public void setAdmissionDate(LocalDate admissionDate) {
+	public void setAdmissionDate(Date admissionDate) {
 		this.admissionDate = admissionDate;
 	}
 

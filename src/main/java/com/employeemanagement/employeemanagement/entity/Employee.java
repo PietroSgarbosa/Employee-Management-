@@ -1,6 +1,6 @@
 package com.employeemanagement.employeemanagement.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -34,7 +34,7 @@ public class Employee {
 	private String rg;
 	
 	@Column(name = "ADMISSION_DATE", nullable = false)
-	private LocalDate admissionDate;
+	private Date admissionDate;
 	
 	@JoinColumn(name = "category_id")
 	@ManyToOne
@@ -80,11 +80,11 @@ public class Employee {
 		this.rg = rg;
 	}
 
-	public LocalDate getAdmissionDate() {
+	public Date getAdmissionDate() {
 		return admissionDate;
 	}
 
-	public void setAdmissionDate(LocalDate admissionDate) {
+	public void setAdmissionDate(Date admissionDate) {
 		this.admissionDate = admissionDate;
 	}
 
