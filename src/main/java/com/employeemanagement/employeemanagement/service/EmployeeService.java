@@ -103,6 +103,7 @@ public class EmployeeService {
 			defaultEmployee.setCpf(employeeDTO.getCpf());
 			defaultEmployee.setRg(employeeDTO.getRg());
 
+			
 			if(employeeDTO.getCategoryId() != null) {
 				Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
 				defaultEmployee.setCategory(category);
