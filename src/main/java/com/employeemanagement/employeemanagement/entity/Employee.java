@@ -3,6 +3,7 @@ package com.employeemanagement.employeemanagement.entity;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,10 +14,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
 
 @Entity
-@Builder
 @Table(name = "EMPLOYEE")
 public class Employee {
 
@@ -46,6 +45,9 @@ public class Employee {
 	@Column(name = "PHOTO")
 	@Lob
 	private byte[] photo;
+	
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OccupationalHealthCertificate> healthCertificates;
 
 	public Employee() {
 		
@@ -118,6 +120,14 @@ public class Employee {
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
+	}
+
+	public List<OccupationalHealthCertificate> getHealthCertificates() {
+		return healthCertificates;
+	}
+
+	public void setHealthCertificates(List<OccupationalHealthCertificate> healthCertificates) {
+		this.healthCertificates = healthCertificates;
 	}
 	
 }

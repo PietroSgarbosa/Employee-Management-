@@ -104,6 +104,7 @@ public class EmployeeService {
 			defaultEmployee.setRg(employeeDTO.getRg());
 			defaultEmployee.setPhoto(Base64.getDecoder().decode(employeeDTO.getPhoto()));
 
+			
 			if(employeeDTO.getCategoryId() != null) {
 				Category category = getCategoryRepository().findById(employeeDTO.getCategoryId()).orElse(null);
 				defaultEmployee.setCategory(category);
