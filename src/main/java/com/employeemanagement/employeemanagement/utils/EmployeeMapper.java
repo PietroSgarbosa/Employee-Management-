@@ -16,6 +16,7 @@ public class EmployeeMapper {
 		entity.setFullName(dto.getFullName());;
 		entity.setCpf(dto.getCpf());
 		entity.setRg(dto.getRg());
+		entity.setRegistrationNumber(dto.getRegistrationNumber());
 		entity.setAdmissionDate(dto.getAdmissionDate());
 		if(dto.getPhoto() != null) {
 			entity.setPhoto(Base64.getDecoder().decode(dto.getPhoto()));

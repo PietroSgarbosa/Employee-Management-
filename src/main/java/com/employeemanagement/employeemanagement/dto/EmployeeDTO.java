@@ -45,6 +45,9 @@ public class EmployeeDTO {
 	
 	@JsonView(Views.Basic.class)
 	private String photo;
+	
+	@JsonView(Views.Basic.class)
+	private Integer registrationNumber;
 
 	public Long getId() {
 		return id;
@@ -124,6 +127,14 @@ public class EmployeeDTO {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	public Integer getRegistrationNumber() {
+		return registrationNumber;
+	}
+
+	public void setRegistrationNumber(Integer registrationNumber) {
+		this.registrationNumber = registrationNumber;
 	}
 
 	static ModelMapper getModelMapper() {

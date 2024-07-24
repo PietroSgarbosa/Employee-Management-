@@ -48,6 +48,9 @@ public class Employee {
 	
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OccupationalHealthCertificate> healthCertificates;
+	
+	@Column(name = "REGISTRATION_NUMBER")
+	private Integer registrationNumber;
 
 	public Employee() {
 		
@@ -128,6 +131,14 @@ public class Employee {
 
 	public void setHealthCertificates(List<OccupationalHealthCertificate> healthCertificates) {
 		this.healthCertificates = healthCertificates;
+	}
+
+	public Integer getRegistrationNumber() {
+		return registrationNumber;
+	}
+
+	public void setRegistrationNumber(Integer registrationNumber) {
+		this.registrationNumber = registrationNumber;
 	}
 	
 }
