@@ -43,7 +43,6 @@ public class OccupationalHealthCertificateService {
 				healthCertificateListDTO.add(OccupationalHealthCertificateDTO.convertToDTO(entity));
 			}
 		}
-
 		return healthCertificateListDTO;
 	}
 
@@ -54,7 +53,6 @@ public class OccupationalHealthCertificateService {
 		if (healthCertificateEntity != null) {
 			return OccupationalHealthCertificateDTO.convertToDTO(healthCertificateEntity);
 		}
-
 		return healthCertificateDTO;
 	}
 
@@ -67,7 +65,6 @@ public class OccupationalHealthCertificateService {
 				typeListDTO.add(OccupationalHealthCertificateTypeDTO.convertToDTO(entity));
 			}
 		}
-
 		return typeListDTO;
 	}
 
@@ -102,28 +99,30 @@ public class OccupationalHealthCertificateService {
 	}
 	
 	public void update(OccupationalHealthCertificateDTO certificateDTO) {
-		OccupationalHealthCertificate defaultHealthCertficate = getHealthRepository().findById(certificateDTO.getId())
+		OccupationalHealthCertificate defaultHealthCertificate = getHealthRepository().findById(certificateDTO.getId())
 				.orElseThrow(() -> new RuntimeException("Health Certificate not found"));
 		
-		Employee employee = getEmployeeRepository().findById(certificateDTO.getEmployeeId())
-				.orElseThrow(() -> new RuntimeException("Employee not found"));
+		if(certificateDTO.getEmployeeId() != null) {
+			Employee employee = getEmployeeRepository().findById(certificateDTO.getEmployeeId())
+					.orElseThrow(() -> new RuntimeException("Employee not found"));
+			defaultHealthCertificate.setEmployee(employee);
+		}
 
 		// Inserindo dados para entidade ASO já registrada para atualização
 		// ------------------------------------------------//
-		defaultHealthCertficate.setEmployee(employee);
 		if(certificateDTO.getDate() != null) {
-			defaultHealthCertficate.setDate(certificateDTO.getDate());
+			defaultHealthCertificate.setDate(certificateDTO.getDate());
 		}
 		
 		if(certificateDTO.isAccomplished()) {
-			defaultHealthCertficate.setIsAccomplished(true);
+			defaultHealthCertificate.setIsAccomplished(true);
 		} else {
-			defaultHealthCertficate.setIsAccomplished(false);
+			defaultHealthCertificate.setIsAccomplished(false);
 		}
 		
 		OccupationalHealthCertificateType type = getTypeRepository()
 				.findById(certificateDTO.getOccupationHealthCertificateTypeId()).orElse(null);
-		defaultHealthCertficate.setOccupationHealthCertificateType(type);
+		defaultHealthCertificate.setOccupationHealthCertificateType(type);
 
 		if (certificateDTO.getOccupationHealthCertificateTypeId() == 1
 				|| certificateDTO.getOccupationHealthCertificateTypeId() == 4) {
@@ -131,14 +130,14 @@ public class OccupationalHealthCertificateService {
 			if (certificateDTO.getNewCategoryId() != null) {
 				Category newCategory = getCategoryRepository().findById(certificateDTO.getNewCategoryId())
 						.orElseThrow(() -> new RuntimeException("Category not found"));
-				defaultHealthCertficate.setNewCategory(newCategory);
+				defaultHealthCertificate.setNewCategory(newCategory);
 			}
 
 		} else {
-			defaultHealthCertficate.setCurrentCategory(employee.getCategory());
+			defaultHealthCertificate.setCurrentCategory(defaultHealthCertificate.getCurrentCategory());
 		}
 
-		getHealthRepository().save(defaultHealthCertficate);
+		getHealthRepository().save(defaultHealthCertificate);
 	}
 
 	public String delete(Long id) {
