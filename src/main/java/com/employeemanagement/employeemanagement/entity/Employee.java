@@ -46,8 +46,9 @@ public class Employee {
 	@Lob
 	private byte[] photo;
 	
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OccupationalHealthCertificate> healthCertificates;
+	//COMENTADO PARA CORREÇÕES POSTERIORES
+//	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<OccupationalHealthCertificate> healthCertificates;
 	
 	@Column(name = "REGISTRATION_NUMBER")
 	private Integer registrationNumber;
@@ -125,13 +126,13 @@ public class Employee {
 		this.photo = photo;
 	}
 
-	public List<OccupationalHealthCertificate> getHealthCertificates() {
-		return healthCertificates;
-	}
-
-	public void setHealthCertificates(List<OccupationalHealthCertificate> healthCertificates) {
-		this.healthCertificates = healthCertificates;
-	}
+//	public List<OccupationalHealthCertificate> getHealthCertificates() {
+//		return healthCertificates;
+//	}
+//
+//	public void setHealthCertificates(List<OccupationalHealthCertificate> healthCertificates) {
+//		this.healthCertificates = healthCertificates;
+//	}
 
 	public Integer getRegistrationNumber() {
 		return registrationNumber;
