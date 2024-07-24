@@ -43,6 +43,10 @@ public class OccupationalHealthCertificate {
     @ManyToOne
 	@JoinColumn(name = "new_category_id")
 	private Category newCategory;
+    
+    @JoinColumn(name = "healthClinic_id")
+	@ManyToOne()
+    private HealthClinic healthClinic;
 
 	public OccupationalHealthCertificate() {
 		super();

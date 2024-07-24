@@ -102,6 +102,7 @@ public class EmployeeService {
 			defaultEmployee.setFullName(employeeDTO.getFullName());
 			defaultEmployee.setCpf(employeeDTO.getCpf());
 			defaultEmployee.setRg(employeeDTO.getRg());
+			defaultEmployee.setRegistrationNumber(employeeDTO.getRegistrationNumber());
 			defaultEmployee.setPhoto(Base64.getDecoder().decode(employeeDTO.getPhoto()));
 
 			
@@ -110,7 +111,6 @@ public class EmployeeService {
 				defaultEmployee.setCategory(category);
 			}
 
-//			create(EmployeeDTO.convertToDTO(defaultEmployee));
 			getEmployeeRepository().save(defaultEmployee);
 			responseMessage = "Employee of ID " + employeeDTO.getId() + " updated successfully!";
 			return responseMessage;
