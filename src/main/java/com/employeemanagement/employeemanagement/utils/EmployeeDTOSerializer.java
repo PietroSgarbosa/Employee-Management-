@@ -21,6 +21,7 @@ public class EmployeeDTOSerializer extends JsonSerializer<EmployeeDTO> {
             gen.writeObjectField("categoryDescription", employeeDTO.getCategory().getDescription());
             gen.writeObjectField("categoryId", employeeDTO.getCategory().getId());
         }
+        gen.writeNumberField("registrationNumber", employeeDTO.getRegistrationNumber() != null ? employeeDTO.getRegistrationNumber() : 0);
 
         gen.writeEndObject();
     }
